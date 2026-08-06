@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fransyl — Veille stratégique · Août 2026</title>
+<style>
+  :root{
+    --paper:#EEEBE4; --surface:#F8F6F2; --surface2:#FFFFFF;
+    --ink:#16181A; --ink-mute:#4B4E52; --ink-faint:#84888D;
+    --line:#DAD6CC; --line-strong:#C4BFB2;
+    --accent:#FC5000; --accent-ink:#FFFFFF;
+    --blue:#1C4A63;
+    --axis1:#A8391D; --axis1-bg:#F7ECE8;
+    --axis2:#1C4A63; --axis2-bg:#EAF0F3;
+    --axis3:#3C6B4A; --axis3-bg:#EBF2EC;
+    --watch:#8A5D0F;
+    --opp:#2F5A3C; --opp-bg:#EBF2EC;
+    --risk:#96331A; --risk-bg:#F7ECE8;
+    --shadow: 0 1px 2px rgba(20,18,14,0.04), 0 6px 20px rgba(20,18,14,0.05);
+    --font: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, Roboto, Helvetica, Arial, sans-serif;
+    --font-num: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  :root[data-theme="dark"]{
+    --paper:#131417; --surface:#191B1F; --surface2:#1D1F24;
+    --ink:#EDEBE6; --ink-mute:#B3B7BC; --ink-faint:#787C82;
+    --line:#2A2D33; --line-strong:#383C43;
+    --accent:#FF6A2A; --accent-ink:#151312;
+    --blue:#6FAAD0;
+    --axis1:#DE8158; --axis1-bg:#241A16;
+    --axis2:#6FAAD0; --axis2-bg:#161E22;
+    --axis3:#7CB58C; --axis3-bg:#181F1A;
+    --watch:#E0B15A;
+    --opp:#7CB58C; --opp-bg:#181F1A;
+    --risk:#DE8158; --risk-bg:#241A16;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#131417; --surface:#191B1F; --surface2:#1D1F24;
+      --ink:#EDEBE6; --ink-mute:#B3B7BC; --ink-faint:#787C82;
+      --line:#2A2D33; --line-strong:#383C43;
+      --accent:#FF6A2A; --accent-ink:#151312;
+      --blue:#6FAAD0;
+      --axis1:#DE8158; --axis1-bg:#241A16;
+      --axis2:#6FAAD0; --axis2-bg:#161E22;
+      --axis3:#7CB58C; --axis3-bg:#181F1A;
+      --watch:#E0B15A;
+      --opp:#7CB58C; --opp-bg:#181F1A;
+      --risk:#DE8158; --risk-bg:#241A16;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+    }
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ font-family:var(--font); background:var(--paper); color:var(--ink); line-height:1.5; font-size:15px; }
+  a{ color:inherit; }
+  ::selection{ background:var(--accent); color:var(--accent-ink); }
+  .num{ font-variant-numeric:tabular-nums; }
+
+  .layout{ display:flex; min-height:100vh; }
+
+  /* ---------- RAIL ---------- */
+  .rail{ width:236px; flex-shrink:0; background:var(--surface); border-right:1px solid var(--line); padding:28px 0 24px; position:sticky; top:0; height:100vh; overflow-y:auto; display:flex; flex-direction:column; }
+  .rail-brand{ padding:0 22px 20px; border-bottom:1px solid var(--line); }
+  .rail-wordmark{ font-size:20px; font-weight:800; color:var(--ink); letter-spacing:-0.3px; }
+  .rail-sub{ font-size:12px; color:var(--ink-faint); margin-top:5px; }
+
+  .rail-label{ font-size:11px; font-weight:700; color:var(--ink-faint); letter-spacing:0.08em; text-transform:uppercase; padding:22px 22px 10px; }
+
+  .axis-row{ display:flex; align-items:center; gap:11px; padding:11px 22px; cursor:pointer; user-select:none; border-left:3px solid transparent; transition:background .15s, border-color .15s; }
+  .axis-row:hover{ background:rgba(0,0,0,0.03); }
+  .axis-row .swatch{ width:9px; height:9px; flex-shrink:0; border-radius:2px; }
+  .axis-row .lbl{ font-size:14px; color:var(--ink-mute); flex:1; }
+  .axis-row .cnt{ font-size:13px; color:var(--ink-faint); font-weight:600; }
+  .axis-row.active{ background:var(--surface2); border-left-color:var(--accent); box-shadow: inset 0 1px 0 var(--line), inset 0 -1px 0 var(--line); }
+  .axis-row.active .lbl{ color:var(--ink); font-weight:700; }
+  .axis-row.active .cnt{ color:var(--accent); }
+  .axis-row[data-axe="1"] .swatch{ background:var(--axis1); }
+  .axis-row[data-axe="2"] .swatch{ background:var(--axis2); }
+  .axis-row[data-axe="3"] .swatch{ background:var(--axis3); }
+  .axis-row[data-axe="all"] .swatch{ background:var(--ink-faint); }
+
+  .rail-geo{ margin-top:auto; padding-top:8px; border-top:1px solid var(--line); }
+  .geo-row{ display:flex; align-items:center; gap:11px; padding:11px 22px; cursor:pointer; user-select:none; border-left:3px solid transparent; transition:background .15s, border-color .15s; }
+  .geo-row:hover{ background:rgba(0,0,0,0.03); }
+  .geo-row .swatch{ width:9px; height:9px; flex-shrink:0; border-radius:2px; background:var(--blue); }
+  .geo-row .lbl{ font-size:14px; color:var(--ink-mute); flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .geo-row .cnt{ font-size:13px; color:var(--ink-faint); font-weight:600; flex-shrink:0; }
+  .geo-row.active{ background:var(--surface2); border-left-color:var(--blue); box-shadow: inset 0 1px 0 var(--line), inset 0 -1px 0 var(--line); }
+  .geo-row.active .lbl{ color:var(--ink); font-weight:700; }
+  .geo-row.active .cnt{ color:var(--blue); }
+
+  /* ---------- MAIN ---------- */
+  .main{ flex:1; min-width:0; display:flex; flex-direction:column; }
+
+  .titleblock{ background:var(--surface2); border-bottom:2px solid var(--accent); padding:30px 40px 22px; }
+  .tb-top{ display:flex; align-items:baseline; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+  .tb-title{ font-size:25px; font-weight:800; color:var(--ink); letter-spacing:-0.3px; text-wrap:balance; }
+  .tb-meta{ font-size:12.5px; color:var(--ink-faint); }
+  .tb-meta b.num{ color:var(--ink-mute); font-weight:700; }
+  .tb-period{ font-size:13px; color:var(--ink-mute); margin-top:8px; }
+
+  .content{ padding:26px 40px 44px; max-width:760px; }
+
+  /* ---------- BRIEFING (executive summary band) ---------- */
+  .briefing{ background:var(--surface2); border:1px solid var(--line); border-radius:10px; box-shadow:var(--shadow); margin-bottom:32px; overflow:hidden; }
+  .briefing-head{ display:flex; align-items:center; gap:10px; padding:16px 22px; border-bottom:1px solid var(--line); }
+  .briefing-eyebrow{ font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--watch); }
+  .briefing-title{ font-size:15px; font-weight:700; color:var(--ink); }
+  .briefing-radar{ padding:18px 22px; border-bottom:1px solid var(--line); }
+  .bc-h{ font-size:12px; font-weight:700; letter-spacing:0.03em; margin-bottom:12px; }
+  .bc-h.radar{ color:var(--watch); }
+  .bc-h.opp{ color:var(--opp); }
+  .bc-h.risk{ color:var(--risk); }
+
+  .watch-grid{ display:grid; grid-template-columns:1fr 1fr; gap:0 24px; }
+  .watch-item{ padding:8px 0; border-top:1px solid var(--line); font-size:13px; line-height:1.5; }
+  .watch-item:nth-child(-n+2){ border-top:none; padding-top:0; }
+  .watch-item b{ display:block; color:var(--ink); font-weight:600; margin-bottom:2px; }
+  .watch-item span{ color:var(--ink-mute); }
+
+  .briefing-oprisk{ display:grid; grid-template-columns:1fr 1fr; }
+  .briefing-col{ padding:18px 22px; border-left:1px solid var(--line); }
+  .briefing-col:first-child{ border-left:none; }
+
+  .op-text, .risk-text{ font-size:13px; line-height:1.55; color:var(--ink-mute); padding:9px 10px; border-radius:6px; margin-bottom:8px; }
+  .op-text:last-child, .risk-text:last-child{ margin-bottom:0; }
+  .op-text{ background:var(--opp-bg); }
+  .risk-text{ background:var(--risk-bg); }
+  .op-text b, .risk-text b{ color:var(--ink); font-weight:700; }
+
+  /* ---------- FEED ---------- */
+  .feed-head{ display:flex; align-items:baseline; justify-content:space-between; margin-bottom:14px; }
+  .feed-h{ font-size:12px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-faint); }
+  .geo-divider{ font-size:11.5px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-faint); margin:24px 0 12px; border-top:1px solid var(--line); padding-top:14px; }
+  .geo-divider:first-child{ margin-top:0; border-top:none; padding-top:0; }
+
+  .card{ background:var(--surface2); border:1px solid var(--line); border-left-width:4px; border-radius:8px; margin-bottom:14px; box-shadow:var(--shadow); overflow:hidden; }
+  .card[data-axe="1"]{ border-left-color:var(--axis1); }
+  .card[data-axe="2"]{ border-left-color:var(--axis2); }
+  .card[data-axe="3"]{ border-left-color:var(--axis3); }
+
+  .card-head{ padding:18px 22px 15px; }
+  .card-meta{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:11px; flex-wrap:nowrap; }
+  .card-meta-left{ display:flex; align-items:center; gap:10px; min-width:0; flex-wrap:nowrap; }
+  .tag{ font-size:11px; font-weight:700; letter-spacing:0.03em; padding:2px 9px; border-radius:20px; white-space:nowrap; flex-shrink:0; }
+  .card[data-axe="1"] .tag{ color:var(--axis1); background:var(--axis1-bg); }
+  .card[data-axe="2"] .tag{ color:var(--axis2); background:var(--axis2-bg); }
+  .card[data-axe="3"] .tag{ color:var(--axis3); background:var(--axis3-bg); }
+  .geo-badge{ font-size:11px; color:var(--ink-faint); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .card-date{ font-size:12.5px; color:var(--ink-faint); flex-shrink:0; white-space:nowrap; }
+
+  .card-title{ font-size:16.5px; font-weight:700; color:var(--ink); line-height:1.4; margin-bottom:9px; text-wrap:balance; }
+  .card-summary{ font-size:14px; color:var(--ink-mute); line-height:1.62; margin-bottom:10px; }
+  .card-src a{ font-size:12.5px; text-decoration:none; color:var(--ink-faint); border-bottom:1px solid var(--line-strong); }
+  .card-src a:hover{ color:var(--accent); border-color:var(--accent); }
+
+  .card-insight{ display:flex; gap:13px; padding:15px 22px; border-top:1px solid var(--line); }
+  .card[data-axe="1"] .card-insight{ background:var(--axis1-bg); }
+  .card[data-axe="2"] .card-insight{ background:var(--axis2-bg); }
+  .card[data-axe="3"] .card-insight{ background:var(--axis3-bg); }
+  .ins-body{ flex:1; min-width:0; }
+  .ins-label{ font-size:11px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; margin-bottom:5px; }
+  .card[data-axe="1"] .ins-label{ color:var(--axis1); }
+  .card[data-axe="2"] .ins-label{ color:var(--axis2); }
+  .card[data-axe="3"] .ins-label{ color:var(--axis3); }
+  .ins-text{ font-size:13.5px; color:var(--ink); line-height:1.6; }
+
+  .empty{ padding:60px 0; text-align:center; color:var(--ink-faint); font-size:14px; }
+
+  @media print{
+    .rail{ display:none; }
+    .layout{ display:block; }
+    .titleblock{ border-bottom:2px solid #000; }
+    body{ background:#fff; }
+    .card, .briefing{ break-inside:avoid; box-shadow:none; }
+    .watch-grid{ grid-template-columns:1fr; }
+    .briefing-oprisk{ grid-template-columns:1fr; }
+    .briefing-col{ border-left:none; border-top:1px solid var(--line); }
+    .briefing-col:first-child{ border-top:none; }
+  }
+  @media (max-width:560px){
+    .watch-grid{ grid-template-columns:1fr; }
+    .briefing-oprisk{ grid-template-columns:1fr; }
+    .briefing-col{ border-left:none; border-top:1px solid var(--line); }
+    .briefing-col:first-child{ border-top:none; }
+  }
+  @media (max-width:760px){
+    .layout{ display:block; }
+    .rail{ position:static; height:auto; width:100%; }
+    .content{ padding:20px 18px 32px; }
+    .titleblock{ padding:22px 18px 18px; }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- RAIL -->
+  <nav class="rail">
+    <div class="rail-brand">
+      <div class="rail-wordmark">Fransyl</div>
+      <div class="rail-sub">Veille stratégique — Août 2026</div>
+    </div>
+    <div class="rail-label">Axes</div>
+    <div class="axis-row active" data-axe="all" onclick="setAxe('all',this)">
+      <span class="swatch"></span><span class="lbl">Tous les signaux</span><span class="cnt num" id="n-all">13</span>
+    </div>
+    <div class="axis-row" data-axe="1" onclick="setAxe('1',this)">
+      <span class="swatch"></span><span class="lbl">Compétiteurs</span><span class="cnt num" id="n-1">7</span>
+    </div>
+    <div class="axis-row" data-axe="2" onclick="setAxe('2',this)">
+      <span class="swatch"></span><span class="lbl">Environnement d'affaires</span><span class="cnt num" id="n-2">4</span>
+    </div>
+    <div class="axis-row" data-axe="3" onclick="setAxe('3',this)">
+      <span class="swatch"></span><span class="lbl">Environnement technologique</span><span class="cnt num" id="n-3">2</span>
+    </div>
+    <div class="rail-geo">
+      <div class="rail-label">Géographie</div>
+      <div class="geo-row active" data-geo="all" onclick="setGeo('all',this)">
+        <span class="swatch"></span><span class="lbl">Toutes</span><span class="cnt num" id="g-all">13</span>
+      </div>
+      <div class="geo-row" data-geo="an" onclick="setGeo('an',this)">
+        <span class="swatch"></span><span class="lbl">Amérique du Nord</span><span class="cnt num" id="g-an">12</span>
+      </div>
+      <div class="geo-row" data-geo="intl" onclick="setGeo('intl',this)">
+        <span class="swatch"></span><span class="lbl">International</span><span class="cnt num" id="g-intl">1</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="titleblock">
+      <div class="tb-top">
+        <div class="tb-title" id="tb-title">Tous les signaux</div>
+        <div class="tb-meta"><b class="num">13</b> signaux</div>
+      </div>
+      <div class="tb-period">Période couverte — 1<sup>er</sup> juillet au 31 juillet 2026</div>
+    </div>
+
+    <div class="content">
+
+      <!-- BRIEFING : résumé stratégique, lu avant le détail -->
+      <div class="briefing">
+        <div class="briefing-head">
+          <span class="briefing-eyebrow">Synthèse</span>
+          <span class="briefing-title">Ce qu'il faut retenir avant de lire les signaux</span>
+        </div>
+        <div class="briefing-radar">
+          <div class="bc-h radar">À surveiller — prochaines semaines</div>
+          <div class="watch-grid">
+            <div class="watch-item"><b>Réglementation &amp; codes</b><span>Suite du registre UE (passeport numérique) · transition CNB 2020 modifié jusqu'au 17 oct. 2026</span></div>
+            <div class="watch-item"><b>Mouvements compétiteurs</b><span>Issue Carlisle / Owens Corning · résultats QXO T2 le 13 août</span></div>
+            <div class="watch-item"><b>Prix &amp; approvisionnement</b><span>Rockwool / Soprema — hausses transposées au Canada ?</span></div>
+            <div class="watch-item"><b>Innovation enveloppe</b><span>Robotisation de pose · publications CNRC enveloppe</span></div>
+          </div>
+        </div>
+        <div class="briefing-oprisk">
+          <div class="briefing-col">
+            <div class="bc-h opp">Opportunités</div>
+            <div class="op-text"><b>Fenêtre prix.</b> Rockwool (+8 %) et Soprema (+7 %, 3ᵉ hausse 2026) élargissent l'écart de compétitivité pour l'EPS/polyiso Fransyl.</div>
+            <div class="op-text"><b>Réfection résiliente.</b> Carlisle en croissance record malgré le recul du neuf — segment moins cyclique à prioriser.</div>
+          </div>
+          <div class="briefing-col">
+            <div class="bc-h risk">Risques</div>
+            <div class="risk-text"><b>Concentration distribution.</b> TopBuild/QXO et Roofmart/AD Canada réduisent le pouvoir de négociation de Fransyl.</div>
+            <div class="risk-text"><b>Coûts d'intrants.</b> Fin de mesures d'allègement tarifaire acier/aluminium (1<sup class="num">er</sup> juillet).</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FEED -->
+      <div class="feed-head">
+        <div class="feed-h">Détail des signaux</div>
+      </div>
+      <div id="feed"></div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+const AXEL = {"1":"Compétiteurs","2":"Environnement d'affaires","3":"Environnement technologique","all":"Tous les signaux"};
+
+const DATA = [
+  {axe:"1",geo:"an",tag:"TopBuild / QXO",title:"QXO complète l'acquisition de TopBuild pour 17 G$ US",
+   summary:"QXO Inc. a complété le 1er juillet 2026 l'acquisition de TopBuild Corp. pour environ 17 G$ US. TopBuild, plus important distributeur/installateur d'isolation en Amérique du Nord, devient une filiale de QXO — qui possède déjà Beacon Roofing Supply.",
+   insight:"QXO consolide sous une même bannière deux distributeurs majeurs de toiture et d'isolation, se positionnant #1 en isolation et #2 en toiture — un mouvement qui concentre le pouvoir de négociation côté distribution face aux manufacturiers comme Fransyl.",
+   src:"QXO Investor Relations", date:"1 juillet 2026", url:"https://investors.qxo.com/news/news-details/2026/QXO-Completes-Acquisition-of-TopBuild/default.aspx"},
+  {axe:"1",geo:"an",tag:"Rockwool",title:"Rockwool USA et Rockwool Technical Insulation annoncent une hausse de prix de 8 %",
+   summary:"Hausse de prix de 8 % sur les produits de laine de roche, entrée en vigueur le 1er juillet 2026.",
+   insight:"Ouvre une fenêtre de compétitivité prix pour les alternatives d'isolation de Fransyl (EPS, polyiso) sur les projets sensibles au coût.",
+   src:"General Insulation", date:"1 juillet 2026", url:"https://www.generalinsulation.com/rockwool-usa-rockwool-technical-insulation-8-price-increase-effective-july-1-2026/"},
+  {axe:"1",geo:"an",tag:"Carlisle / Owens Corning",title:"Carlisle maintient ses approches non sollicitées sur Owens Corning",
+   summary:"Offres non sollicitées évaluées à plus de 10 G$ US, avec prime sur le cours boursier. Aucune négociation formelle engagée en date des dernières informations publiques.",
+   insight:"Combinerait deux fournisseurs clés de Fransyl (toiture commerciale, XPS, laine de roche) — dossier de consolidation à suivre de près.",
+   src:"Sahm Capital", date:"5 juillet 2026", url:"https://www.sahmcapital.com/news/content/owens-corning-oc-draws-multiple-buyout-approaches-from-carlisle-companies-2026-07-05"},
+  {axe:"1",geo:"an",tag:"Owens Corning",title:"Owens Corning nomme Jonathan Collins CFO et promeut Todd Fister à la présidence",
+   summary:"Nomination en vigueur le 10 août 2026. Todd Fister, qui cumulait CFO et COO, devient président et chef de l'exploitation à temps plein.",
+   insight:"Remaniement chez un fournisseur/concurrent clé (XPS FOAMULAR, laine de roche ThermaFibre) — possible signal de préparation à une transaction.",
+   src:"Business Wire", date:"29 juillet 2026", url:"https://www.businesswire.com/news/home/20260729358184/en/Owens-Corning-Appoints-Jonathan-Collins-as-Chief-Financial-Officer-to-Advance-Strategic-Priorities-and-Strengthen-Value-Creation"},
+  {axe:"1",geo:"an",tag:"Soprema",title:"Soprema annonce sa troisième hausse de prix de 2026, jusqu'à 7 %",
+   summary:"Hausse (marque RESISTO) en vigueur le 1er juillet 2026 — après deux hausses précédentes le 20 mars et le 10 avril 2026.",
+   insight:"Cadence inhabituelle chez le concurrent principal de Fransyl, révélant une pression soutenue sur les coûts — à surveiller pour l'érosion possible de la fidélité des distributeurs.",
+   src:"Avis de prix RESISTO", date:"1 mai 2026", url:"https://www.consolidatedgypsum.ca/wp-content/uploads/2026/05/RESISTO-PRICE-INCREASE-NOTICE-JULY-2026.pdf"},
+  {axe:"1",geo:"an",tag:"Roofmart",title:"Roofmart se joint à AD Canada, le plus important regroupement d'achat indépendant du pays",
+   summary:"Effectif le 1er juillet 2026. Roofmart compte 56 emplacements de la Colombie-Britannique au Québec.",
+   insight:"Renforce le pouvoir de négociation de Roofmart sur les prix d'achat — facteur à intégrer dans les discussions commerciales de Fransyl.",
+   src:"Hardlines", date:"1 juillet 2026", url:"https://hardlines.ca/gp_home_news/breaking-ad-building-supplies-canada-signs-roofmart/"},
+  {axe:"1",geo:"an",tag:"Carlisle Companies",title:"Carlisle affiche un chiffre d'affaires record au T2 2026, porté par la réfection",
+   summary:"1,6 G$ US (+8 % sur un an), BPA ajusté record. CCM à 1,2 G$ US (+8 %), réfection +3 % pendant que le neuf recule.",
+   insight:"Confirme la résilience du marché de la réfection malgré le ralentissement du neuf — appuie l'intérêt stratégique de prioriser ces projets.",
+   src:"Morningstar (Business Wire)", date:"29 juillet 2026", url:"https://www.morningstar.com/news/business-wire/20260729939261/carlisle-companies-reports-second-quarter-results"},
+
+  {axe:"2",geo:"an",tag:"Mises en chantier",title:"Les mises en chantier canadiennes reculent de 6 % en juin",
+   summary:"238 971 unités (TADA), -6 % vs mai. Centres 10k+ : -13 % sur un an. H1 2026 : -1 % vs 2025.",
+   insight:"La SCHL prévoit un ralentissement soutenu — renforce l'intérêt stratégique du marché de la réfection, moins sensible au cycle des mises en chantier.",
+   src:"SCHL / CMHC", date:"16 juillet 2026", url:"https://www.cmhc-schl.gc.ca/media-newsroom/news-releases/2026/housing-starts-june-2026"},
+  {axe:"2",geo:"an",tag:"Conjoncture — prix",title:"Coûts de construction non résidentielle : +3,5 % sur un an au T2 2026",
+   summary:"Québec en tête du résidentiel (+2,6 % trimestriel), Montréal +2,5 %.",
+   insight:"Pression continue sur les budgets ICI — à intégrer dans les discussions de prix avec distributeurs et entrepreneurs québécois.",
+   src:"Statistique Canada", date:"31 juillet 2026", url:"https://www.lemondedelelectricite.ca/articles/indices-des-prix-de-la-construction-de-batiments-deuxieme-trimestre-de-2026/"},
+  {axe:"2",geo:"an",tag:"Tarifs",title:"Ottawa laisse expirer certaines mesures d'allègement tarifaire acier/aluminium",
+   summary:"Depuis le 1er juillet 2026, remise horizontale non disponible pour l'aluminium et certains produits acier.",
+   insight:"Resserre les coûts d'approvisionnement en composantes métalliques (fixations, solins) — dossier à suivre mois par mois.",
+   src:"Blakes", date:"juillet 2026", url:"https://www.blakes.com/insights/canada-tightens-trade-policy-as-tariff-relief-measures-expire/"},
+  {axe:"2",geo:"intl",tag:"UE — réglementation",title:"L'UE met en service son registre central du passeport numérique de produit",
+   summary:"Infrastructure clé de l'ESPR. Pour les matériaux de construction, exigences prévues 2028-2029.",
+   insight:"Dossier à suivre dès maintenant pour anticiper de futures exigences de déclaration environnementale sur les gammes EPS/XPS/polyiso.",
+   src:"Commission européenne", date:"20 juillet 2026", url:"https://single-market-economy.ec.europa.eu/news/digital-product-passport-registry-now-live-2026-07-20_en"},
+
+  {axe:"3",geo:"an",tag:"Robotisation",title:"DEWALT commercialise DALE, robot de forage descendant en flotte",
+   summary:"Avec August Robotics, pour la construction de centres de données. Précision 99,97 % sur 90 000+ trous forés.",
+   insight:"La commercialisation (au-delà du pilote) illustre l'accélération de l'automatisation dans les segments à forte cadence — secteur client à surveiller.",
+   src:"PR Newswire (DEWALT)", date:"9 juillet 2026", url:"https://www.prnewswire.com/news-releases/revolutionizing-construction-introducing-the-worlds-first-fleet-capable-downward-drilling-robot-now-commercially-available-to-accelerate-data-center-construction-302821198.html"},
+  {axe:"3",geo:"an",tag:"Recherche — CNRC",title:"Le CNRC met à jour ses travaux sur la performance in situ de l'isolation thermique",
+   summary:"Estimation de la performance thermique réelle en conditions de terrain, Centre de recherche en construction.",
+   insight:"Référence technique pertinente pour la crédibilité des valeurs R/LTTR communiquées par Fransyl auprès des spécificateurs.",
+   src:"Archives CNRC", date:"31 juillet 2026", url:"https://nrc-publications.canada.ca/eng/view/object/?id=7d400fae-e84d-42f6-9c09-c562393f4337"}
+];
+
+let curAxe="all", curGeo="all";
+
+function setAxe(a,el){
+  curAxe=a;
+  document.querySelectorAll('.axis-row').forEach(n=>n.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('tb-title').textContent = AXEL[a];
+  render();
+}
+function setGeo(g,el){
+  curGeo=g;
+  document.querySelectorAll('.geo-row').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  render();
+}
+function getF(){ return DATA.filter(s => (curAxe==='all'||s.axe===curAxe) && (curGeo==='all'||s.geo===curGeo)); }
+
+function card(s){
+  const geoLabel = s.geo==='an' ? 'Amérique du Nord' : 'International';
+  return '<div class="card" data-axe="'+s.axe+'">'
+    + '<div class="card-head">'
+      + '<div class="card-meta">'
+        + '<div class="card-meta-left"><span class="tag">'+s.tag+'</span><span class="geo-badge">'+geoLabel+'</span></div>'
+        + '<span class="card-date num">'+s.date+'</span>'
+      + '</div>'
+      + '<div class="card-title">'+s.title+'</div>'
+      + '<div class="card-summary">'+s.summary+'</div>'
+      + '<div class="card-src"><a href="'+s.url+'" target="_blank" rel="noopener">'+s.src+' ↗</a></div>'
+    + '</div>'
+    + '<div class="card-insight">'
+      + '<div class="ins-body"><div class="ins-label">Insight Fransyl</div><div class="ins-text">'+s.insight+'</div></div>'
+    + '</div>'
+  + '</div>';
+}
+
+function render(){
+  const sigs = getF();
+  const feed = document.getElementById('feed');
+  if(!sigs.length){ feed.innerHTML = '<div class="empty">Aucun signal pour cette sélection.</div>'; return; }
+  let html = '';
+  if(curGeo==='all'){
+    ['an','intl'].forEach(geo=>{
+      const g = sigs.filter(s=>s.geo===geo);
+      if(!g.length) return;
+      html += '<div class="geo-divider">'+(geo==='an'?'Amérique du Nord':'International')+'</div>';
+      g.forEach(s=>{ html += card(s); });
+    });
+  } else {
+    sigs.forEach(s=>{ html += card(s); });
+  }
+  feed.innerHTML = html;
+}
+render();
+</script>
+</body>
+</html>
