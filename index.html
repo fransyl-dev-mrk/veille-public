@@ -23,13 +23,13 @@
   a{ color:inherit; }
 
   /* ---------- TOGGLE THÈME ---------- */
-  .theme-toggle{ position:fixed; top:16px; right:16px; z-index:50; width:36px; height:36px; border-radius:50%; border:1px solid var(--line); background:var(--surface); color:var(--ink); font-size:16px; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:var(--shadow); }
-  .theme-toggle:hover{ border-color:var(--accent); }
+  .theme-toggle{ position:fixed; top:16px; right:16px; z-index:50; width:42px; height:42px; border-radius:50%; border:1.5px solid var(--line-strong); background:var(--surface); color:var(--ink); font-size:19px; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 6px rgba(20,18,14,0.12), 0 6px 20px rgba(20,18,14,0.10); }
+  .theme-toggle:hover{ border-color:var(--accent); transform:scale(1.05); }
 
   /* ---------- LIENS SECONDAIRES ---------- */
-  .meta-links{ display:flex; gap:16px; margin-top:20px; }
-  .meta-links a{ font-size:12.5px; color:var(--ink-faint); text-decoration:none; border-bottom:1px solid var(--line-strong); }
-  .meta-links a:hover{ color:var(--accent); border-color:var(--accent); }
+  .util-nav{ display:flex; flex-wrap:wrap; gap:10px; margin-top:18px; margin-bottom:36px; }
+  .util-nav a{ font-size:13px; font-weight:700; color:var(--ink); text-decoration:none; padding:9px 16px; border:1.5px solid var(--line-strong); border-radius:999px; background:var(--surface); box-shadow:var(--shadow); transition:border-color .15s, color .15s, transform .15s; }
+  .util-nav a:hover{ border-color:var(--accent); color:var(--accent); transform:translateY(-1px); }
 
   /* ---------- GATE (verrou d'accès côté client — ne remplace pas une vraie authentification) ---------- */
   body:not(.unlocked) .site{ display:none; }
@@ -77,6 +77,11 @@
   <h1>Groupe Fransyl</h1>
   <div class="sub">Veille stratégique — éditions mensuelles</div>
 
+  <div class="util-nav">
+    <a href="/methodologie/">📋 Méthodologie &amp; sources</a>
+    <a href="/suggestion/">💡 Proposer un ajout</a>
+  </div>
+
   <a class="edition" href="/2026-08/">
     <div class="title">Édition d'août 2026</div>
     <div class="meta">Contenu couvrant juillet 2026 — 13 signaux</div>
@@ -86,11 +91,6 @@
     <div class="title">Édition de juillet 2026</div>
     <div class="meta">Contenu couvrant juin 2026 — 10 signaux</div>
   </a>
-
-  <div class="meta-links">
-    <a href="/methodologie/">Méthodologie &amp; sources</a>
-    <a href="/suggestion/">Proposer un ajout</a>
-  </div>
 
   <footer>Diffusion restreinte — usage interne uniquement.</footer>
 </div>

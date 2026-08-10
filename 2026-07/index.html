@@ -65,13 +65,13 @@
   .rail-brand{ padding:0 22px 20px; border-bottom:1px solid var(--line); }
   .rail-wordmark{ font-size:20px; font-weight:800; color:var(--ink); letter-spacing:-0.3px; }
   .rail-sub{ font-size:12px; color:var(--ink-faint); margin-top:5px; }
-  .rail-links{ padding:16px 22px; border-top:1px solid var(--line); display:flex; flex-direction:column; gap:8px; }
-  .rail-links a{ font-size:12.5px; color:var(--ink-faint); text-decoration:none; }
-  .rail-links a:hover{ color:var(--accent); }
+  .rail-links{ padding:16px 22px 18px; display:flex; flex-direction:column; gap:8px; }
+  .rail-links a{ font-size:12.5px; font-weight:700; color:var(--ink); text-decoration:none; padding:9px 12px; border:1.5px solid var(--line-strong); border-radius:8px; background:var(--surface2); text-align:center; box-shadow:var(--shadow); transition:border-color .15s, color .15s; }
+  .rail-links a:hover{ border-color:var(--accent); color:var(--accent); }
 
   /* ---------- TOGGLE THÈME ---------- */
-  .theme-toggle{ position:fixed; top:16px; right:16px; z-index:60; width:36px; height:36px; border-radius:50%; border:1px solid var(--line); background:var(--surface2); color:var(--ink); font-size:16px; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:var(--shadow); }
-  .theme-toggle:hover{ border-color:var(--accent); }
+  .theme-toggle{ position:fixed; top:16px; right:16px; z-index:60; width:42px; height:42px; border-radius:50%; border:1.5px solid var(--line-strong); background:var(--surface2); color:var(--ink); font-size:19px; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 6px rgba(20,18,14,0.12), 0 6px 20px rgba(20,18,14,0.10); }
+  .theme-toggle:hover{ border-color:var(--accent); transform:scale(1.05); }
 
   .rail-label{ font-size:11px; font-weight:700; color:var(--ink-faint); letter-spacing:0.08em; text-transform:uppercase; padding:22px 22px 10px; }
 
@@ -218,6 +218,10 @@
       <div class="rail-sub">Veille stratégique — Juillet 2026</div>
       <a href="/" class="back-link">← Toutes les éditions</a>
     </div>
+    <div class="rail-links">
+      <a href="/methodologie/">📋 Méthodologie &amp; sources</a>
+      <a href="/suggestion/">💡 Proposer un ajout</a>
+    </div>
     <div class="rail-label">Axes</div>
     <div class="axis-row active" data-axe="all" onclick="setAxe('all',this)">
       <span class="swatch"></span><span class="lbl">Tous les signaux</span><span class="cnt num" id="n-all">10</span>
@@ -242,10 +246,6 @@
       <div class="geo-row" data-geo="intl" onclick="setGeo('intl',this)">
         <span class="swatch"></span><span class="lbl">International</span><span class="cnt num" id="g-intl">0</span>
       </div>
-    </div>
-    <div class="rail-links">
-      <a href="/methodologie/">Méthodologie &amp; sources ↗</a>
-      <a href="/suggestion/">Proposer un ajout ↗</a>
     </div>
   </nav>
 
