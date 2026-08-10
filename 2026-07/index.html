@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fransyl — Veille stratégique · Juillet 2026</title>
+<style>
+  :root{
+    --paper:#EEEBE4; --surface:#F8F6F2; --surface2:#FFFFFF;
+    --ink:#16181A; --ink-mute:#4B4E52; --ink-faint:#84888D;
+    --line:#DAD6CC; --line-strong:#C4BFB2;
+    --accent:#FC5000; --accent-ink:#FFFFFF;
+    --blue:#1C4A63;
+    --axis1:#A8391D; --axis1-bg:#F7ECE8;
+    --axis2:#1C4A63; --axis2-bg:#EAF0F3;
+    --axis3:#3C6B4A; --axis3-bg:#EBF2EC;
+    --watch:#8A5D0F;
+    --opp:#2F5A3C; --opp-bg:#EBF2EC;
+    --risk:#96331A; --risk-bg:#F7ECE8;
+    --shadow: 0 1px 2px rgba(20,18,14,0.04), 0 6px 20px rgba(20,18,14,0.05);
+    --font: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, Roboto, Helvetica, Arial, sans-serif;
+    --font-num: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  :root[data-theme="dark"]{
+    --paper:#131417; --surface:#191B1F; --surface2:#1D1F24;
+    --ink:#EDEBE6; --ink-mute:#B3B7BC; --ink-faint:#787C82;
+    --line:#2A2D33; --line-strong:#383C43;
+    --accent:#FF6A2A; --accent-ink:#151312;
+    --blue:#6FAAD0;
+    --axis1:#DE8158; --axis1-bg:#241A16;
+    --axis2:#6FAAD0; --axis2-bg:#161E22;
+    --axis3:#7CB58C; --axis3-bg:#181F1A;
+    --watch:#E0B15A;
+    --opp:#7CB58C; --opp-bg:#181F1A;
+    --risk:#DE8158; --risk-bg:#241A16;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#131417; --surface:#191B1F; --surface2:#1D1F24;
+      --ink:#EDEBE6; --ink-mute:#B3B7BC; --ink-faint:#787C82;
+      --line:#2A2D33; --line-strong:#383C43;
+      --accent:#FF6A2A; --accent-ink:#151312;
+      --blue:#6FAAD0;
+      --axis1:#DE8158; --axis1-bg:#241A16;
+      --axis2:#6FAAD0; --axis2-bg:#161E22;
+      --axis3:#7CB58C; --axis3-bg:#181F1A;
+      --watch:#E0B15A;
+      --opp:#7CB58C; --opp-bg:#181F1A;
+      --risk:#DE8158; --risk-bg:#241A16;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+    }
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ font-family:var(--font); background:var(--paper); color:var(--ink); line-height:1.5; font-size:15px; }
+  a{ color:inherit; }
+  ::selection{ background:var(--accent); color:var(--accent-ink); }
+  .num{ font-variant-numeric:tabular-nums; }
+
+  .layout{ display:flex; min-height:100vh; }
+
+  /* ---------- RAIL ---------- */
+  .rail{ width:236px; flex-shrink:0; background:var(--surface); border-right:1px solid var(--line); padding:28px 0 24px; position:sticky; top:0; height:100vh; overflow-y:auto; display:flex; flex-direction:column; }
+  .rail-brand{ padding:0 22px 20px; border-bottom:1px solid var(--line); }
+  .rail-wordmark{ font-size:20px; font-weight:800; color:var(--ink); letter-spacing:-0.3px; }
+  .rail-sub{ font-size:12px; color:var(--ink-faint); margin-top:5px; }
+
+  .rail-label{ font-size:11px; font-weight:700; color:var(--ink-faint); letter-spacing:0.08em; text-transform:uppercase; padding:22px 22px 10px; }
+
+  .axis-row{ display:flex; align-items:center; gap:11px; padding:11px 22px; cursor:pointer; user-select:none; border-left:3px solid transparent; transition:background .15s, border-color .15s; }
+  .axis-row:hover{ background:rgba(0,0,0,0.03); }
+  .axis-row .swatch{ width:9px; height:9px; flex-shrink:0; border-radius:2px; }
+  .axis-row .lbl{ font-size:14px; color:var(--ink-mute); flex:1; }
+  .axis-row .cnt{ font-size:13px; color:var(--ink-faint); font-weight:600; }
+  .axis-row.active{ background:var(--surface2); border-left-color:var(--accent); box-shadow: inset 0 1px 0 var(--line), inset 0 -1px 0 var(--line); }
+  .axis-row.active .lbl{ color:var(--ink); font-weight:700; }
+  .axis-row.active .cnt{ color:var(--accent); }
+  .axis-row[data-axe="1"] .swatch{ background:var(--axis1); }
+  .axis-row[data-axe="2"] .swatch{ background:var(--axis2); }
+  .axis-row[data-axe="3"] .swatch{ background:var(--axis3); }
+  .axis-row[data-axe="all"] .swatch{ background:var(--ink-faint); }
+
+  .rail-geo{ margin-top:auto; padding-top:8px; border-top:1px solid var(--line); }
+  .geo-row{ display:flex; align-items:center; gap:11px; padding:11px 22px; cursor:pointer; user-select:none; border-left:3px solid transparent; transition:background .15s, border-color .15s; }
+  .geo-row:hover{ background:rgba(0,0,0,0.03); }
+  .geo-row .swatch{ width:9px; height:9px; flex-shrink:0; border-radius:2px; background:var(--blue); }
+  .geo-row .lbl{ font-size:14px; color:var(--ink-mute); flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .geo-row .cnt{ font-size:13px; color:var(--ink-faint); font-weight:600; flex-shrink:0; }
+  .geo-row.active{ background:var(--surface2); border-left-color:var(--blue); box-shadow: inset 0 1px 0 var(--line), inset 0 -1px 0 var(--line); }
+  .geo-row.active .lbl{ color:var(--ink); font-weight:700; }
+  .geo-row.active .cnt{ color:var(--blue); }
+
+  /* ---------- MAIN ---------- */
+  .main{ flex:1; min-width:0; display:flex; flex-direction:column; }
+
+  .titleblock{ background:var(--surface2); border-bottom:2px solid var(--accent); padding:30px 40px 22px; }
+  .tb-top{ display:flex; align-items:baseline; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+  .tb-title{ font-size:25px; font-weight:800; color:var(--ink); letter-spacing:-0.3px; text-wrap:balance; }
+  .tb-meta{ font-size:12.5px; color:var(--ink-faint); }
+  .tb-meta b.num{ color:var(--ink-mute); font-weight:700; }
+  .tb-period{ font-size:13px; color:var(--ink-mute); margin-top:8px; }
+
+  .content{ padding:26px 40px 44px; max-width:760px; }
+
+  /* ---------- BRIEFING (executive summary band) ---------- */
+  .briefing{ background:var(--surface2); border:1px solid var(--line); border-radius:10px; box-shadow:var(--shadow); margin-bottom:32px; overflow:hidden; }
+  .briefing-head{ display:flex; align-items:center; gap:10px; padding:16px 22px; border-bottom:1px solid var(--line); }
+  .briefing-eyebrow{ font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--watch); }
+  .briefing-title{ font-size:15px; font-weight:700; color:var(--ink); }
+  .briefing-radar{ padding:18px 22px; border-bottom:1px solid var(--line); }
+  .bc-h{ font-size:12px; font-weight:700; letter-spacing:0.03em; margin-bottom:12px; }
+  .bc-h.radar{ color:var(--watch); }
+  .bc-h.opp{ color:var(--opp); }
+  .bc-h.risk{ color:var(--risk); }
+
+  .watch-grid{ display:grid; grid-template-columns:1fr 1fr; gap:0 24px; }
+  .watch-item{ padding:8px 0; border-top:1px solid var(--line); font-size:13px; line-height:1.5; }
+  .watch-item:nth-child(-n+2){ border-top:none; padding-top:0; }
+  .watch-item b{ display:block; color:var(--ink); font-weight:600; margin-bottom:2px; }
+  .watch-item span{ color:var(--ink-mute); }
+
+  .briefing-oprisk{ display:grid; grid-template-columns:1fr 1fr; }
+  .briefing-col{ padding:18px 22px; border-left:1px solid var(--line); }
+  .briefing-col:first-child{ border-left:none; }
+
+  .op-text, .risk-text{ font-size:13px; line-height:1.55; color:var(--ink-mute); padding:9px 10px; border-radius:6px; margin-bottom:8px; }
+  .op-text:last-child, .risk-text:last-child{ margin-bottom:0; }
+  .op-text{ background:var(--opp-bg); }
+  .risk-text{ background:var(--risk-bg); }
+  .op-text b, .risk-text b{ color:var(--ink); font-weight:700; }
+
+  /* ---------- FEED ---------- */
+  .feed-head{ display:flex; align-items:baseline; justify-content:space-between; margin-bottom:14px; }
+  .feed-h{ font-size:12px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-faint); }
+  .geo-divider{ font-size:11.5px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-faint); margin:24px 0 12px; border-top:1px solid var(--line); padding-top:14px; }
+  .geo-divider:first-child{ margin-top:0; border-top:none; padding-top:0; }
+
+  .card{ background:var(--surface2); border:1px solid var(--line); border-left-width:4px; border-radius:8px; margin-bottom:14px; box-shadow:var(--shadow); overflow:hidden; }
+  .card[data-axe="1"]{ border-left-color:var(--axis1); }
+  .card[data-axe="2"]{ border-left-color:var(--axis2); }
+  .card[data-axe="3"]{ border-left-color:var(--axis3); }
+
+  .card-head{ padding:18px 22px 15px; }
+  .card-meta{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:11px; flex-wrap:nowrap; }
+  .card-meta-left{ display:flex; align-items:center; gap:10px; min-width:0; flex-wrap:nowrap; }
+  .tag{ font-size:11px; font-weight:700; letter-spacing:0.03em; padding:2px 9px; border-radius:20px; white-space:nowrap; flex-shrink:0; }
+  .card[data-axe="1"] .tag{ color:var(--axis1); background:var(--axis1-bg); }
+  .card[data-axe="2"] .tag{ color:var(--axis2); background:var(--axis2-bg); }
+  .card[data-axe="3"] .tag{ color:var(--axis3); background:var(--axis3-bg); }
+  .geo-badge{ font-size:11px; color:var(--ink-faint); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .card-date{ font-size:12.5px; color:var(--ink-faint); flex-shrink:0; white-space:nowrap; }
+
+  .card-title{ font-size:16.5px; font-weight:700; color:var(--ink); line-height:1.4; margin-bottom:9px; text-wrap:balance; }
+  .card-summary{ font-size:14px; color:var(--ink-mute); line-height:1.62; margin-bottom:10px; }
+  .card-src a{ font-size:12.5px; text-decoration:none; color:var(--ink-faint); border-bottom:1px solid var(--line-strong); }
+  .card-src a:hover{ color:var(--accent); border-color:var(--accent); }
+
+  .card-insight{ display:flex; gap:13px; padding:15px 22px; border-top:1px solid var(--line); }
+  .card[data-axe="1"] .card-insight{ background:var(--axis1-bg); }
+  .card[data-axe="2"] .card-insight{ background:var(--axis2-bg); }
+  .card[data-axe="3"] .card-insight{ background:var(--axis3-bg); }
+  .ins-body{ flex:1; min-width:0; }
+  .ins-label{ font-size:11px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; margin-bottom:5px; }
+  .card[data-axe="1"] .ins-label{ color:var(--axis1); }
+  .card[data-axe="2"] .ins-label{ color:var(--axis2); }
+  .card[data-axe="3"] .ins-label{ color:var(--axis3); }
+  .ins-text{ font-size:13.5px; color:var(--ink); line-height:1.6; }
+
+  .empty{ padding:60px 0; text-align:center; color:var(--ink-faint); font-size:14px; }
+
+  .back-link{ display:inline-block; margin-top:10px; font-size:12.5px; color:var(--ink-faint); text-decoration:none; border-bottom:1px solid var(--line-strong); }
+  .back-link:hover{ color:var(--accent); border-color:var(--accent); }
+
+  @media print{
+    .rail{ display:none; }
+    .layout{ display:block; }
+    .titleblock{ border-bottom:2px solid #000; }
+    body{ background:#fff; }
+    .card, .briefing{ break-inside:avoid; box-shadow:none; }
+    .watch-grid{ grid-template-columns:1fr; }
+    .briefing-oprisk{ grid-template-columns:1fr; }
+    .briefing-col{ border-left:none; border-top:1px solid var(--line); }
+    .briefing-col:first-child{ border-top:none; }
+  }
+  @media (max-width:560px){
+    .watch-grid{ grid-template-columns:1fr; }
+    .briefing-oprisk{ grid-template-columns:1fr; }
+    .briefing-col{ border-left:none; border-top:1px solid var(--line); }
+    .briefing-col:first-child{ border-top:none; }
+  }
+  @media (max-width:760px){
+    .layout{ display:block; }
+    .rail{ position:static; height:auto; width:100%; }
+    .content{ padding:20px 18px 32px; }
+    .titleblock{ padding:22px 18px 18px; }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- RAIL -->
+  <nav class="rail">
+    <div class="rail-brand">
+      <div class="rail-wordmark">Fransyl</div>
+      <div class="rail-sub">Veille stratégique — Juillet 2026</div>
+      <a href="/" class="back-link">← Toutes les éditions</a>
+    </div>
+    <div class="rail-label">Axes</div>
+    <div class="axis-row active" data-axe="all" onclick="setAxe('all',this)">
+      <span class="swatch"></span><span class="lbl">Tous les signaux</span><span class="cnt num" id="n-all">10</span>
+    </div>
+    <div class="axis-row" data-axe="1" onclick="setAxe('1',this)">
+      <span class="swatch"></span><span class="lbl">Compétiteurs</span><span class="cnt num" id="n-1">4</span>
+    </div>
+    <div class="axis-row" data-axe="2" onclick="setAxe('2',this)">
+      <span class="swatch"></span><span class="lbl">Environnement d'affaires</span><span class="cnt num" id="n-2">4</span>
+    </div>
+    <div class="axis-row" data-axe="3" onclick="setAxe('3',this)">
+      <span class="swatch"></span><span class="lbl">Environnement technologique</span><span class="cnt num" id="n-3">2</span>
+    </div>
+    <div class="rail-geo">
+      <div class="rail-label">Géographie</div>
+      <div class="geo-row active" data-geo="all" onclick="setGeo('all',this)">
+        <span class="swatch"></span><span class="lbl">Toutes</span><span class="cnt num" id="g-all">10</span>
+      </div>
+      <div class="geo-row" data-geo="an" onclick="setGeo('an',this)">
+        <span class="swatch"></span><span class="lbl">Amérique du Nord</span><span class="cnt num" id="g-an">10</span>
+      </div>
+      <div class="geo-row" data-geo="intl" onclick="setGeo('intl',this)">
+        <span class="swatch"></span><span class="lbl">International</span><span class="cnt num" id="g-intl">0</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="titleblock">
+      <div class="tb-top">
+        <div class="tb-title" id="tb-title">Tous les signaux</div>
+        <div class="tb-meta"><b class="num">10</b> signaux</div>
+      </div>
+      <div class="tb-period">Période couverte — 1<sup>er</sup> juin au 30 juin 2026</div>
+    </div>
+
+    <div class="content">
+
+      <!-- BRIEFING : résumé stratégique, lu avant le détail -->
+      <div class="briefing">
+        <div class="briefing-head">
+          <span class="briefing-eyebrow">Synthèse</span>
+          <span class="briefing-title">Ce qu'il faut retenir avant de lire les signaux</span>
+        </div>
+        <div class="briefing-radar">
+          <div class="bc-h radar">À surveiller — prochaines semaines</div>
+          <div class="watch-grid">
+            <div class="watch-item"><b>Clôture QXO-TopBuild</b><span>Actionnaires approuvés à 78 % le 29 juin · financement de 3 G$ US clôturé le 17 juin</span></div>
+            <div class="watch-item"><b>Dossier Carlisle / Owens Corning</b><span>Suite des discussions après les offres non sollicitées révélées le 29 juin</span></div>
+            <div class="watch-item"><b>Approvisionnement polyiso / MDI</b><span>Vérifier si le resserrement de juin se traduit par des délais ou hausses de prix sur le terrain</span></div>
+            <div class="watch-item"><b>Code de construction du Québec</b><span>Suivre l'adoption officielle de la prolongation transitoire proposée le 23 juin</span></div>
+          </div>
+        </div>
+        <div class="briefing-oprisk">
+          <div class="briefing-col">
+            <div class="bc-h opp">Opportunités</div>
+            <div class="op-text"><b>Débouché préfabrication.</b> La Loi sur les Logements Construits au Canada (13 G$, sanction royale le 18 juin) priorise les méthodes modernes de construction.</div>
+            <div class="op-text"><b>Fenêtre de conformité.</b> La prolongation proposée de la période transitoire du Code de construction du Québec laisse plus de temps pour positionner les arguments techniques de Fransyl.</div>
+          </div>
+          <div class="briefing-col">
+            <div class="bc-h risk">Risques</div>
+            <div class="risk-text"><b>Consolidation accélérée.</b> QXO-TopBuild se dirige vers une clôture rapide pendant que Carlisle multiplie les offres sur Owens Corning.</div>
+            <div class="risk-text"><b>Resserrement du polyiso.</b> Les arrêts Covestro et Huntsman en juin ont limité l'offre de MDI.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FEED -->
+      <div class="feed-head">
+        <div class="feed-h">Détail des signaux</div>
+      </div>
+      <div id="feed"></div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+const AXEL = {"1":"Compétiteurs","2":"Environnement d'affaires","3":"Environnement technologique","all":"Tous les signaux"};
+
+const DATA = [
+  {axe:"1",geo:"an",tag:"QXO / TopBuild",title:"QXO et TopBuild franchissent deux jalons financiers clés vers la clôture de l'acquisition",
+   summary:"Tarification le 3 juin 2026 de 3 G$ US de billets de premier rang destinés à financer l'acquisition de TopBuild, clôture du financement prévue le 17 juin. Le 29 juin, les actionnaires des deux sociétés ont approuvé à environ 78 % des voix l'ensemble des résolutions requises pour la transaction.",
+   insight:"Ces jalons et l'approbation massive des actionnaires confirment que la fusion QXO/TopBuild (incluant Progressive Roofing) se dirige vers une clôture rapide — la consolidation de la distribution en isolation et toiture progresse plus vite que prévu.",
+   src:"QXO Investor Relations", date:"29 juin 2026", url:"https://investors.qxo.com/news/news-details/2026/QXO-and-TopBuild-Announce-Election-Deadline-for-TopBuild-Stockholders-to-Elect-Merger-Consideration/default.aspx"},
+  {axe:"1",geo:"an",tag:"IKO",title:"IKO amorce la construction d'une usine d'isolant XPS de 45 M$ à Brantford, Ontario",
+   summary:"Lancement officiel le 12 juin 2026 d'une nouvelle usine de fabrication de XPS de 67 000 pi², un investissement de plus de 45 M$ visant à renforcer la capacité manufacturière nord-américaine d'IKO.",
+   insight:"Un concurrent de toiture bien établi qui entre directement dans la fabrication de XPS en sol canadien élargit son empreinte concurrentielle — à surveiller pour l'impact sur la disponibilité et les prix en Ontario et au Québec.",
+   src:"GlobeNewswire (IKO)", date:"12 juin 2026", url:"https://www.globenewswire.com/news-release/2026/06/12/3311128/0/en/iko-breaks-ground-on-xps-insulation-manufacturing-facility-in-brantford.html"},
+  {axe:"1",geo:"an",tag:"Carlisle / Owens Corning",title:"Carlisle multiplie les offres non sollicitées sur Owens Corning, révèle le Wall Street Journal",
+   summary:"Le WSJ a rapporté le 29 juin 2026 plus d'une offre non sollicitée de Carlisle pour acquérir Owens Corning, transaction pouvant dépasser 10 G$ US. Le titre d'Owens Corning a bondi de 15,3 % à l'annonce, celui de Carlisle a reculé de 2,6 %.",
+   insight:"Une fusion combinerait deux fournisseurs clés de Fransyl (toiture commerciale, XPS, laine de roche) sous une même bannière — ce dossier de consolidation reste chaud et mérite un suivi rapproché.",
+   src:"Eastern Herald", date:"2 juillet 2026 (scoop WSJ du 29 juin)", url:"https://easternherald.com/2026/07/02/carlisle-companies-owens-corning-unsolicited-bid-acquisition-2026/"},
+  {axe:"1",geo:"an",tag:"GAF",title:"L'Académie de toiture GAF franchit le cap des 3 000 placements en emploi",
+   summary:"GAF a annoncé en juin 2026 que son programme GAF Roofing Academy a permis le placement de plus de 3 000 diplômés auprès d'entrepreneurs certifiés, dans un contexte de pénurie persistante de main-d'œuvre spécialisée.",
+   insight:"Un concurrent majeur investit directement dans son propre bassin de main-d'œuvre pour sécuriser sa capacité d'installation — un modèle à évaluer pour soutenir les installateurs partenaires de Fransyl au Québec.",
+   src:"LBM Journal", date:"juin 2026", url:"https://www.lbmjournal.com/industry-news/press-release/15827553/gaf-gaf-roofing-academy-hits-3000-job-placements-amid-skilled-labor-shortage"},
+
+  {axe:"2",geo:"an",tag:"Tarifs",title:"Ottawa prolonge d'un an l'allègement tarifaire acier/aluminium, Washington ajuste ses tarifs",
+   summary:"Le Canada a annoncé le 3 juin 2026 la prolongation jusqu'au 30 juin 2027 de l'allègement tarifaire horizontal sur certains produits d'acier et d'aluminium américains, après une proclamation américaine du 1er juin modifiant les tarifs de l'article 232.",
+   insight:"Ces ajustements croisés stabilisent en partie les coûts d'approvisionnement en composantes métalliques pour la toiture commerciale — à surveiller mois par mois vu l'évolution asymétrique des mesures entre les deux pays.",
+   src:"Gouvernement du Canada — Finances", date:"3 juin 2026", url:"https://www.canada.ca/en/department-finance/news/2026/06/canada-to-extend-steel-and-aluminum-tariff-measures-to-support-workers-and-businesses.html"},
+  {axe:"2",geo:"an",tag:"Réglementation — Québec",title:"Québec propose de prolonger d'un an la période transitoire du nouveau Code de construction",
+   summary:"La Gazette officielle du 23 juin 2026 publie un projet de règlement prolongeant d'un an la période transitoire pendant laquelle les anciennes dispositions du Chapitre I peuvent encore être appliquées, repoussant l'échéance d'octobre 2026 à 2027.",
+   insight:"Ce délai donne plus de temps à l'industrie pour se conformer, mais retarde aussi l'adoption des standards de performance d'enveloppe plus élevés qui favoriseraient la demande pour l'isolation haute performance de Fransyl.",
+   src:"Gazette officielle du Québec", date:"23 juin 2026", url:"https://www.publicationsduquebec.gouv.qc.ca/fileadmin/gazette/pdf_encrypte/lois_reglements/2026F/88345.pdf"},
+  {axe:"2",geo:"an",tag:"Consolidation — Distribution Québec",title:"Richelieu poursuit ses acquisitions au Québec avec Distributions Air-Cube",
+   summary:"Acquisition complétée le 26 juin 2026 de Distributions Air-Cube (Solutions Acoustiques), distributeur du Grand Montréal représentant environ 27 M$ de ventes annuelles additionnelles — troisième acquisition de Richelieu au Canada entre mai et juillet.",
+   insight:"Bien qu'Air-Cube ne soit pas un concurrent direct, cette acquisition confirme le rythme soutenu de consolidation chez les distributeurs québécois — renforce l'intérêt de solidifier les relations de distribution de Fransyl.",
+   src:"Newswire (Richelieu)", date:"26 juin 2026", url:"https://www.newswire.ca/news-releases/increase-in-sales-and-continued-acquisition-driven-growth-strategy-three-new-acquisitions-in-canada-830061715.html"},
+  {axe:"2",geo:"an",tag:"Approvisionnement — Polyiso / MDI",title:"Perturbations d'approvisionnement en MDI resserrent le marché du polyiso en juin",
+   summary:"Arrêt pour force majeure de l'usine Covestro de Baytown et arrêt de maintenance de l'usine Huntsman de Geismar (1er–10 juin) ont retiré des volumes d'un marché déjà concentré (95 % de la capacité chez quelques producteurs); pénuries de CO et de chlore sur la côte du Golfe ont prolongé les perturbations jusqu'à fin juin.",
+   insight:"Ce resserrement touche directement la disponibilité et le prix du polyiso, intrant central pour plusieurs gammes Fransyl — à croiser avec les délais de livraison rapportés sur le terrain dans les 60 à 90 prochains jours.",
+   src:"ChemAnalyst", date:"juin 2026", url:"https://www.chemanalyst.com/NewsAndDeals/NewsDetails/us-mdi-prices-set-to-surge-in-june-2026-as-covestro-force-42674"},
+
+  {axe:"3",geo:"an",tag:"Politique fédérale — Logement",title:"La Loi sur les Logements Construits au Canada reçoit la sanction royale",
+   summary:"Sanction royale le 18 juin 2026, officialisant le mandat de Bâtiments Construits au Canada comme société d'État dotée d'une capitalisation initiale de 13 G$, dont le cadre de politique d'investissement priorise les méthodes modernes de construction (préfabrication, modulaire).",
+   insight:"Une agence fédérale de 13 G$ qui priorise la préfabrication dans ses achats crée un débouché structurel pour les systèmes d'enveloppe et d'isolation compatibles hors-site — un segment où Fransyl pourrait se positionner tôt.",
+   src:"Gouvernement du Canada", date:"19 juin 2026", url:"https://www.canada.ca/en/housing-infrastructure-communities/news/2026/06/government-of-canada-marks-royal-assent-of-the-build-canada-homes-act.html"},
+  {axe:"3",geo:"an",tag:"Robotisation — Automatisation industrielle",title:"Automate 2026 confirme l'entrée accélérée de la robotique physique dans la construction",
+   summary:"Le salon Automate 2026 (22–25 juin, Chicago, plus de 50 000 visiteurs — un record) a inauguré son premier Pavillon des robots humanoïdes commandité par NVIDIA, avec un accent sur le passage de l'IA physique du pilote au déploiement commercial.",
+   insight:"Salon d'automatisation généraliste plutôt que spécifique à la toiture, mais l'accélération commerciale de la robotique physique confirme une tendance de fond à surveiller pour l'installation et l'inspection sur les chantiers.",
+   src:"Tech Times", date:"21 juin 2026", url:"https://www.techtimes.com/articles/318805/20260621/automate-2026-opens-monday-nvidia-pavilion-marks-humanoid-robot-shift-production.htm"}
+];
+
+let curAxe="all", curGeo="all";
+
+function setAxe(a,el){
+  curAxe=a;
+  document.querySelectorAll('.axis-row').forEach(n=>n.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('tb-title').textContent = AXEL[a];
+  render();
+}
+function setGeo(g,el){
+  curGeo=g;
+  document.querySelectorAll('.geo-row').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  render();
+}
+function getF(){ return DATA.filter(s => (curAxe==='all'||s.axe===curAxe) && (curGeo==='all'||s.geo===curGeo)); }
+
+function card(s){
+  const geoLabel = s.geo==='an' ? 'Amérique du Nord' : 'International';
+  return '<div class="card" data-axe="'+s.axe+'">'
+    + '<div class="card-head">'
+      + '<div class="card-meta">'
+        + '<div class="card-meta-left"><span class="tag">'+s.tag+'</span><span class="geo-badge">'+geoLabel+'</span></div>'
+        + '<span class="card-date num">'+s.date+'</span>'
+      + '</div>'
+      + '<div class="card-title">'+s.title+'</div>'
+      + '<div class="card-summary">'+s.summary+'</div>'
+      + '<div class="card-src"><a href="'+s.url+'" target="_blank" rel="noopener">'+s.src+' ↗</a></div>'
+    + '</div>'
+    + '<div class="card-insight">'
+      + '<div class="ins-body"><div class="ins-label">Insight Fransyl</div><div class="ins-text">'+s.insight+'</div></div>'
+    + '</div>'
+  + '</div>';
+}
+
+function render(){
+  const sigs = getF();
+  const feed = document.getElementById('feed');
+  if(!sigs.length){ feed.innerHTML = '<div class="empty">Aucun signal pour cette sélection.</div>'; return; }
+  let html = '';
+  if(curGeo==='all'){
+    ['an','intl'].forEach(geo=>{
+      const g = sigs.filter(s=>s.geo===geo);
+      if(!g.length) return;
+      html += '<div class="geo-divider">'+(geo==='an'?'Amérique du Nord':'International')+'</div>';
+      g.forEach(s=>{ html += card(s); });
+    });
+  } else {
+    sigs.forEach(s=>{ html += card(s); });
+  }
+  feed.innerHTML = html;
+}
+render();
+</script>
+</body>
+</html>
