@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fransyl — Méthodologie &amp; sources de la veille</title>
+<style>
+  :root{
+    --paper:#EEEBE4; --surface:#F8F6F2; --surface2:#FFFFFF;
+    --ink:#16181A; --ink-mute:#4B4E52; --ink-faint:#84888D;
+    --line:#DAD6CC; --line-strong:#C4BFB2;
+    --accent:#FC5000; --accent-ink:#FFFFFF;
+    --axis1:#A8391D; --axis1-bg:#F7ECE8;
+    --axis2:#1C4A63; --axis2-bg:#EAF0F3;
+    --axis3:#3C6B4A; --axis3-bg:#EBF2EC;
+    --shadow: 0 1px 2px rgba(20,18,14,0.04), 0 6px 20px rgba(20,18,14,0.05);
+    --font: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, Roboto, Helvetica, Arial, sans-serif;
+  }
+  :root[data-theme="dark"]{
+    --paper:#131417; --surface:#191B1F; --surface2:#1D1F24;
+    --ink:#EDEBE6; --ink-mute:#B3B7BC; --ink-faint:#787C82;
+    --line:#2A2D33; --line-strong:#383C43;
+    --accent:#FF6A2A; --accent-ink:#151312;
+    --axis1:#DE8158; --axis1-bg:#241A16;
+    --axis2:#6FAAD0; --axis2-bg:#161E22;
+    --axis3:#7CB58C; --axis3-bg:#181F1A;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#131417; --surface:#191B1F; --surface2:#1D1F24;
+      --ink:#EDEBE6; --ink-mute:#B3B7BC; --ink-faint:#787C82;
+      --line:#2A2D33; --line-strong:#383C43;
+      --accent:#FF6A2A; --accent-ink:#151312;
+      --axis1:#DE8158; --axis1-bg:#241A16;
+      --axis2:#6FAAD0; --axis2-bg:#161E22;
+      --axis3:#7CB58C; --axis3-bg:#181F1A;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+    }
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ font-family:var(--font); background:var(--paper); color:var(--ink); line-height:1.6; font-size:15px; }
+  a{ color:inherit; }
+
+  .theme-toggle{ position:fixed; top:16px; right:16px; z-index:60; width:36px; height:36px; border-radius:50%; border:1px solid var(--line); background:var(--surface2); color:var(--ink); font-size:16px; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:var(--shadow); }
+  .theme-toggle:hover{ border-color:var(--accent); }
+
+  .wrap{ max-width:760px; margin:0 auto; padding:56px 24px 80px; }
+  .back-link{ display:inline-block; margin-bottom:22px; font-size:12.5px; color:var(--ink-faint); text-decoration:none; border-bottom:1px solid var(--line-strong); }
+  .back-link:hover{ color:var(--accent); border-color:var(--accent); }
+
+  h1{ font-size:26px; font-weight:800; letter-spacing:-0.3px; margin-bottom:8px; }
+  .sub{ font-size:14px; color:var(--ink-mute); margin-bottom:40px; }
+
+  h2{ font-size:13px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; margin:40px 0 16px; padding-bottom:8px; border-bottom:2px solid var(--accent); }
+  h2:first-of-type{ margin-top:0; }
+
+  .axis-block{ background:var(--surface2); border:1px solid var(--line); border-left:4px solid var(--axis1); border-radius:8px; padding:18px 20px; margin-bottom:14px; box-shadow:var(--shadow); }
+  .axis-block[data-axe="2"]{ border-left-color:var(--axis2); }
+  .axis-block[data-axe="3"]{ border-left-color:var(--axis3); }
+  .axis-title{ font-size:15px; font-weight:700; margin-bottom:8px; }
+  .axis-title .n{ font-size:12px; font-weight:700; padding:2px 8px; border-radius:20px; margin-right:8px; }
+  .axis-block[data-axe="1"] .n{ color:var(--axis1); background:var(--axis1-bg); }
+  .axis-block[data-axe="2"] .n{ color:var(--axis2); background:var(--axis2-bg); }
+  .axis-block[data-axe="3"] .n{ color:var(--axis3); background:var(--axis3-bg); }
+  .axis-desc{ font-size:13.5px; color:var(--ink-mute); }
+  .axis-desc b{ color:var(--ink); font-weight:600; }
+
+  .src-grid{ display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+  .src-col h3{ font-size:12px; font-weight:700; color:var(--ink-faint); text-transform:uppercase; letter-spacing:0.04em; margin-bottom:10px; }
+  .src-col ul{ list-style:none; }
+  .src-col li{ font-size:13.5px; color:var(--ink-mute); padding:5px 0; border-top:1px solid var(--line); }
+  .src-col li:first-child{ border-top:none; }
+
+  .process-list{ list-style:none; }
+  .process-list li{ font-size:13.5px; color:var(--ink-mute); padding:10px 0; border-top:1px solid var(--line); }
+  .process-list li:first-child{ border-top:none; }
+  .process-list b{ color:var(--ink); font-weight:600; }
+
+  footer{ margin-top:48px; font-size:11.5px; color:var(--ink-faint); }
+
+  @media (max-width:560px){
+    .src-grid{ grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+
+<button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" aria-label="Basculer le mode clair/sombre" title="Mode clair / sombre">🌙</button>
+
+<div class="wrap">
+  <a href="/" class="back-link">← Toutes les éditions</a>
+  <h1>Méthodologie &amp; sources</h1>
+  <div class="sub">Ce que la veille stratégique Fransyl couvre, comment les signaux sont sélectionnés, et où trouver l'information brute — pensé pour répondre rapidement aux questions du comité.</div>
+
+  <h2>Ce que la veille couvre — 3 axes</h2>
+
+  <div class="axis-block" data-axe="1">
+    <div class="axis-title"><span class="n">Axe 1</span>Compétiteurs</div>
+    <div class="axis-desc">
+      <b>Toiture commerciale</b> — Soprema, Beacon/QXO, Carlisle, IKO, GAF, TopBuild, Tremco, Polyglass, ABC Supply, Johns Manville, Elevate, Roofmart, Protan, Garland, entre autres.<br>
+      <b>Isolation</b> — EPS (Plasti-Fab, Isolofoam, LegerLite, Polymos, Styrorail), XPS (Owens Corning, Dow), polyiso (CertainTeed), laine de roche (Rockwool, ThermaFibre), cellulose (Igloo).<br>
+      <b>Coffrage isolant (ICF)</b> — Nudura, FoxBlock, Amvic, Integra Spec, Polycrete, Keps.<br>
+      Suivi systématique des signaux faibles : offres d'emploi inhabituelles, brevets, changements de direction, nouveaux sites, certifications, partenariats, prix, repositionnement marketing.
+    </div>
+  </div>
+
+  <div class="axis-block" data-axe="2">
+    <div class="axis-title"><span class="n">Axe 2</span>Environnement d'affaires</div>
+    <div class="axis-desc">
+      Développement durable et matériaux biosourcés, mises en chantier (SCHL/CMHC), main-d'œuvre en construction, réglementation et codes (CNB 2025, CNÉB 2025, Code de construction du Québec), conjoncture économique et prix des matériaux, consolidation de l'industrie (fusions-acquisitions), tarifs et commerce international, chaîne d'approvisionnement (MDI, polyiso, EPS), gestion des résidus CRD.
+    </div>
+  </div>
+
+  <div class="axis-block" data-axe="3">
+    <div class="axis-title"><span class="n">Axe 3</span>Environnement technologique</div>
+    <div class="axis-desc">
+      Robotisation des chantiers, matériaux à contenu recyclé (R&amp;D), maintenance prédictive et IoT, bâtiments intelligents et jumeaux numériques, construction hors-site et modulaire, EPS graphité, membranes innovantes, toiture solaire intégrée (BIPV), impression 3D, intelligence artificielle appliquée à la construction.
+    </div>
+  </div>
+
+  <h2>Sources consultées</h2>
+  <div class="src-grid">
+    <div class="src-col">
+      <h3>Médias sectoriels</h3>
+      <ul>
+        <li>Roofing Contractor Magazine</li>
+        <li>Building Enclosure</li>
+        <li>Professional Roofing (NRCA)</li>
+        <li>Construction Dive</li>
+        <li>ENR — Engineering News-Record</li>
+        <li>Québec Habitation (APCHQ)</li>
+        <li>Revue Couvertures Canada (CRCA)</li>
+      </ul>
+    </div>
+    <div class="src-col">
+      <h3>Organismes et données</h3>
+      <ul>
+        <li>SCHL / CMHC</li>
+        <li>Statistique Canada</li>
+        <li>CNRC</li>
+        <li>RBQ</li>
+        <li>NRCA, AMCQ, PIMA, EPS-IA</li>
+        <li>CaGBC / CBDCa</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Processus de sélection</h2>
+  <ul class="process-list">
+    <li><b>Cadence</b> — édition mensuelle, contenu couvrant le mois précédent.</li>
+    <li><b>Recherche</b> — minimum 15 recherches structurées par édition, réparties sur les 3 axes.</li>
+    <li><b>Filtrage</b> — seuls les signaux datés et vérifiés des ~4 dernières semaines sont retenus; un signal ambigu ou non daté est exclu plutôt que forcé.</li>
+    <li><b>Aucun quota forcé</b> — si une case géographique ou un axe n'a pas de signal suffisamment solide, elle reste vide plutôt que remplie artificiellement.</li>
+    <li><b>Exclusions systématiques</b> — toiture résidentielle (bardeaux), technologie interne Fransyl (ERP, site web), catalogues Grizzly ASE.</li>
+  </ul>
+
+  <footer>Généré avec l'assistance de Claude (skill « veille-strategique-fransyl »). Diffusion restreinte — usage interne uniquement.</footer>
+</div>
+
+<script src="/theme.js"></script>
+</body>
+</html>

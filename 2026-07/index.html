@@ -65,6 +65,13 @@
   .rail-brand{ padding:0 22px 20px; border-bottom:1px solid var(--line); }
   .rail-wordmark{ font-size:20px; font-weight:800; color:var(--ink); letter-spacing:-0.3px; }
   .rail-sub{ font-size:12px; color:var(--ink-faint); margin-top:5px; }
+  .rail-links{ padding:16px 22px; border-top:1px solid var(--line); display:flex; flex-direction:column; gap:8px; }
+  .rail-links a{ font-size:12.5px; color:var(--ink-faint); text-decoration:none; }
+  .rail-links a:hover{ color:var(--accent); }
+
+  /* ---------- TOGGLE THÈME ---------- */
+  .theme-toggle{ position:fixed; top:16px; right:16px; z-index:60; width:36px; height:36px; border-radius:50%; border:1px solid var(--line); background:var(--surface2); color:var(--ink); font-size:16px; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:var(--shadow); }
+  .theme-toggle:hover{ border-color:var(--accent); }
 
   .rail-label{ font-size:11px; font-weight:700; color:var(--ink-faint); letter-spacing:0.08em; text-transform:uppercase; padding:22px 22px 10px; }
 
@@ -94,7 +101,7 @@
   /* ---------- MAIN ---------- */
   .main{ flex:1; min-width:0; display:flex; flex-direction:column; }
 
-  .titleblock{ background:var(--surface2); border-bottom:2px solid var(--accent); padding:30px 40px 22px; }
+  .titleblock{ background:var(--surface2); border-bottom:2px solid var(--accent); padding:30px 40px 22px; position:sticky; top:0; z-index:10; }
   .tb-top{ display:flex; align-items:baseline; justify-content:space-between; gap:16px; flex-wrap:wrap; }
   .tb-title{ font-size:25px; font-weight:800; color:var(--ink); letter-spacing:-0.3px; text-wrap:balance; }
   .tb-meta{ font-size:12.5px; color:var(--ink-faint); }
@@ -196,8 +203,12 @@
     .titleblock{ padding:22px 18px 18px; }
   }
 </style>
+<script src="/theme.js"></script>
 </head>
 <body>
+
+<button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" aria-label="Basculer le mode clair/sombre" title="Mode clair / sombre">🌙</button>
+
 <div class="layout">
 
   <!-- RAIL -->
@@ -231,6 +242,10 @@
       <div class="geo-row" data-geo="intl" onclick="setGeo('intl',this)">
         <span class="swatch"></span><span class="lbl">International</span><span class="cnt num" id="g-intl">0</span>
       </div>
+    </div>
+    <div class="rail-links">
+      <a href="/methodologie/">Méthodologie &amp; sources ↗</a>
+      <a href="/suggestion/">Proposer un ajout ↗</a>
     </div>
   </nav>
 

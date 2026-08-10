@@ -12,12 +12,24 @@
     --shadow: 0 1px 2px rgba(20,18,14,0.04), 0 6px 20px rgba(20,18,14,0.05);
     --axis1:#A8391D;
   }
+  :root[data-theme="dark"]{
+    --paper:#131417; --surface:#1D1F24; --ink:#EDEBE6; --ink-mute:#A7ABB0; --ink-faint:#787C82; --line:#2A2D33; --line-strong:#383C43; --accent:#FF6A2A; --accent-ink:#151312; --axis1:#DE8158; --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+  }
   @media (prefers-color-scheme: dark){
-    :root{ --paper:#131417; --surface:#1D1F24; --ink:#EDEBE6; --ink-mute:#A7ABB0; --ink-faint:#787C82; --line:#2A2D33; --line-strong:#383C43; --accent:#FF6A2A; --accent-ink:#151312; --axis1:#DE8158; --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35); }
+    :root:not([data-theme="light"]){ --paper:#131417; --surface:#1D1F24; --ink:#EDEBE6; --ink-mute:#A7ABB0; --ink-faint:#787C82; --line:#2A2D33; --line-strong:#383C43; --accent:#FF6A2A; --accent-ink:#151312; --axis1:#DE8158; --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35); }
   }
   *{ box-sizing:border-box; margin:0; padding:0; }
   body{ font-family:var(--font); background:var(--paper); color:var(--ink); line-height:1.55; }
   a{ color:inherit; }
+
+  /* ---------- TOGGLE THÈME ---------- */
+  .theme-toggle{ position:fixed; top:16px; right:16px; z-index:50; width:36px; height:36px; border-radius:50%; border:1px solid var(--line); background:var(--surface); color:var(--ink); font-size:16px; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:var(--shadow); }
+  .theme-toggle:hover{ border-color:var(--accent); }
+
+  /* ---------- LIENS SECONDAIRES ---------- */
+  .meta-links{ display:flex; gap:16px; margin-top:20px; }
+  .meta-links a{ font-size:12.5px; color:var(--ink-faint); text-decoration:none; border-bottom:1px solid var(--line-strong); }
+  .meta-links a:hover{ color:var(--accent); border-color:var(--accent); }
 
   /* ---------- GATE (verrou d'accès côté client — ne remplace pas une vraie authentification) ---------- */
   body:not(.unlocked) .site{ display:none; }
@@ -43,8 +55,11 @@
   .edition .meta{ font-size:12.5px; color:var(--ink-mute); }
   footer{ margin-top:48px; font-size:11.5px; color:var(--ink-mute); }
 </style>
+<script src="/theme.js"></script>
 </head>
 <body>
+
+<button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" aria-label="Basculer le mode clair/sombre" title="Mode clair / sombre">🌙</button>
 
 <div class="gate">
   <div class="gate-card">
@@ -71,6 +86,11 @@
     <div class="title">Édition de juillet 2026</div>
     <div class="meta">Contenu couvrant juin 2026 — 10 signaux</div>
   </a>
+
+  <div class="meta-links">
+    <a href="/methodologie/">Méthodologie &amp; sources</a>
+    <a href="/suggestion/">Proposer un ajout</a>
+  </div>
 
   <footer>Diffusion restreinte — usage interne uniquement.</footer>
 </div>
