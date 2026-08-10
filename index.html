@@ -6,16 +6,35 @@
 <title>Fransyl — Veille stratégique</title>
 <style>
   :root{
-    --paper:#EEEBE4; --surface:#FFFFFF; --ink:#16181A; --ink-mute:#5C6066;
-    --line:#DAD6CC; --accent:#FC5000;
+    --paper:#EEEBE4; --surface:#FFFFFF; --ink:#16181A; --ink-mute:#5C6066; --ink-faint:#84888D;
+    --line:#DAD6CC; --line-strong:#C4BFB2; --accent:#FC5000; --accent-ink:#FFFFFF;
     --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, Helvetica, Arial, sans-serif;
+    --shadow: 0 1px 2px rgba(20,18,14,0.04), 0 6px 20px rgba(20,18,14,0.05);
+    --axis1:#A8391D;
   }
   @media (prefers-color-scheme: dark){
-    :root{ --paper:#131417; --surface:#1D1F24; --ink:#EDEBE6; --ink-mute:#A7ABB0; --line:#2A2D33; --accent:#FF6A2A; }
+    :root{ --paper:#131417; --surface:#1D1F24; --ink:#EDEBE6; --ink-mute:#A7ABB0; --ink-faint:#787C82; --line:#2A2D33; --line-strong:#383C43; --accent:#FF6A2A; --accent-ink:#151312; --axis1:#DE8158; --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35); }
   }
   *{ box-sizing:border-box; margin:0; padding:0; }
-  body{ font-family:var(--font); background:var(--paper); color:var(--ink); line-height:1.55; padding:60px 24px; }
-  .wrap{ max-width:640px; margin:0 auto; }
+  body{ font-family:var(--font); background:var(--paper); color:var(--ink); line-height:1.55; }
+  a{ color:inherit; }
+
+  /* ---------- GATE (verrou d'accès côté client — ne remplace pas une vraie authentification) ---------- */
+  body:not(.unlocked) .site{ display:none; }
+  .gate{ min-height:100vh; display:flex; align-items:center; justify-content:center; padding:24px; }
+  body.unlocked .gate{ display:none; }
+  .gate-card{ width:100%; max-width:340px; background:var(--surface); border:1px solid var(--line); border-top:3px solid var(--accent); border-radius:10px; padding:32px 28px; box-shadow:var(--shadow); }
+  .gate-brand{ font-size:17px; font-weight:800; color:var(--ink); letter-spacing:-0.2px; margin-bottom:2px; }
+  .gate-sub{ font-size:12.5px; color:var(--ink-faint); margin-bottom:22px; }
+  .gate-label{ font-size:11px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:7px; display:block; }
+  .gate-input{ width:100%; font-family:var(--font); font-size:14.5px; padding:11px 13px; border:1px solid var(--line-strong); border-radius:6px; background:var(--paper); color:var(--ink); margin-bottom:12px; }
+  .gate-input:focus{ outline:none; border-color:var(--accent); }
+  .gate-btn{ width:100%; font-family:var(--font); font-size:14px; font-weight:700; padding:11px; border:none; border-radius:6px; background:var(--accent); color:var(--accent-ink); cursor:pointer; }
+  .gate-error{ font-size:12.5px; color:var(--axis1); margin-top:10px; display:none; }
+  .gate-error.show{ display:block; }
+
+  /* ---------- SITE ---------- */
+  .wrap{ max-width:640px; margin:0 auto; padding:60px 24px; }
   h1{ font-size:26px; font-weight:800; margin-bottom:8px; letter-spacing:-0.3px; }
   .sub{ font-size:14px; color:var(--ink-mute); margin-bottom:36px; }
   .edition{ display:block; background:var(--surface); border:1px solid var(--line); border-left:4px solid var(--accent); border-radius:8px; padding:18px 20px; margin-bottom:12px; text-decoration:none; color:inherit; }
@@ -26,6 +45,19 @@
 </style>
 </head>
 <body>
+
+<div class="gate">
+  <div class="gate-card">
+    <div class="gate-brand">Fransyl — Veille stratégique</div>
+    <div class="gate-sub">Contenu à diffusion restreinte. Entrez le mot de passe fourni pour y accéder.</div>
+    <label class="gate-label" for="gate-pw">Mot de passe</label>
+    <input class="gate-input" type="password" id="gate-pw" autocomplete="off" placeholder="••••••••••••">
+    <button class="gate-btn" onclick="tryUnlock()">Accéder à la veille</button>
+    <div class="gate-error" id="gate-error">Mot de passe incorrect.</div>
+  </div>
+</div>
+
+<div class="site">
 <div class="wrap">
   <h1>Groupe Fransyl</h1>
   <div class="sub">Veille stratégique — éditions mensuelles</div>
@@ -37,5 +69,44 @@
 
   <footer>Diffusion restreinte — usage interne uniquement.</footer>
 </div>
+</div>
+
+<script>
+/* ---------- GATE (verrou côté client — ne remplace pas une vraie authentification) ---------- */
+const GATE_HASH = "2acbddbcf4e354f7da67ffbbc3cdaacc8afc5078fc3d3088371fbc603c78f32b";
+const GATE_KEY = "fransyl_veille_unlocked_2026_08";
+
+async function sha256Hex(text){
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+function unlock(){
+  document.body.classList.add('unlocked');
+}
+
+async function tryUnlock(){
+  const input = document.getElementById('gate-pw');
+  const err = document.getElementById('gate-error');
+  const hash = await sha256Hex(input.value);
+  if(hash === GATE_HASH){
+    localStorage.setItem(GATE_KEY, '1');
+    err.classList.remove('show');
+    unlock();
+  } else {
+    err.classList.add('show');
+    input.value = '';
+    input.focus();
+  }
+}
+
+document.getElementById('gate-pw').addEventListener('keydown', e => {
+  if(e.key === 'Enter') tryUnlock();
+});
+
+if(localStorage.getItem(GATE_KEY) === '1'){
+  unlock();
+}
+</script>
 </body>
 </html>
