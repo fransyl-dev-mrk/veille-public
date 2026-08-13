@@ -108,7 +108,8 @@
   .tb-meta b.num{ color:var(--ink-mute); font-weight:700; }
   .tb-period{ font-size:13px; color:var(--ink-mute); margin-top:8px; }
 
-  .content{ padding:26px 40px 44px; max-width:760px; }
+  .content-row{ display:flex; align-items:flex-start; gap:32px; padding:26px 40px 44px; }
+  .content{ max-width:760px; flex:1 1 auto; min-width:0; }
 
   /* ---------- BRIEFING (executive summary band) ---------- */
   .briefing{ background:var(--surface2); border:1px solid var(--line); border-radius:10px; box-shadow:var(--shadow); margin-bottom:32px; overflow:hidden; }
@@ -180,7 +181,7 @@
   .back-link:hover{ color:var(--accent); border-color:var(--accent); }
 
   /* ---------- SIDE (rapports & études) ---------- */
-  .side{ width:280px; flex-shrink:0; background:var(--surface); border-left:1px solid var(--line); padding:26px 20px 30px; position:sticky; top:0; height:100vh; overflow-y:auto; }
+  .side{ width:280px; flex-shrink:0; background:var(--surface); border:1px solid var(--line); border-radius:10px; box-shadow:var(--shadow); padding:22px 20px 26px; position:sticky; top:26px; max-height:calc(100vh - 52px); overflow-y:auto; }
   .side-title{ font-size:13.5px; font-weight:800; color:var(--ink); letter-spacing:-0.1px; }
   .side-sub{ font-size:11.5px; color:var(--ink-faint); margin-top:3px; margin-bottom:6px; }
   .side-geo-label{ font-size:11px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-faint); margin:20px 0 10px; }
@@ -220,8 +221,8 @@
   @media (max-width:760px){
     .layout{ display:block; }
     .rail{ position:static; height:auto; width:100%; }
-    .side{ position:static; height:auto; width:100%; border-left:none; border-top:1px solid var(--line); }
-    .content{ padding:20px 18px 32px; }
+    .content-row{ flex-direction:column; padding:20px 18px 32px; gap:20px; }
+    .side{ position:static; max-height:none; width:100%; }
     .titleblock{ padding:22px 18px 18px; }
   }
 </style>
@@ -282,6 +283,7 @@
       <div class="tb-period">Période couverte — 1<sup>er</sup> juin au 30 juin 2026</div>
     </div>
 
+    <div class="content-row">
     <div class="content">
 
       <!-- BRIEFING : résumé stratégique, lu avant le détail -->
@@ -320,14 +322,15 @@
       <div id="feed"></div>
 
     </div>
-  </div>
 
-  <!-- SIDE : rapports & études sectorielles -->
-  <aside class="side">
-    <div class="side-title">Rapports &amp; études à surveiller</div>
-    <div class="side-sub">Sources externes suivies en continu</div>
-    <div id="reports-feed"></div>
-  </aside>
+    <!-- SIDE : rapports & études sectorielles -->
+    <aside class="side">
+      <div class="side-title">Rapports &amp; études à surveiller</div>
+      <div class="side-sub">Sources externes suivies en continu</div>
+      <div id="reports-feed"></div>
+    </aside>
+    </div>
+  </div>
 
 </div>
 

@@ -4,11 +4,17 @@
    Voir /workspaces/veille/rapports-etudes.md pour la fiche de maintenance. */
 
 const REPORTS = [
-  {geo:"an", country:"Canada", org:"Pomerleau", author:"Jean-François Perras et Sean Boyer",
+  {geo:"an", country:"Canada", org:"Pomerleau", author:"Sean Boyer et Jean-François Perras",
    freq:"Trimestriel", title:"Radar économique Pomerleau",
-   summary:"Édition T3 2025 : prix de construction en hausse de 7,50 % au Québec et 5,15 % à Montréal, contre une moyenne nationale de 4,20 %. Secteur industriel en fort recul (-18,19 %), commercial en légère hausse (+2,55 %).",
-   insight:"Radar de référence pour ancrer les arguments de prix de Fransyl dans le contexte réel du marché québécois — la divergence Québec/national confirme une pression de coûts régionale à anticiper dans les négociations distributeurs.",
-   src:"Pomerleau", date:"T3 2025 (déc. 2025)", url:"https://pomerleau.ca/en/insights/article/actualite/pomerleau-economic-radar-q3"},
+   summary:"Édition T1 2026 (publiée le 10 juillet 2026) : le PIB de la construction recule de 1,38 % au trimestre pendant que le PIB canadien progresse de 0,14 %. Les prix de la construction non résidentielle augmentent de 0,55 % au trimestre (+3,56 % sur un an), avec des pressions plus marquées au Québec (+6,86 % sur un an) et à Montréal (+4,20 %). Les permis de bâtir rebondissent légèrement (+0,47 % trimestriel) mais restent en baisse de 1,31 % sur un an.",
+   insight:"Le recul du PIB de la construction conjugué à des prix toujours parmi les plus élevés au pays au Québec confirme la pression de coûts régionale déjà notée — ce mélange de demande ralentie et de coûts encore hauts renforce l'intérêt pour Fransyl de prioriser la réfection et les segments non résidentiels, plus résilients que le résidentiel neuf.",
+   src:"Pomerleau", date:"T1 2026 (10 juillet 2026)", url:"https://www.linkedin.com/posts/pomerleau-inc._radar-%C3%A9conomique-pomerleau-activity-7483571332794961920-xMNc/"},
+
+  {geo:"an", country:"Canada", org:"Pomerleau", author:"",
+   freq:"Annuel", title:"Rapport de développement durable 2025",
+   summary:"Publié le 9 juin 2026 pour le 60ᵉ anniversaire de l'entreprise : réduction de 6 % de l'intensité des émissions GES (portées 1 et 2) vs 2024, 79 % des déchets détournés de l'enfouissement, réemploi de 80 000 tonnes de béton au port de Trois-Rivières, approvisionnement auprès d'entreprises autochtones porté à 87,3 M$.",
+   insight:"Illustre la montée des exigences ESG et d'économie circulaire chez les grands entrepreneurs généraux clients/partenaires de Fransyl — un signal pour anticiper des demandes similaires de traçabilité et de contenu recyclé sur les gammes EPS/isolation.",
+   src:"Pomerleau", date:"9 juin 2026", url:"https://pomerleau.ca/fr/actualites/article/esg/pomerleau-devoile-son-rapport-de-developpement-durable-2025"},
 
   {geo:"an", country:"Canada", org:"SCHL / CMHC", author:"",
    freq:"Annuel (mise à jour mi-année)", title:"Perspectives du marché de l'habitation",
