@@ -181,7 +181,7 @@
   .back-link:hover{ color:var(--accent); border-color:var(--accent); }
 
   /* ---------- SIDE (rapports & études) ---------- */
-  .side{ width:280px; flex-shrink:0; background:var(--surface); border:1px solid var(--line); border-radius:10px; box-shadow:var(--shadow); padding:22px 20px 26px; position:sticky; top:26px; max-height:calc(100vh - 52px); overflow-y:auto; }
+  .side{ width:clamp(280px, 26vw, 400px); flex-shrink:0; background:var(--surface); border:1px solid var(--line); border-radius:10px; box-shadow:var(--shadow); padding:22px 20px 26px; }
   .side-title{ font-size:13.5px; font-weight:800; color:var(--ink); letter-spacing:-0.1px; }
   .side-sub{ font-size:11.5px; color:var(--ink-faint); margin-top:3px; margin-bottom:6px; }
   .side-geo-label{ font-size:11px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-faint); margin:20px 0 10px; }
@@ -222,7 +222,7 @@
     .layout{ display:block; }
     .rail{ position:static; height:auto; width:100%; }
     .content-row{ flex-direction:column; padding:20px 18px 32px; gap:20px; }
-    .side{ position:static; max-height:none; width:100%; }
+    .side{ width:100%; }
     .titleblock{ padding:22px 18px 18px; }
   }
 </style>
@@ -447,11 +447,14 @@ function reportCard(r){
   + '</div>';
 }
 
+const EDITION_START = "2026-06-01";
+const EDITION_END   = "2026-06-30";
+
 function renderReports(){
   const el = document.getElementById('reports-feed');
   let html = '';
   ['an','intl'].forEach(geo=>{
-    const g = REPORTS.filter(r=>r.geo===geo);
+    const g = REPORTS.filter(r=>r.geo===geo && r.pubDate>=EDITION_START && r.pubDate<=EDITION_END);
     if(!g.length) return;
     html += '<div class="side-geo-label">'+(geo==='an'?'Amérique du Nord':'International')+'</div>';
     g.forEach(r=>{ html += reportCard(r); });
