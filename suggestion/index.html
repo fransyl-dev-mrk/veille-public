@@ -47,19 +47,10 @@
   .sub{ font-size:14px; color:var(--ink-mute); margin-bottom:32px; }
 
   .card{ background:var(--surface2); border:1px solid var(--line); border-top:3px solid var(--accent); border-radius:10px; padding:28px 26px; box-shadow:var(--shadow); }
+  .card p{ font-size:14px; color:var(--ink-mute); margin-bottom:22px; }
 
-  label{ font-size:11px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:7px; display:block; }
-  .field{ margin-bottom:18px; }
-  input, select, textarea{ width:100%; font-family:var(--font); font-size:14.5px; padding:11px 13px; border:1px solid var(--line-strong); border-radius:6px; background:var(--paper); color:var(--ink); }
-  input:focus, select:focus, textarea:focus{ outline:none; border-color:var(--accent); }
-  textarea{ resize:vertical; min-height:100px; }
-
-  .btn{ width:100%; font-family:var(--font); font-size:14px; font-weight:700; padding:12px; border:none; border-radius:6px; cursor:pointer; }
+  .btn{ display:block; width:100%; text-align:center; font-family:var(--font); font-size:14px; font-weight:700; padding:12px; border:none; border-radius:6px; cursor:pointer; text-decoration:none; }
   .btn-primary{ background:var(--accent); color:var(--accent-ink); }
-  .status{ font-size:12.5px; margin-top:12px; display:none; }
-  .status.show{ display:block; }
-  .status.ok{ color:#2F6B4A; }
-  .status.err{ color:var(--axis1); }
 
   footer{ margin-top:24px; font-size:11.5px; color:var(--ink-faint); }
 </style>
@@ -74,27 +65,8 @@
   <div class="sub">Un concurrent, une source ou un thème qui devrait être suivi ? Décrivez-le ci-dessous — l'équipe marketing sera avisée.</div>
 
   <div class="card">
-    <form id="suggestion-form">
-      <div class="field">
-        <label for="s-name">Votre nom (optionnel)</label>
-        <input type="text" id="s-name" autocomplete="name">
-      </div>
-      <div class="field">
-        <label for="s-category">Catégorie</label>
-        <select id="s-category">
-          <option value="Compétiteurs">Compétiteurs</option>
-          <option value="Environnement d'affaires">Environnement d'affaires</option>
-          <option value="Environnement technologique">Environnement technologique</option>
-          <option value="Autre">Autre</option>
-        </select>
-      </div>
-      <div class="field">
-        <label for="s-desc">Description de la suggestion</label>
-        <textarea id="s-desc" placeholder="Ex. : suivre le concurrent X, la source Y, ou le thème Z..." required></textarea>
-      </div>
-      <button type="submit" class="btn btn-primary" id="s-submit">Envoyer la suggestion</button>
-      <div class="status" id="s-status"></div>
-    </form>
+    <p>Un concurrent, une source ou un thème qui devrait être suivi ? Cliquez ci-dessous pour ouvrir un courriel pré-rempli — il ne restera qu'à compléter la description et l'envoyer.</p>
+    <a class="btn btn-primary" id="s-mailto" href="#">Proposer un ajout par courriel</a>
   </div>
 
   <footer>Diffusion restreinte — usage interne uniquement.</footer>
@@ -102,71 +74,19 @@
 
 <script src="/theme.js"></script>
 <script>
-/* ---------- SUGGESTION ----------
-   WEBHOOK_URL : coller ici l'URL "Catch Hook" d'un Zap (Webhooks by Zapier -> Gmail : Send Email)
-   une fois créé. Tant que c'est vide, le formulaire ouvre le client courriel local (mailto:) —
-   fonctionnel dès maintenant, sans dépendance externe. */
-const WEBHOOK_URL = "";
 const NOTIFY_EMAIL = "marketing@fransyl.com";
+const subject = "Suggestion ajout veille stratégique";
+const body =
+"Bonjour,\n\n" +
+"Je souhaite proposer l'ajout suivant à la veille stratégique :\n\n" +
+"Catégorie (compétiteurs / environnement d'affaires / environnement technologique) : \n" +
+"Description : \n\n" +
+"Merci !";
 
-const form = document.getElementById('suggestion-form');
-const statusEl = document.getElementById('s-status');
-const submitBtn = document.getElementById('s-submit');
-
-function showStatus(msg, ok){
-  statusEl.textContent = msg;
-  statusEl.className = 'status show ' + (ok ? 'ok' : 'err');
-}
-
-function mailtoFallback(payload){
-  const subject = encodeURIComponent('Suggestion veille — ' + payload.category);
-  const body = encodeURIComponent(
-    'Catégorie : ' + payload.category + '\n' +
-    'De : ' + (payload.name || '(non précisé)') + '\n\n' +
-    payload.description
-  );
-  window.location.href = 'mailto:' + NOTIFY_EMAIL + '?subject=' + subject + '&body=' + body;
-}
-
-form.addEventListener('submit', async function(e){
-  e.preventDefault();
-  const payload = {
-    name: document.getElementById('s-name').value.trim(),
-    category: document.getElementById('s-category').value,
-    description: document.getElementById('s-desc').value.trim(),
-    page: window.location.href,
-    date: new Date().toISOString()
-  };
-  if(!payload.description){
-    showStatus('Merci de décrire la suggestion.', false);
-    return;
-  }
-
-  if(!WEBHOOK_URL){
-    mailtoFallback(payload);
-    showStatus('Ouverture de votre client courriel...', true);
-    return;
-  }
-
-  submitBtn.disabled = true;
-  submitBtn.textContent = 'Envoi...';
-  try{
-    const res = await fetch(WEBHOOK_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-    if(!res.ok) throw new Error('HTTP ' + res.status);
-    showStatus('Suggestion envoyée — merci !', true);
-    form.reset();
-  } catch(err){
-    showStatus('Envoi automatique indisponible, ouverture du client courriel...', false);
-    mailtoFallback(payload);
-  } finally {
-    submitBtn.disabled = false;
-    submitBtn.textContent = 'Envoyer la suggestion';
-  }
-});
+document.getElementById('s-mailto').href =
+  'mailto:' + NOTIFY_EMAIL +
+  '?subject=' + encodeURIComponent(subject) +
+  '&body=' + encodeURIComponent(body);
 </script>
 </body>
 </html>
