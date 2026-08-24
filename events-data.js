@@ -1,0 +1,57 @@
+/* Événements de l'industrie à venir — référence partagée par toutes les éditions.
+   Contrairement à REPORTS (filtré sur le mois couvert par l'édition), EVENTS est
+   prospectif : chaque édition n'affiche que les événements dont la date de début tombe
+   dans le mois qui SUIT la période couverte (ex. édition d'août → événements de septembre).
+   Chaque entrée porte un startDate ISO (AAAA-MM-JJ) — la date de début réelle de
+   l'événement — utilisé par renderEvents() de chaque édition.
+   Voir /workspaces/veille/evenements-industrie.md pour la fiche de maintenance. */
+
+const EVENTS = [
+  {geo:"an", country:"Canada", org:"AMCQ", freq:"Annuel, début février",
+   title:"Congrès et AGA de l'AMCQ (60ᵉ édition)",
+   summary:"Rassemblement annuel de l'Association des maîtres couvreurs du Québec — conférences, AGA et réseautage pour les installateurs de toiture du Québec.",
+   insight:"Bassin direct de clients/installateurs Fransyl au Québec — occasion de suivre les sujets de formation mis de l'avant et de représenter Fransyl auprès des couvreurs.",
+   src:"AMCQ", date:"début février 2027 (date exacte à confirmer)", startDate:"2027-02-04", url:"https://amcq.qc.ca/"},
+
+  {geo:"an", country:"Canada", org:"CEGQ", freq:"Annuel, mi-février",
+   title:"Congrès annuel de la CEGQ",
+   summary:"Plus grand rassemblement d'entrepreneurs généraux au Québec — programmation technique, légale et gestion de projet.",
+   insight:"Sujets de programmation utiles pour calibrer les angles de contenu Fransyl côté entrepreneurs généraux, gros acheteurs indirects de systèmes d'enveloppe.",
+   src:"CEGQ", date:"mi-février 2027 (date exacte à confirmer)", startDate:"2027-02-11", url:"https://www.cegq.com/fr/"},
+
+  {geo:"an", country:"É.-U.", org:"NERCA", freq:"Annuel, début/mi-février",
+   title:"Congrès annuel et salon NERCA (Northeast Roofing Contractors Association)",
+   summary:"Un des plus grands salons régionaux de toiture aux É.-U. (nord-est) — éducation, réseautage et salon commercial.",
+   insight:"Bon repère produits/tendances toiture commerciale nord-est américain, marché adjacent au segment Fransyl.",
+   src:"NERCA", date:"début février 2027 (date exacte à confirmer)", startDate:"2027-02-10", url:"https://nerca.org/"},
+
+  {geo:"an", country:"Canada", org:"IIBEC", freq:"Annuel, mars",
+   title:"IIBEC International Convention & Trade Show",
+   summary:"Convention internationale de l'IIBEC (consultants en enveloppe du bâtiment) — sessions techniques et salon commercial.",
+   insight:"Référence technique enveloppe du bâtiment (consultants, ingénieurs) — sujets de formation directement liés au positionnement produit Fransyl.",
+   src:"IIBEC", date:"mars 2027 (date exacte à confirmer)", startDate:"2027-03-12", url:"https://iibec.org/"},
+
+  {geo:"an", country:"Canada", org:"CRCA", freq:"Annuel, fin mai",
+   title:"Congrès national et AGA de la CRCA",
+   summary:"Congrès national de la Canadian Roofing Contractors Association — vitrine pancanadienne toiture commerciale, exposition et sessions de formation.",
+   insight:"Sujets de formation mis de l'avant à suivre pour anticiper les enjeux prioritaires de l'industrie pancanadienne de la toiture.",
+   src:"CRCA", date:"fin mai 2027 (date exacte à confirmer)", startDate:"2027-05-28", url:"https://roofingcanada.com/"},
+
+  {geo:"an", country:"Canada", org:"ACQ", freq:"Annuel, fin avril / début mai",
+   title:"Congrès de l'ACQ",
+   summary:"Plus de 500 entrepreneurs et acteurs clés de l'industrie de la construction du Québec réunis — conférences et réseautage.",
+   insight:"Grand rassemblement provincial — occasion de représentation et de veille sur les enjeux mis de l'avant par l'industrie québécoise.",
+   src:"ACQ", date:"fin avril 2027 (date exacte à confirmer)", startDate:"2027-04-30", url:"https://www.acq.org/"},
+
+  {geo:"an", country:"Canada", org:"Contech Québec", freq:"Annuel, mi-/fin octobre",
+   title:"Salon Contech Québec",
+   summary:"Salon professionnel de la construction, ville de Québec.",
+   insight:"Salon régional (Québec) — vérifier la pertinence vs les segments Fransyl avant d'y consacrer des ressources de représentation.",
+   src:"Expo Contech", date:"22 octobre 2026", startDate:"2026-10-22", url:"https://quebec.expocontech.ca/"},
+
+  {geo:"an", country:"Canada", org:"Contech Montréal", freq:"Annuel, mi-novembre",
+   title:"Salon Contech Montréal",
+   summary:"Salon professionnel de la construction, grande région métropolitaine de Montréal.",
+   insight:"Bassin distributeurs/entrepreneurs de la grande région métropolitaine — pertinent pour la présence de marque Fransyl en distribution.",
+   src:"Expo Contech", date:"12 novembre 2026", startDate:"2026-11-12", url:"https://montreal.expocontech.ca/"}
+];

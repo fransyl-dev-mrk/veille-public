@@ -199,6 +199,20 @@
   .report-src a{ color:var(--ink-faint); text-decoration:none; border-bottom:1px solid var(--line-strong); }
   .report-src a:hover{ color:var(--accent); border-color:var(--accent); }
 
+  .event-card{ background:var(--surface2); border:1px solid var(--line); border-radius:8px; padding:13px 14px; margin-bottom:10px; box-shadow:var(--shadow); }
+  .event-meta{ display:flex; align-items:baseline; justify-content:space-between; gap:8px; margin-bottom:7px; flex-wrap:wrap; }
+  .event-org{ font-size:11px; font-weight:700; color:var(--axis3); }
+  .event-date{ font-size:10.5px; color:var(--ink-faint); white-space:nowrap; }
+  .event-freq{ font-size:10px; color:var(--ink-faint); font-style:italic; margin-bottom:6px; }
+  .event-title{ font-size:12.5px; font-weight:700; color:var(--ink); line-height:1.35; margin-bottom:6px; }
+  .event-summary{ font-size:11.5px; color:var(--ink-mute); line-height:1.5; margin-bottom:8px; }
+  .event-insight{ border-left:2px solid var(--axis3); padding-left:9px; font-size:11px; color:var(--ink); line-height:1.5; margin-bottom:8px; }
+  .event-insight b{ color:var(--axis3); font-weight:700; }
+  .event-src{ font-size:10.5px; }
+  .event-src a{ color:var(--ink-faint); text-decoration:none; border-bottom:1px solid var(--line-strong); }
+  .event-src a:hover{ color:var(--axis3); border-color:var(--axis3); }
+  .events-empty{ font-size:11.5px; color:var(--ink-faint); font-style:italic; padding:4px 0; }
+
   @media print{
     .rail{ display:none; }
     .side{ display:none; }
@@ -227,6 +241,7 @@
 </style>
 <script src="/theme.js"></script>
 <script src="/reports-data.js"></script>
+<script src="/events-data.js"></script>
 </head>
 <body>
 
@@ -327,6 +342,13 @@
       <div class="side-title">Rapports &amp; études à surveiller</div>
       <div class="side-sub">Sources externes suivies en continu</div>
       <div id="reports-feed"></div>
+    </aside>
+
+    <!-- SIDE : événements de l'industrie à venir (prospectif — mois suivant la période couverte) -->
+    <aside class="side">
+      <div class="side-title">Événements de l'industrie à venir</div>
+      <div class="side-sub" id="events-sub">Congrès et salons du mois prochain</div>
+      <div id="events-feed"></div>
     </aside>
     </div>
   </div>
@@ -473,6 +495,48 @@ function renderReports(){
   el.innerHTML = html;
 }
 renderReports();
+
+function eventCard(e){
+  return '<div class="event-card">'
+    + '<div class="event-meta"><span class="event-org">'+e.org+'</span><span class="event-date">'+e.date+'</span></div>'
+    + '<div class="event-freq">'+e.freq+'</div>'
+    + '<div class="event-title">'+e.title+'</div>'
+    + '<div class="event-summary">'+e.summary+'</div>'
+    + '<div class="event-insight"><b>Insight Fransyl —</b> '+e.insight+'</div>'
+    + '<div class="event-src"><a href="'+e.url+'" target="_blank" rel="noopener">'+e.src+' ↗</a></div>'
+  + '</div>';
+}
+
+/* Fenêtre prospective : le mois qui suit la période couverte par l'édition (pas le mois
+   couvert lui-même, contrairement à REPORTS) — ex. édition d'août -> événements de septembre. */
+function nextMonthRange(editionEndISO){
+  const end = new Date(editionEndISO+"T00:00:00");
+  const start = new Date(end.getFullYear(), end.getMonth()+1, 1);
+  const stop = new Date(end.getFullYear(), end.getMonth()+2, 0);
+  const iso = d => d.toISOString().slice(0,10);
+  return {start:iso(start), end:iso(stop), label:start.toLocaleDateString('fr-CA',{month:'long',year:'numeric'})};
+}
+
+function renderEvents(){
+  const el = document.getElementById('events-feed');
+  const sub = document.getElementById('events-sub');
+  const range = nextMonthRange(EDITION_END);
+  sub.textContent = 'Congrès et salons de ' + range.label;
+  const upcoming = EVENTS.filter(e => e.startDate >= range.start && e.startDate <= range.end);
+  if(!upcoming.length){
+    el.innerHTML = '<div class="events-empty">Aucun événement recensé pour '+range.label+'.</div>';
+    return;
+  }
+  let html = '';
+  ['an','intl'].forEach(geo=>{
+    const g = upcoming.filter(e=>e.geo===geo);
+    if(!g.length) return;
+    html += '<div class="side-geo-label">'+(geo==='an'?'Amérique du Nord':'International')+'</div>';
+    g.forEach(e=>{ html += eventCard(e); });
+  });
+  el.innerHTML = html;
+}
+renderEvents();
 </script>
 </body>
 </html>
