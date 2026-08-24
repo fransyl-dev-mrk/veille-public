@@ -181,8 +181,7 @@
 
   /* ---------- SIDE (rapports & études) ---------- */
   .side{ width:clamp(280px, 26vw, 400px); flex-shrink:0; background:var(--surface); border:1px solid var(--line); border-radius:10px; box-shadow:var(--shadow); padding:22px 20px 26px; }
-  .side-title{ font-size:13.5px; font-weight:800; color:var(--ink); letter-spacing:-0.1px; }
-  .side-sub{ font-size:11.5px; color:var(--ink-faint); margin-top:3px; margin-bottom:6px; }
+  .side-title{ font-size:13.5px; font-weight:800; color:var(--ink); letter-spacing:-0.1px; margin-bottom:6px; }
   .side-geo-label{ font-size:11px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-faint); margin:20px 0 10px; }
   .side-geo-label:first-of-type{ margin-top:18px; }
 
@@ -338,14 +337,12 @@
     <!-- SIDE : rapports & études sectorielles -->
     <aside class="side">
       <div class="side-title">Rapports &amp; études à surveiller</div>
-      <div class="side-sub">Sources externes suivies en continu</div>
       <div id="reports-feed"></div>
     </aside>
 
     <!-- SIDE : événements de l'industrie à venir (prospectif — mois suivant la période couverte) -->
     <aside class="side">
       <div class="side-title">Événements de l'industrie à venir</div>
-      <div class="side-sub" id="events-sub">Congrès et salons du mois prochain</div>
       <div id="events-feed"></div>
     </aside>
     </div>
@@ -522,9 +519,7 @@ function eventWindowRange(publishMonthStartISO){
 
 function renderEvents(){
   const el = document.getElementById('events-feed');
-  const sub = document.getElementById('events-sub');
   const range = eventWindowRange(PUBLISH_MONTH_START);
-  sub.textContent = 'Congrès et salons de ' + range.label;
   const upcoming = EVENTS.filter(e => e.startDate >= range.start && e.startDate <= range.end)
     .sort((a,b) => a.startDate.localeCompare(b.startDate));
   if(!upcoming.length){
