@@ -25,9 +25,27 @@ const EVENTS = [
 
   {geo:"an", country:"Canada", org:"ACRGTQ", freq:"Annuel, mi-juillet — activité de réseautage (cyclo-golf)",
    title:"Cyclo-Golf ACRGTQ",
-   summary:"Activité de réseautage combinant vélo et golf, au Club de golf Le Mirage à Terrebonne. Référencée en interne chez Fransyl comme « cyclo-golf ACQ » — l'organisateur identifié par recherche publique est l'ACRGTQ (à confirmer).",
-   insight:"Fransyl y participe chaque année. Terrebonne est le siège social Fransyl — occasion de représentation à très faible coût de déplacement.",
+   summary:"Activité de réseautage combinant vélo et golf, au Club de golf Le Mirage à Terrebonne. Repérée par recherche publique — événement distinct du « Cyclo-Golf ACQ Québec » ci-dessous malgré le nom similaire.",
+   insight:"À confirmer si Fransyl y participe (à ne pas confondre avec le Cyclo-Golf ACQ Québec, confirmé, plus bas).",
    src:"ACRGTQ", date:"14 juillet 2026", startDate:"2026-07-14", url:"https://www.acrgtq.qc.ca/evenements/activites-estivales/cyclo-golf-2026/"},
+
+  {geo:"an", country:"Canada", org:"ACQ Québec", freq:"Annuel, mi-septembre — activité de réseautage (cyclo-golf)",
+   title:"Cyclo-Golf ACQ Québec",
+   summary:"Activité de réseautage combinant vélo et golf de l'ACQ, région de Québec.",
+   insight:"Fransyl y participe chaque année — occasion de représentation directe auprès des entrepreneurs de la région de Québec.",
+   src:"ACQ Québec", date:"10 septembre 2026", startDate:"2026-09-10", url:"https://www.acq.org/"},
+
+  {geo:"an", country:"Canada", org:"TGAQ", freq:"Annuel, fin septembre — activité de réseautage (golf)",
+   title:"Golf des architectes (TGAQ)",
+   summary:"Tournoi de golf annuel du Tournoi de golf des architectes du Québec (TGAQ).",
+   insight:"Fransyl y participe chaque année — occasion de représentation directe auprès des architectes spécificateurs, clientèle clé pour le positionnement produit Fransyl.",
+   src:"TGAQ", date:"22 septembre 2026", startDate:"2026-09-22", url:""},
+
+  {geo:"an", country:"Canada", org:"L'Atelier Architectes", freq:"Annuel, fin août — activité de réseautage (volleyball)",
+   title:"Tournoi de volleyball de L'Atelier Architectes",
+   summary:"Tournoi de volleyball annuel réunissant firmes d'architecture et d'ingénierie et leurs partenaires.",
+   insight:"Fransyl y participe chaque année — occasion de réseautage direct auprès des architectes/ingénieurs, clientèle clé pour le positionnement produit Fransyl.",
+   src:"L'Atelier Architectes", date:"28 août 2026", startDate:"2026-08-28", url:""},
 
   {geo:"an", country:"Canada", org:"TLA Architectes", freq:"Annuel, fin août — activité caritative (course/marche)",
    title:"Défi TLAPB (12ᵉ édition)",
