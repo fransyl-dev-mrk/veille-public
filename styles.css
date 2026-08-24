@@ -205,8 +205,11 @@ footer{ margin-top:48px; font-size:var(--fs-micro); color:var(--ink-mute); }
 
 .empty{ padding:60px 0; text-align:center; color:var(--ink-faint); font-size:var(--fs-body); }
 
-/* ---------- SIDE (rapports & études / événements — liste de lecture, pas des cartes) ---------- */
-.side{ width:clamp(280px, 26vw, 400px); flex-shrink:0; background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-md); box-shadow:var(--elev-0); padding:22px 20px 26px; }
+/* ---------- SIDE-STACK (rapports & études + événements — un seul panneau, deux
+   sections — liste de lecture, pas des cartes). Un seul budget de largeur latérale
+   au lieu de deux redonne la priorité d'espace au feed principal (.content). ---------- */
+.side-stack{ width:clamp(300px, 24vw, 360px); flex-shrink:0; background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-md); box-shadow:var(--elev-0); padding:22px 20px 26px; }
+.side-section + .side-section{ margin-top:26px; padding-top:22px; border-top:1px solid var(--line); }
 .side-title{ font-size:13.5px; font-weight:800; color:var(--ink); letter-spacing:-0.1px; margin-bottom:6px; }
 .side-geo-label{ font-size:var(--fs-micro); font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-faint); margin:20px 0 10px; }
 .side-geo-label:first-of-type{ margin-top:18px; }
@@ -316,7 +319,7 @@ body.page-suggestion .card p{ font-size:var(--fs-body); color:var(--ink-mute); m
 /* ---------- IMPRESSION & RESPONSIVE ---------- */
 @media print{
   .rail{ display:none; }
-  .side{ display:none; }
+  .side-stack{ display:none; }
   .layout{ display:block; }
   .titleblock{ border-bottom:2px solid #000; }
   body{ background:#fff; }
@@ -337,6 +340,6 @@ body.page-suggestion .card p{ font-size:var(--fs-body); color:var(--ink-mute); m
   .layout{ display:block; }
   .rail{ position:static; height:auto; width:100%; }
   .content-row{ flex-direction:column; padding:20px 18px 32px; gap:20px; }
-  .side{ width:100%; }
+  .side-stack{ width:100%; }
   .titleblock{ padding:22px 18px 18px; }
 }
