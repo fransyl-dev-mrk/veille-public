@@ -525,7 +525,8 @@ function renderEvents(){
   const sub = document.getElementById('events-sub');
   const range = eventWindowRange(PUBLISH_MONTH_START);
   sub.textContent = 'Congrès et salons de ' + range.label;
-  const upcoming = EVENTS.filter(e => e.startDate >= range.start && e.startDate <= range.end);
+  const upcoming = EVENTS.filter(e => e.startDate >= range.start && e.startDate <= range.end)
+    .sort((a,b) => a.startDate.localeCompare(b.startDate));
   if(!upcoming.length){
     el.innerHTML = '<div class="events-empty">Aucun événement recensé pour '+range.label+'.</div>';
     return;
