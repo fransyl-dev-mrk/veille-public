@@ -274,7 +274,7 @@ footer{ margin-top:48px; font-size:var(--fs-micro); color:var(--ink-mute); }
 .tb-period{ font-size:13px; color:var(--ink-mute); margin-top:8px; }
 
 .content-row{ display:flex; align-items:flex-start; gap:32px; padding:26px 40px 44px; }
-.content{ max-width:760px; flex:1 1 auto; min-width:0; }
+.content{ max-width:900px; flex:1 1 auto; min-width:0; }
 
 /* ---------- MÉTHODOLOGIE ---------- */
 .wrap{ max-width:640px; margin:0 auto; padding:60px 24px; }
