@@ -4,62 +4,38 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fransyl — Veille stratégique</title>
-<style>
-  :root{
-    --paper:#EEEBE4; --surface:#FFFFFF; --ink:#16181A; --ink-mute:#5C6066; --ink-faint:#84888D;
-    --line:#DAD6CC; --line-strong:#C4BFB2; --accent:#FC5000; --accent-ink:#FFFFFF;
-    --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, Helvetica, Arial, sans-serif;
-    --shadow: 0 1px 2px rgba(20,18,14,0.04), 0 6px 20px rgba(20,18,14,0.05);
-    --axis1:#A8391D;
-  }
-  :root[data-theme="dark"]{
-    --paper:#131417; --surface:#1D1F24; --ink:#EDEBE6; --ink-mute:#A7ABB0; --ink-faint:#787C82; --line:#2A2D33; --line-strong:#383C43; --accent:#FF6A2A; --accent-ink:#151312; --axis1:#DE8158; --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
-  }
-  @media (prefers-color-scheme: dark){
-    :root:not([data-theme="light"]){ --paper:#131417; --surface:#1D1F24; --ink:#EDEBE6; --ink-mute:#A7ABB0; --ink-faint:#787C82; --line:#2A2D33; --line-strong:#383C43; --accent:#FF6A2A; --accent-ink:#151312; --axis1:#DE8158; --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35); }
-  }
-  *{ box-sizing:border-box; margin:0; padding:0; }
-  body{ font-family:var(--font); background:var(--paper); color:var(--ink); line-height:1.55; }
-  a{ color:inherit; }
-
-  /* ---------- TOGGLE THÈME ---------- */
-  .theme-toggle{ position:fixed; top:16px; right:16px; z-index:50; width:42px; height:42px; border-radius:50%; border:1.5px solid var(--line-strong); background:var(--surface); color:var(--ink); font-size:19px; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 6px rgba(20,18,14,0.12), 0 6px 20px rgba(20,18,14,0.10); }
-  .theme-toggle:hover{ border-color:var(--accent); transform:scale(1.05); }
-
-  /* ---------- LIENS SECONDAIRES ---------- */
-  .util-nav{ display:flex; flex-wrap:wrap; gap:10px; margin-top:18px; margin-bottom:36px; }
-  .util-nav a{ font-size:13px; font-weight:700; color:var(--ink); text-decoration:none; padding:9px 16px; border:1.5px solid var(--line-strong); border-radius:999px; background:var(--surface); box-shadow:var(--shadow); transition:border-color .15s, color .15s, transform .15s; }
-  .util-nav a:hover{ border-color:var(--accent); color:var(--accent); transform:translateY(-1px); }
-
-  /* ---------- GATE (verrou d'accès côté client — ne remplace pas une vraie authentification) ---------- */
-  body:not(.unlocked) .site{ display:none; }
-  .gate{ min-height:100vh; display:flex; align-items:center; justify-content:center; padding:24px; }
-  body.unlocked .gate{ display:none; }
-  .gate-card{ width:100%; max-width:340px; background:var(--surface); border:1px solid var(--line); border-top:3px solid var(--accent); border-radius:10px; padding:32px 28px; box-shadow:var(--shadow); }
-  .gate-brand{ font-size:17px; font-weight:800; color:var(--ink); letter-spacing:-0.2px; margin-bottom:2px; }
-  .gate-sub{ font-size:12.5px; color:var(--ink-faint); margin-bottom:22px; }
-  .gate-label{ font-size:11px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:7px; display:block; }
-  .gate-input{ width:100%; font-family:var(--font); font-size:14.5px; padding:11px 13px; border:1px solid var(--line-strong); border-radius:6px; background:var(--paper); color:var(--ink); margin-bottom:12px; }
-  .gate-input:focus{ outline:none; border-color:var(--accent); }
-  .gate-btn{ width:100%; font-family:var(--font); font-size:14px; font-weight:700; padding:11px; border:none; border-radius:6px; background:var(--accent); color:var(--accent-ink); cursor:pointer; }
-  .gate-error{ font-size:12.5px; color:var(--axis1); margin-top:10px; display:none; }
-  .gate-error.show{ display:block; }
-
-  /* ---------- SITE ---------- */
-  .wrap{ max-width:640px; margin:0 auto; padding:60px 24px; }
-  h1{ font-size:26px; font-weight:800; margin-bottom:8px; letter-spacing:-0.3px; }
-  .sub{ font-size:14px; color:var(--ink-mute); margin-bottom:36px; }
-  .edition{ display:block; background:var(--surface); border:1px solid var(--line); border-left:4px solid var(--accent); border-radius:8px; padding:18px 20px; margin-bottom:12px; text-decoration:none; color:inherit; }
-  .edition:hover{ border-left-width:6px; }
-  .edition .title{ font-weight:700; font-size:15.5px; margin-bottom:4px; }
-  .edition .meta{ font-size:12.5px; color:var(--ink-mute); }
-  footer{ margin-top:48px; font-size:11.5px; color:var(--ink-mute); }
-</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
 <script src="/theme.js"></script>
 </head>
-<body>
+<body class="page-home">
 
-<button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" aria-label="Basculer le mode clair/sombre" title="Mode clair / sombre">🌙</button>
+<svg style="display:none" aria-hidden="true">
+  <symbol id="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/>
+    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+    <line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/>
+    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+  </symbol>
+  <symbol id="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/>
+  </symbol>
+  <symbol id="icon-doc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+    <polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/><line x1="8" y1="9" x2="10" y2="9"/>
+  </symbol>
+  <symbol id="icon-bulb" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 18h6"/><path d="M10 22h4"/>
+    <path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1V18h6v-1.2c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2z"/>
+  </symbol>
+</svg>
+
+<button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" aria-label="Basculer le mode clair/sombre" title="Mode clair / sombre">
+  <svg class="icon icon-sun"><use href="#icon-sun"/></svg>
+  <svg class="icon icon-moon"><use href="#icon-moon"/></svg>
+</button>
 
 <div class="gate">
   <div class="gate-card">
@@ -78,8 +54,8 @@
   <div class="sub">Veille stratégique — éditions mensuelles</div>
 
   <div class="util-nav">
-    <a href="/methodologie/">📋 Méthodologie &amp; sources</a>
-    <a href="/suggestion/">💡 Proposer un ajout</a>
+    <a class="nav-chip" href="/methodologie/"><svg class="icon"><use href="#icon-doc"/></svg>Méthodologie &amp; sources</a>
+    <a class="nav-chip" href="/suggestion/"><svg class="icon"><use href="#icon-bulb"/></svg>Proposer un ajout</a>
   </div>
 
   <a class="edition" href="/2026-08/">

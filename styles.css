@@ -1,0 +1,345 @@
+/* Fransyl — Veille stratégique : feuille de style partagée
+   Source de vérité unique pour les tokens (couleurs, élévation, rayons, typographie)
+   et les composants communs aux 4 pages du site (accueil, édition, méthodologie,
+   suggestion). Les pages ne portent plus de <style> dupliqué — seules des règles
+   de mise en page strictement propres à une page vivent ici sous body.page-*.
+   Voir /home/user/veille/format-bulletin.md pour le gabarit de génération des
+   futures éditions (doit rester aligné sur ce fichier). */
+
+:root{
+  --paper:#EEEBE4; --surface:#F8F6F2; --surface2:#FFFFFF;
+  --ink:#16181A; --ink-mute:#4B4E52; --ink-faint:#84888D;
+  --line:#DAD6CC; --line-strong:#C4BFB2;
+  --accent:#FC5000; --accent-ink:#FFFFFF;
+  --blue:#1C4A63;
+  --axis1:#A8391D; --axis1-bg:#F7ECE8;
+  --axis2:#1C4A63; --axis2-bg:#EAF0F3;
+  --axis3:#3C6B4A; --axis3-bg:#EBF2EC;
+  --watch:#8A5D0F;
+  --opp:#2F5A3C; --opp-bg:#EBF2EC;
+  --risk:#96331A; --risk-bg:#F7ECE8;
+
+  /* Échelle d'élévation — --elev-0 (aucune ombre) est le défaut pour tout contenu
+     répété en liste (cartes de signal/rapport/événement/édition). Réserver
+     --elev-2 au chrome flottant (bouton thème, portail) et à la bande de
+     synthèse, seule surface censée dominer visuellement la page. */
+  --elev-0: none;
+  --elev-1: 0 1px 2px rgba(20,18,14,.06);
+  --elev-2: 0 2px 8px rgba(20,18,14,.10), 0 1px 2px rgba(20,18,14,.06);
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, Roboto, Helvetica, Arial, sans-serif;
+  --font-display: "Source Serif 4", Georgia, "Times New Roman", serif;
+
+  --fs-micro:11px; --fs-small:12.5px; --fs-body:14px; --fs-base:15px;
+  --fs-lg:16.5px; --fs-xl:19px; --fs-2xl:23px; --fs-3xl:28px; --fs-display:34px;
+}
+:root[data-theme="dark"]{
+  --paper:#131417; --surface:#191B1F; --surface2:#1D1F24;
+  --ink:#EDEBE6; --ink-mute:#B3B7BC; --ink-faint:#787C82;
+  --line:#2A2D33; --line-strong:#383C43;
+  --accent:#FF6A2A; --accent-ink:#151312;
+  --blue:#6FAAD0;
+  --axis1:#DE8158; --axis1-bg:#241A16;
+  --axis2:#6FAAD0; --axis2-bg:#161E22;
+  --axis3:#7CB58C; --axis3-bg:#181F1A;
+  --watch:#E0B15A;
+  --opp:#7CB58C; --opp-bg:#181F1A;
+  --risk:#DE8158; --risk-bg:#241A16;
+  --elev-1: 0 1px 2px rgba(0,0,0,.35);
+  --elev-2: 0 2px 10px rgba(0,0,0,.4), 0 1px 3px rgba(0,0,0,.3);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#131417; --surface:#191B1F; --surface2:#1D1F24;
+    --ink:#EDEBE6; --ink-mute:#B3B7BC; --ink-faint:#787C82;
+    --line:#2A2D33; --line-strong:#383C43;
+    --accent:#FF6A2A; --accent-ink:#151312;
+    --blue:#6FAAD0;
+    --axis1:#DE8158; --axis1-bg:#241A16;
+    --axis2:#6FAAD0; --axis2-bg:#161E22;
+    --axis3:#7CB58C; --axis3-bg:#181F1A;
+    --watch:#E0B15A;
+    --opp:#7CB58C; --opp-bg:#181F1A;
+    --risk:#DE8158; --risk-bg:#241A16;
+    --elev-1: 0 1px 2px rgba(0,0,0,.35);
+    --elev-2: 0 2px 10px rgba(0,0,0,.4), 0 1px 3px rgba(0,0,0,.3);
+  }
+}
+
+/* ---------- RESET & BASE ---------- */
+*{ box-sizing:border-box; margin:0; padding:0; }
+body{ font-family:var(--font); background:var(--paper); color:var(--ink); line-height:1.55; font-size:var(--fs-base); }
+a{ color:inherit; }
+::selection{ background:var(--accent); color:var(--accent-ink); }
+.num{ font-variant-numeric:tabular-nums; }
+
+/* ---------- TYPOGRAPHIE ÉDITORIALE ---------- */
+/* Une seule police serif pour les titres/headlines (ton "briefing exécutif"),
+   police système partout ailleurs (UI, métadonnées, corps de texte). */
+h1, .tb-title, .rail-wordmark, .card-title, .briefing-title, .edition .title{
+  font-family:var(--font-display);
+  font-weight:700;
+  letter-spacing:-0.2px;
+}
+h1{ font-size:var(--fs-3xl); margin-bottom:8px; }
+.sub{ font-size:var(--fs-body); color:var(--ink-mute); margin-bottom:36px; }
+
+/* ---------- ICÔNES SVG ---------- */
+.icon{ width:18px; height:18px; vertical-align:-4px; flex-shrink:0; }
+.icon-sm{ width:12px; height:12px; vertical-align:-1px; margin-left:3px; }
+
+/* ---------- TOGGLE THÈME ---------- */
+.theme-toggle{ position:fixed; top:16px; right:16px; z-index:60; width:42px; height:42px; border-radius:50%; border:1.5px solid var(--line-strong); background:var(--surface2); color:var(--ink); cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:var(--elev-2); }
+.theme-toggle:hover{ border-color:var(--accent); transform:scale(1.05); }
+.theme-toggle .icon{ width:19px; height:19px; vertical-align:0; margin:0; }
+.theme-toggle .icon-sun{ display:none; }
+.theme-toggle .icon-moon{ display:block; }
+.theme-toggle.is-dark .icon-sun{ display:block; }
+.theme-toggle.is-dark .icon-moon{ display:none; }
+
+/* ---------- LIENS SECONDAIRES (nav-chip : unifie util-nav / rail-links) ---------- */
+.util-nav{ display:flex; flex-wrap:wrap; gap:10px; margin:18px 0 36px; }
+.rail-links{ padding:16px 22px 18px; display:flex; flex-direction:column; gap:8px; }
+.nav-chip{ display:inline-flex; align-items:center; gap:8px; font-family:var(--font); font-size:var(--fs-small); font-weight:700; color:var(--ink); text-decoration:none; padding:9px 14px; border:1.5px solid var(--line-strong); border-radius:var(--radius-sm); background:var(--surface2); transition:border-color .15s, color .15s; }
+.nav-chip:hover{ border-color:var(--accent); color:var(--accent); }
+.rail-links .nav-chip{ justify-content:center; }
+
+.back-link{ display:inline-block; font-size:var(--fs-small); color:var(--ink-faint); text-decoration:none; border-bottom:1px solid var(--line-strong); }
+.back-link:hover{ color:var(--accent); border-color:var(--accent); }
+.back-link .icon-sm{ margin-left:0; margin-right:3px; }
+
+/* ---------- BOUTONS ---------- */
+.btn{ display:block; width:100%; text-align:center; font-family:var(--font); font-size:var(--fs-body); font-weight:700; padding:12px; border:none; border-radius:var(--radius-sm); cursor:pointer; text-decoration:none; }
+.btn-primary{ background:var(--accent); color:var(--accent-ink); }
+
+/* ---------- GATE (verrou d'accès côté client — ne remplace pas une vraie authentification) ---------- */
+body:not(.unlocked) .site{ display:none; }
+.gate{ min-height:100vh; display:flex; align-items:center; justify-content:center; padding:24px; }
+body.unlocked .gate{ display:none; }
+.gate-card{ width:100%; max-width:340px; background:var(--surface2); border:1px solid var(--line); border-top:3px solid var(--accent); border-radius:var(--radius-md); padding:32px 28px; box-shadow:var(--elev-2); }
+.gate-brand{ font-family:var(--font-display); font-size:17px; font-weight:700; color:var(--ink); letter-spacing:-0.2px; margin-bottom:2px; }
+.gate-sub{ font-size:var(--fs-small); color:var(--ink-faint); margin-bottom:22px; }
+.gate-label{ font-size:var(--fs-micro); font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:7px; display:block; }
+.gate-input{ width:100%; font-family:var(--font); font-size:14.5px; padding:11px 13px; border:1px solid var(--line-strong); border-radius:var(--radius-sm); background:var(--paper); color:var(--ink); margin-bottom:12px; }
+.gate-input:focus{ outline:none; border-color:var(--accent); }
+.gate-btn{ width:100%; font-family:var(--font); font-size:var(--fs-body); font-weight:700; padding:11px; border:none; border-radius:var(--radius-sm); background:var(--accent); color:var(--accent-ink); cursor:pointer; }
+.gate-error{ font-size:var(--fs-small); color:var(--axis1); margin-top:10px; display:none; }
+.gate-error.show{ display:block; }
+
+/* ---------- ÉDITIONS (liste, page d'accueil) ---------- */
+.edition{ display:block; background:var(--surface); border:1px solid var(--line); border-left:4px solid var(--accent); border-radius:var(--radius-md); padding:18px 20px; margin-bottom:12px; text-decoration:none; color:inherit; box-shadow:var(--elev-0); }
+.edition:hover{ border-left-width:6px; }
+.edition .title{ font-size:var(--fs-lg); margin-bottom:4px; }
+.edition .meta{ font-size:var(--fs-small); color:var(--ink-mute); }
+
+footer{ margin-top:48px; font-size:var(--fs-micro); color:var(--ink-mute); }
+
+/* ---------- BANDE DE SYNTHÈSE (briefing — exécutif, seule surface à --elev-2) ---------- */
+.briefing{ background:var(--surface2); border:1px solid var(--line); border-top:3px solid var(--accent); border-radius:var(--radius-md); box-shadow:var(--elev-2); margin-bottom:32px; overflow:hidden; }
+.briefing-head{ display:flex; align-items:center; gap:10px; padding:16px 22px; border-bottom:1px solid var(--line); }
+.briefing-eyebrow{ font-size:var(--fs-micro); font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--watch); }
+.briefing-title{ font-size:var(--fs-lg); }
+.briefing-radar{ padding:18px 22px; border-bottom:1px solid var(--line); }
+.bc-h{ font-size:12px; font-weight:700; letter-spacing:0.03em; margin-bottom:12px; }
+.bc-h.radar{ color:var(--watch); }
+.bc-h.opp{ color:var(--opp); }
+.bc-h.risk{ color:var(--risk); }
+
+.watch-grid{ display:grid; grid-template-columns:1fr 1fr; gap:0 24px; }
+.watch-item{ padding:8px 0; border-top:1px solid var(--line); font-size:var(--fs-body); line-height:1.5; }
+.watch-item:nth-child(-n+2){ border-top:none; padding-top:0; }
+.watch-item b{ display:block; color:var(--ink); font-weight:600; margin-bottom:2px; }
+.watch-item span{ color:var(--ink-mute); }
+
+.briefing-oprisk{ display:grid; grid-template-columns:1fr 1fr; }
+.briefing-col{ padding:18px 22px; border-left:1px solid var(--line); }
+.briefing-col:first-child{ border-left:none; }
+
+/* Filet gauche coloré plutôt qu'un fond teinté plein ("boîte d'alerte") — garde le
+   code couleur sémantique (opportunité/risque) sans l'effet dashboard générique. */
+.op-text, .risk-text{ font-size:var(--fs-small); line-height:1.55; color:var(--ink-mute); padding:1px 0 1px 12px; border-left:2px solid; margin-bottom:10px; }
+.op-text:last-child, .risk-text:last-child{ margin-bottom:0; }
+.op-text{ border-left-color:var(--opp); }
+.risk-text{ border-left-color:var(--risk); }
+.op-text b, .risk-text b{ color:var(--ink); font-weight:700; }
+
+/* ---------- FEED (cartes de signal) ---------- */
+.feed-head{ display:flex; align-items:baseline; justify-content:space-between; margin-bottom:14px; }
+.feed-h{ font-size:12px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-faint); }
+.geo-divider{ font-size:var(--fs-small); font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-faint); margin:24px 0 12px; border-top:1px solid var(--line); padding-top:14px; }
+.geo-divider:first-child{ margin-top:0; border-top:none; padding-top:0; }
+
+.card{ background:var(--surface2); border:1px solid var(--line); border-left-width:4px; border-radius:var(--radius-md); margin-bottom:14px; box-shadow:var(--elev-0); overflow:hidden; }
+.card[data-axe="1"]{ border-left-color:var(--axis1); }
+.card[data-axe="2"]{ border-left-color:var(--axis2); }
+.card[data-axe="3"]{ border-left-color:var(--axis3); }
+
+.card-head{ padding:18px 22px 15px; }
+.card-meta{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:11px; flex-wrap:nowrap; }
+.card-meta-left{ display:flex; align-items:center; gap:10px; min-width:0; flex-wrap:nowrap; }
+.tag{ font-size:var(--fs-micro); font-weight:700; letter-spacing:0.03em; padding:2px 9px; border-radius:var(--radius-sm); white-space:nowrap; flex-shrink:0; }
+.card[data-axe="1"] .tag{ color:var(--axis1); background:var(--axis1-bg); }
+.card[data-axe="2"] .tag{ color:var(--axis2); background:var(--axis2-bg); }
+.card[data-axe="3"] .tag{ color:var(--axis3); background:var(--axis3-bg); }
+.geo-badge{ font-size:var(--fs-micro); color:var(--ink-faint); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.card-date{ font-size:var(--fs-small); color:var(--ink-faint); flex-shrink:0; white-space:nowrap; }
+
+.card-title{ font-size:var(--fs-xl); line-height:1.35; margin-bottom:9px; text-wrap:balance; }
+.card-summary{ font-size:var(--fs-body); color:var(--ink-mute); line-height:1.62; margin-bottom:10px; }
+.card-src a{ font-size:var(--fs-small); text-decoration:none; color:var(--ink-faint); border-bottom:1px solid var(--line-strong); display:inline-flex; align-items:center; }
+.card-src a:hover{ color:var(--accent); border-color:var(--accent); }
+
+.card-insight{ display:flex; gap:13px; padding:15px 22px; border-top:1px solid var(--line); }
+.card[data-axe="1"] .card-insight{ background:var(--axis1-bg); }
+.card[data-axe="2"] .card-insight{ background:var(--axis2-bg); }
+.card[data-axe="3"] .card-insight{ background:var(--axis3-bg); }
+.ins-body{ flex:1; min-width:0; }
+.ins-label{ font-size:var(--fs-micro); font-weight:700; letter-spacing:0.06em; text-transform:uppercase; margin-bottom:5px; }
+.card[data-axe="1"] .ins-label{ color:var(--axis1); }
+.card[data-axe="2"] .ins-label{ color:var(--axis2); }
+.card[data-axe="3"] .ins-label{ color:var(--axis3); }
+.ins-text{ font-size:13.5px; color:var(--ink); line-height:1.6; }
+
+.empty{ padding:60px 0; text-align:center; color:var(--ink-faint); font-size:var(--fs-body); }
+
+/* ---------- SIDE-STACK (rapports & études + événements — un seul panneau, deux
+   sections — liste de lecture, pas des cartes). Un seul budget de largeur latérale
+   au lieu de deux redonne la priorité d'espace au feed principal (.content). ---------- */
+.side-stack{ width:clamp(300px, 24vw, 360px); flex-shrink:0; background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-md); box-shadow:var(--elev-0); padding:22px 20px 26px; }
+.side-section + .side-section{ margin-top:26px; padding-top:22px; border-top:1px solid var(--line); }
+.side-title{ font-size:13.5px; font-weight:800; color:var(--ink); letter-spacing:-0.1px; margin-bottom:6px; }
+.side-geo-label{ font-size:var(--fs-micro); font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-faint); margin:20px 0 10px; }
+.side-geo-label:first-of-type{ margin-top:18px; }
+
+/* Pas de bordure/ombre de carte ici — un simple filet horizontal entre entrées,
+   façon liste de lecture/citations plutôt que pile de mini-cartes. */
+.report-card, .event-card{ padding:13px 0; border-top:1px solid var(--line); }
+.report-meta, .event-meta{ display:flex; align-items:baseline; justify-content:space-between; gap:8px; margin-bottom:7px; flex-wrap:wrap; }
+.report-org{ font-size:var(--fs-micro); font-weight:700; color:var(--blue); }
+.event-org{ font-size:var(--fs-micro); font-weight:700; color:var(--axis3); }
+.report-country, .event-date{ font-size:10.5px; color:var(--ink-faint); white-space:nowrap; }
+.report-freq, .event-freq{ font-size:10px; color:var(--ink-faint); font-style:italic; margin-bottom:6px; }
+.report-title, .event-title{ font-size:var(--fs-small); font-weight:700; color:var(--ink); line-height:1.35; margin-bottom:6px; }
+.report-summary, .event-summary{ font-size:11.5px; color:var(--ink-mute); line-height:1.5; margin-bottom:8px; }
+.report-insight{ border-left:2px solid var(--accent); padding-left:9px; font-size:var(--fs-micro); color:var(--ink); line-height:1.5; margin-bottom:8px; }
+.report-insight b{ color:var(--accent); font-weight:700; }
+.report-src, .event-src{ font-size:10.5px; }
+.report-src a, .event-src a{ color:var(--ink-faint); text-decoration:none; border-bottom:1px solid var(--line-strong); display:inline-flex; align-items:center; }
+.report-src a:hover{ color:var(--accent); border-color:var(--accent); }
+.event-src a:hover{ color:var(--axis3); border-color:var(--axis3); }
+.events-empty{ font-size:var(--fs-small); color:var(--ink-faint); font-style:italic; padding:4px 0; }
+
+/* ---------- RAIL (navigation édition) ---------- */
+.layout{ display:flex; min-height:100vh; }
+.rail{ width:236px; flex-shrink:0; background:var(--surface); border-right:1px solid var(--line); padding:28px 0 24px; position:sticky; top:0; height:100vh; overflow-y:auto; display:flex; flex-direction:column; }
+.rail-brand{ padding:0 22px 20px; border-bottom:1px solid var(--line); }
+.rail-wordmark{ font-size:20px; }
+.rail-sub{ font-size:12px; color:var(--ink-faint); margin-top:5px; }
+.rail-brand .back-link{ display:inline-block; margin-top:10px; }
+
+.rail-label{ font-size:var(--fs-micro); font-weight:700; color:var(--ink-faint); letter-spacing:0.08em; text-transform:uppercase; padding:22px 22px 10px; }
+
+.axis-row{ display:flex; align-items:center; gap:11px; padding:11px 22px; cursor:pointer; user-select:none; border-left:3px solid transparent; transition:background .15s, border-color .15s; }
+.axis-row:hover{ background:rgba(0,0,0,0.03); }
+.axis-row .swatch{ width:9px; height:9px; flex-shrink:0; border-radius:2px; }
+.axis-row .lbl{ font-size:14px; color:var(--ink-mute); flex:1; }
+.axis-row .cnt{ font-size:13px; color:var(--ink-faint); font-weight:600; }
+.axis-row.active{ background:var(--surface2); border-left-color:var(--accent); box-shadow: inset 0 1px 0 var(--line), inset 0 -1px 0 var(--line); }
+.axis-row.active .lbl{ color:var(--ink); font-weight:700; }
+.axis-row.active .cnt{ color:var(--accent); }
+.axis-row[data-axe="1"] .swatch{ background:var(--axis1); }
+.axis-row[data-axe="2"] .swatch{ background:var(--axis2); }
+.axis-row[data-axe="3"] .swatch{ background:var(--axis3); }
+.axis-row[data-axe="all"] .swatch{ background:var(--ink-faint); }
+
+.rail-geo{ margin-top:auto; padding-top:8px; border-top:1px solid var(--line); }
+.geo-row{ display:flex; align-items:center; gap:11px; padding:11px 22px; cursor:pointer; user-select:none; border-left:3px solid transparent; transition:background .15s, border-color .15s; }
+.geo-row:hover{ background:rgba(0,0,0,0.03); }
+.geo-row .swatch{ width:9px; height:9px; flex-shrink:0; border-radius:2px; background:var(--blue); }
+.geo-row .lbl{ font-size:14px; color:var(--ink-mute); flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.geo-row .cnt{ font-size:13px; color:var(--ink-faint); font-weight:600; flex-shrink:0; }
+.geo-row.active{ background:var(--surface2); border-left-color:var(--blue); box-shadow: inset 0 1px 0 var(--line), inset 0 -1px 0 var(--line); }
+.geo-row.active .lbl{ color:var(--ink); font-weight:700; }
+.geo-row.active .cnt{ color:var(--blue); }
+
+/* ---------- MAIN (titleblock) ---------- */
+.main{ flex:1; min-width:0; display:flex; flex-direction:column; }
+.titleblock{ background:var(--surface2); border-bottom:2px solid var(--accent); padding:30px 40px 22px; position:sticky; top:0; z-index:10; }
+.tb-top{ display:flex; align-items:baseline; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+.tb-title{ font-size:var(--fs-2xl); letter-spacing:-0.2px; text-wrap:balance; }
+.tb-meta{ font-size:var(--fs-small); color:var(--ink-faint); }
+.tb-meta b.num{ color:var(--ink-mute); font-weight:700; }
+.tb-period{ font-size:13px; color:var(--ink-mute); margin-top:8px; }
+
+.content-row{ display:flex; align-items:flex-start; gap:32px; padding:26px 40px 44px; }
+.content{ max-width:760px; flex:1 1 auto; min-width:0; }
+
+/* ---------- MÉTHODOLOGIE ---------- */
+.wrap{ max-width:640px; margin:0 auto; padding:60px 24px; }
+body.page-methodo .wrap, body.page-suggestion .wrap{ padding-top:56px; padding-bottom:80px; }
+body.page-methodo .wrap{ max-width:760px; }
+body.page-suggestion .wrap{ max-width:560px; }
+body.page-methodo .back-link, body.page-suggestion .back-link{ margin-bottom:22px; }
+
+h2{ font-size:13px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; margin:40px 0 16px; padding-bottom:8px; border-bottom:2px solid var(--accent); color:var(--ink); }
+h2:first-of-type{ margin-top:0; }
+
+/* Sections numérotées plutôt que cartes — la méthodologie est un document de
+   référence, pas un tableau de bord ; chaque axe est un filet + espacement, sans
+   chrome de carte (bordure/ombre/coins arrondis). */
+.axis-block{ padding:18px 0; border-top:1px solid var(--line); }
+.axis-block:first-of-type{ border-top:none; padding-top:0; }
+.axis-title{ font-size:15px; font-weight:700; margin-bottom:8px; }
+.axis-title .n{ font-size:12px; font-weight:700; padding:2px 8px; border-radius:var(--radius-sm); margin-right:8px; }
+.axis-block[data-axe="1"] .n{ color:var(--axis1); background:var(--axis1-bg); }
+.axis-block[data-axe="2"] .n{ color:var(--axis2); background:var(--axis2-bg); }
+.axis-block[data-axe="3"] .n{ color:var(--axis3); background:var(--axis3-bg); }
+.axis-desc{ font-size:13.5px; color:var(--ink-mute); }
+.axis-desc b{ color:var(--ink); font-weight:600; }
+
+.src-grid{ display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+.src-col h3{ font-size:12px; font-weight:700; color:var(--ink-faint); text-transform:uppercase; letter-spacing:0.04em; margin-bottom:10px; }
+.src-col ul{ list-style:none; }
+.src-col li{ font-size:13.5px; color:var(--ink-mute); padding:5px 0; border-top:1px solid var(--line); }
+.src-col li:first-child{ border-top:none; }
+
+.process-list{ list-style:none; }
+.process-list li{ font-size:13.5px; color:var(--ink-mute); padding:10px 0; border-top:1px solid var(--line); }
+.process-list li:first-child{ border-top:none; }
+.process-list b{ color:var(--ink); font-weight:600; }
+
+/* ---------- SUGGESTION ---------- */
+.card{ /* réutilisé aussi pour la carte suggestion — cf. .card signal ci-dessus pour la variante axe */ }
+body.page-suggestion .card{ border:1px solid var(--line); border-top:3px solid var(--accent); border-radius:var(--radius-md); padding:28px 26px; box-shadow:var(--elev-1); }
+body.page-suggestion .card p{ font-size:var(--fs-body); color:var(--ink-mute); margin-bottom:22px; }
+
+/* ---------- IMPRESSION & RESPONSIVE ---------- */
+@media print{
+  .rail{ display:none; }
+  .side-stack{ display:none; }
+  .layout{ display:block; }
+  .titleblock{ border-bottom:2px solid #000; }
+  body{ background:#fff; }
+  .card, .briefing{ break-inside:avoid; box-shadow:none; }
+  .watch-grid{ grid-template-columns:1fr; }
+  .briefing-oprisk{ grid-template-columns:1fr; }
+  .briefing-col{ border-left:none; border-top:1px solid var(--line); }
+  .briefing-col:first-child{ border-top:none; }
+}
+@media (max-width:560px){
+  .watch-grid{ grid-template-columns:1fr; }
+  .briefing-oprisk{ grid-template-columns:1fr; }
+  .briefing-col{ border-left:none; border-top:1px solid var(--line); }
+  .briefing-col:first-child{ border-top:none; }
+  .src-grid{ grid-template-columns:1fr; }
+}
+@media (max-width:760px){
+  .layout{ display:block; }
+  .rail{ position:static; height:auto; width:100%; }
+  .content-row{ flex-direction:column; padding:20px 18px 32px; gap:20px; }
+  .side-stack{ width:100%; }
+  .titleblock{ padding:22px 18px 18px; }
+}

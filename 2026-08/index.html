@@ -4,245 +4,44 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fransyl — Veille stratégique · Août 2026</title>
-<style>
-  :root{
-    --paper:#EEEBE4; --surface:#F8F6F2; --surface2:#FFFFFF;
-    --ink:#16181A; --ink-mute:#4B4E52; --ink-faint:#84888D;
-    --line:#DAD6CC; --line-strong:#C4BFB2;
-    --accent:#FC5000; --accent-ink:#FFFFFF;
-    --blue:#1C4A63;
-    --axis1:#A8391D; --axis1-bg:#F7ECE8;
-    --axis2:#1C4A63; --axis2-bg:#EAF0F3;
-    --axis3:#3C6B4A; --axis3-bg:#EBF2EC;
-    --watch:#8A5D0F;
-    --opp:#2F5A3C; --opp-bg:#EBF2EC;
-    --risk:#96331A; --risk-bg:#F7ECE8;
-    --shadow: 0 1px 2px rgba(20,18,14,0.04), 0 6px 20px rgba(20,18,14,0.05);
-    --font: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, Roboto, Helvetica, Arial, sans-serif;
-    --font-num: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-  }
-  :root[data-theme="dark"]{
-    --paper:#131417; --surface:#191B1F; --surface2:#1D1F24;
-    --ink:#EDEBE6; --ink-mute:#B3B7BC; --ink-faint:#787C82;
-    --line:#2A2D33; --line-strong:#383C43;
-    --accent:#FF6A2A; --accent-ink:#151312;
-    --blue:#6FAAD0;
-    --axis1:#DE8158; --axis1-bg:#241A16;
-    --axis2:#6FAAD0; --axis2-bg:#161E22;
-    --axis3:#7CB58C; --axis3-bg:#181F1A;
-    --watch:#E0B15A;
-    --opp:#7CB58C; --opp-bg:#181F1A;
-    --risk:#DE8158; --risk-bg:#241A16;
-    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
-  }
-  @media (prefers-color-scheme: dark){
-    :root:not([data-theme="light"]){
-      --paper:#131417; --surface:#191B1F; --surface2:#1D1F24;
-      --ink:#EDEBE6; --ink-mute:#B3B7BC; --ink-faint:#787C82;
-      --line:#2A2D33; --line-strong:#383C43;
-      --accent:#FF6A2A; --accent-ink:#151312;
-      --blue:#6FAAD0;
-      --axis1:#DE8158; --axis1-bg:#241A16;
-      --axis2:#6FAAD0; --axis2-bg:#161E22;
-      --axis3:#7CB58C; --axis3-bg:#181F1A;
-      --watch:#E0B15A;
-      --opp:#7CB58C; --opp-bg:#181F1A;
-      --risk:#DE8158; --risk-bg:#241A16;
-      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
-    }
-  }
-
-  *{ box-sizing:border-box; margin:0; padding:0; }
-  body{ font-family:var(--font); background:var(--paper); color:var(--ink); line-height:1.5; font-size:15px; }
-  a{ color:inherit; }
-  ::selection{ background:var(--accent); color:var(--accent-ink); }
-  .num{ font-variant-numeric:tabular-nums; }
-
-  .layout{ display:flex; min-height:100vh; }
-
-  /* ---------- RAIL ---------- */
-  .rail{ width:236px; flex-shrink:0; background:var(--surface); border-right:1px solid var(--line); padding:28px 0 24px; position:sticky; top:0; height:100vh; overflow-y:auto; display:flex; flex-direction:column; }
-  .rail-brand{ padding:0 22px 20px; border-bottom:1px solid var(--line); }
-  .rail-wordmark{ font-size:20px; font-weight:800; color:var(--ink); letter-spacing:-0.3px; }
-  .rail-sub{ font-size:12px; color:var(--ink-faint); margin-top:5px; }
-  .back-link{ display:inline-block; margin-top:10px; font-size:12.5px; color:var(--ink-faint); text-decoration:none; border-bottom:1px solid var(--line-strong); }
-  .back-link:hover{ color:var(--accent); border-color:var(--accent); }
-  .rail-links{ padding:16px 22px 18px; display:flex; flex-direction:column; gap:8px; }
-  .rail-links a{ font-size:12.5px; font-weight:700; color:var(--ink); text-decoration:none; padding:9px 12px; border:1.5px solid var(--line-strong); border-radius:8px; background:var(--surface2); text-align:center; box-shadow:var(--shadow); transition:border-color .15s, color .15s; }
-  .rail-links a:hover{ border-color:var(--accent); color:var(--accent); }
-
-  /* ---------- TOGGLE THÈME ---------- */
-  .theme-toggle{ position:fixed; top:16px; right:16px; z-index:60; width:42px; height:42px; border-radius:50%; border:1.5px solid var(--line-strong); background:var(--surface2); color:var(--ink); font-size:19px; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 6px rgba(20,18,14,0.12), 0 6px 20px rgba(20,18,14,0.10); }
-  .theme-toggle:hover{ border-color:var(--accent); transform:scale(1.05); }
-
-  .rail-label{ font-size:11px; font-weight:700; color:var(--ink-faint); letter-spacing:0.08em; text-transform:uppercase; padding:22px 22px 10px; }
-
-  .axis-row{ display:flex; align-items:center; gap:11px; padding:11px 22px; cursor:pointer; user-select:none; border-left:3px solid transparent; transition:background .15s, border-color .15s; }
-  .axis-row:hover{ background:rgba(0,0,0,0.03); }
-  .axis-row .swatch{ width:9px; height:9px; flex-shrink:0; border-radius:2px; }
-  .axis-row .lbl{ font-size:14px; color:var(--ink-mute); flex:1; }
-  .axis-row .cnt{ font-size:13px; color:var(--ink-faint); font-weight:600; }
-  .axis-row.active{ background:var(--surface2); border-left-color:var(--accent); box-shadow: inset 0 1px 0 var(--line), inset 0 -1px 0 var(--line); }
-  .axis-row.active .lbl{ color:var(--ink); font-weight:700; }
-  .axis-row.active .cnt{ color:var(--accent); }
-  .axis-row[data-axe="1"] .swatch{ background:var(--axis1); }
-  .axis-row[data-axe="2"] .swatch{ background:var(--axis2); }
-  .axis-row[data-axe="3"] .swatch{ background:var(--axis3); }
-  .axis-row[data-axe="all"] .swatch{ background:var(--ink-faint); }
-
-  .rail-geo{ margin-top:auto; padding-top:8px; border-top:1px solid var(--line); }
-  .geo-row{ display:flex; align-items:center; gap:11px; padding:11px 22px; cursor:pointer; user-select:none; border-left:3px solid transparent; transition:background .15s, border-color .15s; }
-  .geo-row:hover{ background:rgba(0,0,0,0.03); }
-  .geo-row .swatch{ width:9px; height:9px; flex-shrink:0; border-radius:2px; background:var(--blue); }
-  .geo-row .lbl{ font-size:14px; color:var(--ink-mute); flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-  .geo-row .cnt{ font-size:13px; color:var(--ink-faint); font-weight:600; flex-shrink:0; }
-  .geo-row.active{ background:var(--surface2); border-left-color:var(--blue); box-shadow: inset 0 1px 0 var(--line), inset 0 -1px 0 var(--line); }
-  .geo-row.active .lbl{ color:var(--ink); font-weight:700; }
-  .geo-row.active .cnt{ color:var(--blue); }
-
-  /* ---------- MAIN ---------- */
-  .main{ flex:1; min-width:0; display:flex; flex-direction:column; }
-
-  .titleblock{ background:var(--surface2); border-bottom:2px solid var(--accent); padding:30px 40px 22px; position:sticky; top:0; z-index:10; }
-  .tb-top{ display:flex; align-items:baseline; justify-content:space-between; gap:16px; flex-wrap:wrap; }
-  .tb-title{ font-size:25px; font-weight:800; color:var(--ink); letter-spacing:-0.3px; text-wrap:balance; }
-  .tb-meta{ font-size:12.5px; color:var(--ink-faint); }
-  .tb-meta b.num{ color:var(--ink-mute); font-weight:700; }
-  .tb-period{ font-size:13px; color:var(--ink-mute); margin-top:8px; }
-
-  .content-row{ display:flex; align-items:flex-start; gap:32px; padding:26px 40px 44px; }
-  .content{ max-width:760px; flex:1 1 auto; min-width:0; }
-
-  /* ---------- BRIEFING (executive summary band) ---------- */
-  .briefing{ background:var(--surface2); border:1px solid var(--line); border-radius:10px; box-shadow:var(--shadow); margin-bottom:32px; overflow:hidden; }
-  .briefing-head{ display:flex; align-items:center; gap:10px; padding:16px 22px; border-bottom:1px solid var(--line); }
-  .briefing-eyebrow{ font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--watch); }
-  .briefing-title{ font-size:15px; font-weight:700; color:var(--ink); }
-  .briefing-radar{ padding:18px 22px; border-bottom:1px solid var(--line); }
-  .bc-h{ font-size:12px; font-weight:700; letter-spacing:0.03em; margin-bottom:12px; }
-  .bc-h.radar{ color:var(--watch); }
-  .bc-h.opp{ color:var(--opp); }
-  .bc-h.risk{ color:var(--risk); }
-
-  .watch-grid{ display:grid; grid-template-columns:1fr 1fr; gap:0 24px; }
-  .watch-item{ padding:8px 0; border-top:1px solid var(--line); font-size:13px; line-height:1.5; }
-  .watch-item:nth-child(-n+2){ border-top:none; padding-top:0; }
-  .watch-item b{ display:block; color:var(--ink); font-weight:600; margin-bottom:2px; }
-  .watch-item span{ color:var(--ink-mute); }
-
-  .briefing-oprisk{ display:grid; grid-template-columns:1fr 1fr; }
-  .briefing-col{ padding:18px 22px; border-left:1px solid var(--line); }
-  .briefing-col:first-child{ border-left:none; }
-
-  .op-text, .risk-text{ font-size:13px; line-height:1.55; color:var(--ink-mute); padding:9px 10px; border-radius:6px; margin-bottom:8px; }
-  .op-text:last-child, .risk-text:last-child{ margin-bottom:0; }
-  .op-text{ background:var(--opp-bg); }
-  .risk-text{ background:var(--risk-bg); }
-  .op-text b, .risk-text b{ color:var(--ink); font-weight:700; }
-
-  /* ---------- FEED ---------- */
-  .feed-head{ display:flex; align-items:baseline; justify-content:space-between; margin-bottom:14px; }
-  .feed-h{ font-size:12px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-faint); }
-  .geo-divider{ font-size:11.5px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-faint); margin:24px 0 12px; border-top:1px solid var(--line); padding-top:14px; }
-  .geo-divider:first-child{ margin-top:0; border-top:none; padding-top:0; }
-
-  .card{ background:var(--surface2); border:1px solid var(--line); border-left-width:4px; border-radius:8px; margin-bottom:14px; box-shadow:var(--shadow); overflow:hidden; }
-  .card[data-axe="1"]{ border-left-color:var(--axis1); }
-  .card[data-axe="2"]{ border-left-color:var(--axis2); }
-  .card[data-axe="3"]{ border-left-color:var(--axis3); }
-
-  .card-head{ padding:18px 22px 15px; }
-  .card-meta{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:11px; flex-wrap:nowrap; }
-  .card-meta-left{ display:flex; align-items:center; gap:10px; min-width:0; flex-wrap:nowrap; }
-  .tag{ font-size:11px; font-weight:700; letter-spacing:0.03em; padding:2px 9px; border-radius:20px; white-space:nowrap; flex-shrink:0; }
-  .card[data-axe="1"] .tag{ color:var(--axis1); background:var(--axis1-bg); }
-  .card[data-axe="2"] .tag{ color:var(--axis2); background:var(--axis2-bg); }
-  .card[data-axe="3"] .tag{ color:var(--axis3); background:var(--axis3-bg); }
-  .geo-badge{ font-size:11px; color:var(--ink-faint); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-  .card-date{ font-size:12.5px; color:var(--ink-faint); flex-shrink:0; white-space:nowrap; }
-
-  .card-title{ font-size:16.5px; font-weight:700; color:var(--ink); line-height:1.4; margin-bottom:9px; text-wrap:balance; }
-  .card-summary{ font-size:14px; color:var(--ink-mute); line-height:1.62; margin-bottom:10px; }
-  .card-src a{ font-size:12.5px; text-decoration:none; color:var(--ink-faint); border-bottom:1px solid var(--line-strong); }
-  .card-src a:hover{ color:var(--accent); border-color:var(--accent); }
-
-  .card-insight{ display:flex; gap:13px; padding:15px 22px; border-top:1px solid var(--line); }
-  .card[data-axe="1"] .card-insight{ background:var(--axis1-bg); }
-  .card[data-axe="2"] .card-insight{ background:var(--axis2-bg); }
-  .card[data-axe="3"] .card-insight{ background:var(--axis3-bg); }
-  .ins-body{ flex:1; min-width:0; }
-  .ins-label{ font-size:11px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; margin-bottom:5px; }
-  .card[data-axe="1"] .ins-label{ color:var(--axis1); }
-  .card[data-axe="2"] .ins-label{ color:var(--axis2); }
-  .card[data-axe="3"] .ins-label{ color:var(--axis3); }
-  .ins-text{ font-size:13.5px; color:var(--ink); line-height:1.6; }
-
-  .empty{ padding:60px 0; text-align:center; color:var(--ink-faint); font-size:14px; }
-
-  /* ---------- SIDE (rapports & études) ---------- */
-  .side{ width:clamp(280px, 26vw, 400px); flex-shrink:0; background:var(--surface); border:1px solid var(--line); border-radius:10px; box-shadow:var(--shadow); padding:22px 20px 26px; }
-  .side-title{ font-size:13.5px; font-weight:800; color:var(--ink); letter-spacing:-0.1px; margin-bottom:6px; }
-  .side-geo-label{ font-size:11px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-faint); margin:20px 0 10px; }
-  .side-geo-label:first-of-type{ margin-top:18px; }
-
-  .report-card{ background:var(--surface2); border:1px solid var(--line); border-radius:8px; padding:13px 14px; margin-bottom:10px; box-shadow:var(--shadow); }
-  .report-meta{ display:flex; align-items:baseline; justify-content:space-between; gap:8px; margin-bottom:7px; flex-wrap:wrap; }
-  .report-org{ font-size:11px; font-weight:700; color:var(--blue); }
-  .report-country{ font-size:10.5px; color:var(--ink-faint); white-space:nowrap; }
-  .report-freq{ font-size:10px; color:var(--ink-faint); font-style:italic; margin-bottom:6px; }
-  .report-title{ font-size:12.5px; font-weight:700; color:var(--ink); line-height:1.35; margin-bottom:6px; }
-  .report-summary{ font-size:11.5px; color:var(--ink-mute); line-height:1.5; margin-bottom:8px; }
-  .report-insight{ border-left:2px solid var(--accent); padding-left:9px; font-size:11px; color:var(--ink); line-height:1.5; margin-bottom:8px; }
-  .report-insight b{ color:var(--accent); font-weight:700; }
-  .report-src{ font-size:10.5px; }
-  .report-src a{ color:var(--ink-faint); text-decoration:none; border-bottom:1px solid var(--line-strong); }
-  .report-src a:hover{ color:var(--accent); border-color:var(--accent); }
-
-  .event-card{ background:var(--surface2); border:1px solid var(--line); border-radius:8px; padding:13px 14px; margin-bottom:10px; box-shadow:var(--shadow); }
-  .event-meta{ display:flex; align-items:baseline; justify-content:space-between; gap:8px; margin-bottom:7px; flex-wrap:wrap; }
-  .event-org{ font-size:11px; font-weight:700; color:var(--axis3); }
-  .event-date{ font-size:10.5px; color:var(--ink-faint); white-space:nowrap; }
-  .event-freq{ font-size:10px; color:var(--ink-faint); font-style:italic; margin-bottom:6px; }
-  .event-title{ font-size:12.5px; font-weight:700; color:var(--ink); line-height:1.35; margin-bottom:6px; }
-  .event-summary{ font-size:11.5px; color:var(--ink-mute); line-height:1.5; margin-bottom:8px; }
-  .event-src{ font-size:10.5px; }
-  .event-src a{ color:var(--ink-faint); text-decoration:none; border-bottom:1px solid var(--line-strong); }
-  .event-src a:hover{ color:var(--axis3); border-color:var(--axis3); }
-  .events-empty{ font-size:11.5px; color:var(--ink-faint); font-style:italic; padding:4px 0; }
-
-  @media print{
-    .rail{ display:none; }
-    .side{ display:none; }
-    .layout{ display:block; }
-    .titleblock{ border-bottom:2px solid #000; }
-    body{ background:#fff; }
-    .card, .briefing{ break-inside:avoid; box-shadow:none; }
-    .watch-grid{ grid-template-columns:1fr; }
-    .briefing-oprisk{ grid-template-columns:1fr; }
-    .briefing-col{ border-left:none; border-top:1px solid var(--line); }
-    .briefing-col:first-child{ border-top:none; }
-  }
-  @media (max-width:560px){
-    .watch-grid{ grid-template-columns:1fr; }
-    .briefing-oprisk{ grid-template-columns:1fr; }
-    .briefing-col{ border-left:none; border-top:1px solid var(--line); }
-    .briefing-col:first-child{ border-top:none; }
-  }
-  @media (max-width:760px){
-    .layout{ display:block; }
-    .rail{ position:static; height:auto; width:100%; }
-    .content-row{ flex-direction:column; padding:20px 18px 32px; gap:20px; }
-    .side{ width:100%; }
-    .titleblock{ padding:22px 18px 18px; }
-  }
-</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
 <script src="/theme.js"></script>
 <script src="/reports-data.js"></script>
 <script src="/events-data.js"></script>
 </head>
-<body>
+<body class="page-edition">
 
-<button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" aria-label="Basculer le mode clair/sombre" title="Mode clair / sombre">🌙</button>
+<svg style="display:none" aria-hidden="true">
+  <symbol id="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/>
+    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+    <line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/>
+    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+  </symbol>
+  <symbol id="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/>
+  </symbol>
+  <symbol id="icon-doc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+    <polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/><line x1="8" y1="9" x2="10" y2="9"/>
+  </symbol>
+  <symbol id="icon-bulb" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 18h6"/><path d="M10 22h4"/>
+    <path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1V18h6v-1.2c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2z"/>
+  </symbol>
+  <symbol id="icon-external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+    <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+  </symbol>
+</svg>
+
+<button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" aria-label="Basculer le mode clair/sombre" title="Mode clair / sombre">
+  <svg class="icon icon-sun"><use href="#icon-sun"/></svg>
+  <svg class="icon icon-moon"><use href="#icon-moon"/></svg>
+</button>
 
 <div class="layout">
 
@@ -254,8 +53,8 @@
       <a href="/" class="back-link">← Toutes les éditions</a>
     </div>
     <div class="rail-links">
-      <a href="/methodologie/">📋 Méthodologie &amp; sources</a>
-      <a href="/suggestion/">💡 Proposer un ajout</a>
+      <a class="nav-chip" href="/methodologie/"><svg class="icon"><use href="#icon-doc"/></svg>Méthodologie &amp; sources</a>
+      <a class="nav-chip" href="/suggestion/"><svg class="icon"><use href="#icon-bulb"/></svg>Proposer un ajout</a>
     </div>
     <div class="rail-label">Axes</div>
     <div class="axis-row active" data-axe="all" onclick="setAxe('all',this)">
@@ -334,16 +133,17 @@
 
     </div>
 
-    <!-- SIDE : rapports & études sectorielles -->
-    <aside class="side">
-      <div class="side-title">Rapports &amp; études à surveiller</div>
-      <div id="reports-feed"></div>
-    </aside>
-
-    <!-- SIDE : événements de l'industrie à venir (prospectif — mois suivant la période couverte) -->
-    <aside class="side">
-      <div class="side-title">Événements de l'industrie à venir</div>
-      <div id="events-feed"></div>
+    <!-- SIDE-STACK : rapports & études + événements — un seul panneau, deux sections,
+         pour laisser la priorité de largeur au feed principal (.content) -->
+    <aside class="side-stack">
+      <div class="side-section">
+        <div class="side-title">Rapports &amp; études à surveiller</div>
+        <div id="reports-feed"></div>
+      </div>
+      <div class="side-section">
+        <div class="side-title">Événements de l'industrie à venir</div>
+        <div id="events-feed"></div>
+      </div>
     </aside>
     </div>
   </div>
@@ -352,6 +152,7 @@
 
 <script>
 const AXEL = {"1":"Compétiteurs","2":"Environnement d'affaires","3":"Environnement technologique","all":"Tous les signaux"};
+const EXT_ICON = '<svg class="icon-sm"><use href="#icon-external"/></svg>';
 
 const DATA = [
   {axe:"1",geo:"an",tag:"TopBuild / QXO",title:"QXO complète l'acquisition de TopBuild pour 17 G$ US",
@@ -437,7 +238,7 @@ function card(s){
       + '</div>'
       + '<div class="card-title">'+s.title+'</div>'
       + '<div class="card-summary">'+s.summary+'</div>'
-      + '<div class="card-src"><a href="'+s.url+'" target="_blank" rel="noopener">'+s.src+' ↗</a></div>'
+      + '<div class="card-src"><a href="'+s.url+'" target="_blank" rel="noopener">'+s.src+EXT_ICON+'</a></div>'
     + '</div>'
     + '<div class="card-insight">'
       + '<div class="ins-body"><div class="ins-label">Insight Fransyl</div><div class="ins-text">'+s.insight+'</div></div>'
@@ -471,7 +272,7 @@ function reportCard(r){
     + '<div class="report-title">'+r.title+'</div>'
     + '<div class="report-summary">'+r.summary+'</div>'
     + '<div class="report-insight"><b>Insight Fransyl —</b> '+r.insight+'</div>'
-    + '<div class="report-src"><a href="'+r.url+'" target="_blank" rel="noopener">'+r.src+' ↗</a> — '+r.date+'</div>'
+    + '<div class="report-src"><a href="'+r.url+'" target="_blank" rel="noopener">'+r.src+EXT_ICON+'</a> — '+r.date+'</div>'
   + '</div>';
 }
 
@@ -500,7 +301,7 @@ function eventCard(e){
     + '<div class="event-freq">'+e.freq+'</div>'
     + '<div class="event-title">'+e.title+'</div>'
     + '<div class="event-summary">'+e.summary+'</div>'
-    + '<div class="event-src"><a href="'+e.url+'" target="_blank" rel="noopener">'+e.src+' ↗</a></div>'
+    + '<div class="event-src"><a href="'+e.url+'" target="_blank" rel="noopener">'+e.src+EXT_ICON+'</a></div>'
   + '</div>';
 }
 
