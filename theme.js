@@ -14,7 +14,7 @@
     var btn = document.getElementById('theme-toggle');
     if(!btn) return;
     var dark = effectiveDark(localStorage.getItem(KEY));
-    btn.textContent = dark ? '☀️' : '🌙';
+    btn.classList.toggle('is-dark', dark);
     btn.setAttribute('aria-label', dark ? 'Passer en mode clair' : 'Passer en mode sombre');
     btn.setAttribute('title', dark ? 'Passer en mode clair' : 'Passer en mode sombre');
   }
