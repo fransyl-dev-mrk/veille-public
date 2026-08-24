@@ -1,12 +1,28 @@
 /* Événements de l'industrie à venir — référence partagée par toutes les éditions.
    Contrairement à REPORTS (filtré sur le mois couvert par l'édition), EVENTS est
-   prospectif : chaque édition n'affiche que les événements dont la date de début tombe
-   dans le mois qui SUIT la période couverte (ex. édition d'août → événements de septembre).
+   prospectif : chaque édition affiche les événements dont la date de début tombe dans son
+   mois de PARUTION ou le mois suivant (ex. édition parue en août → événements d'août et de
+   septembre) — pas la période couverte par les signaux, qui est le mois précédent.
+   Inclut aussi bien les grands congrès/salons que les activités de réseautage récurrentes
+   (tournois de golf) des associations, qui génèrent souvent plus de visibilité terrain que
+   les congrès pour Fransyl.
    Chaque entrée porte un startDate ISO (AAAA-MM-JJ) — la date de début réelle de
    l'événement — utilisé par renderEvents() de chaque édition.
    Voir /workspaces/veille/evenements-industrie.md pour la fiche de maintenance. */
 
 const EVENTS = [
+  {geo:"an", country:"Canada", org:"AMCQ", freq:"Annuel, mi-août — activité de réseautage (golf)",
+   title:"Tournoi de golf annuel de l'AMCQ (42ᵉ édition)",
+   summary:"Tournoi de golf des experts Maîtres Couvreurs, au Club de golf Le Versant à Terrebonne.",
+   insight:"Terrebonne est le siège social de Fransyl — occasion de représentation et de réseautage direct avec le bassin d'installateurs/clients toiture du Québec, à très faible coût de déplacement.",
+   src:"AMCQ", date:"13 août 2026", startDate:"2026-08-13", url:"https://amcq.qc.ca/"},
+
+  {geo:"an", country:"Canada", org:"CRCA", freq:"Annuel, mi-septembre — activité de réseautage (golf)",
+   title:"Tournoi de golf annuel de la CRCA",
+   summary:"Tournoi de golf de la Canadian Roofing Contractors Association, au Falcon Ridge Golf Club à Ottawa (ON). À ne pas confondre avec le « CRCA » de la Chicago Roofing Contractors Association (organisation américaine distincte, même acronyme).",
+   insight:"Occasion de réseautage pancanadien à échelle plus intime que le congrès national — pertinent pour la représentation Fransyl auprès des entrepreneurs de toiture hors Québec.",
+   src:"CRCA", date:"15 septembre 2026", startDate:"2026-09-15", url:"https://roofingcanada.com/canadian-roofing-events/crca-annual-golf-tournament/"},
+
   {geo:"an", country:"Canada", org:"AMCQ", freq:"Annuel, début février",
    title:"Congrès et AGA de l'AMCQ (60ᵉ édition)",
    summary:"Rassemblement annuel de l'Association des maîtres couvreurs du Québec — conférences, AGA et réseautage pour les installateurs de toiture du Québec.",
