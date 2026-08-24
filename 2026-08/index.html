@@ -112,12 +112,12 @@
           </div>
         </div>
         <div class="briefing-oprisk">
-          <div class="briefing-col">
+          <div class="briefing-col opp">
             <div class="bc-h opp">Opportunités</div>
             <div class="op-text"><b>Fenêtre prix.</b> Rockwool (+8 %) et Soprema (+7 %, 3ᵉ hausse 2026) élargissent l'écart de compétitivité pour l'EPS/polyiso Fransyl.</div>
             <div class="op-text"><b>Réfection résiliente.</b> Carlisle en croissance record malgré le recul du neuf — segment moins cyclique à prioriser.</div>
           </div>
-          <div class="briefing-col">
+          <div class="briefing-col risk">
             <div class="bc-h risk">Risques</div>
             <div class="risk-text"><b>Concentration distribution.</b> TopBuild/QXO et Roofmart/AD Canada réduisent le pouvoir de négociation de Fransyl.</div>
             <div class="risk-text"><b>Coûts d'intrants.</b> Fin de mesures d'allègement tarifaire acier/aluminium (1<sup class="num">er</sup> juillet).</div>
@@ -152,6 +152,20 @@
 <script>
 const AXEL = {"1":"Compétiteurs","2":"Environnement d'affaires","3":"Environnement technologique","all":"Tous les signaux"};
 const EXT_ICON = '<svg class="icon-sm"><use href="#icon-external"/></svg>';
+
+/* Liste courte des concurrents/acteurs les plus fréquents (voir competiteurs.md,
+   dépôt veille) — mis en gras automatiquement dans le résumé/insight de chaque
+   signal pour qu'un dirigeant repère le concurrent concerné en un coup d'œil.
+   Liste volontairement courte (noms les plus récurrents) plutôt que la totalité
+   de competiteurs.md, pour limiter les faux positifs sur des noms génériques. */
+const ACTORS = ["TopBuild","QXO","Carlisle","Owens Corning","Soprema","Roofmart",
+  "Rockwool","Beacon","IKO","GAF","Tremco","Polyglass","ABC Supply","Johns Manville",
+  "Elevate","Protan","Garland","CertainTeed","Dow","AD Canada","Pomerleau","SCHL",
+  "CMHC","DEWALT","CNRC"];
+const ACTORS_RE = new RegExp('\\b(' + ACTORS.map(n => n.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|') + ')\\b', 'g');
+function highlightActors(text){
+  return text.replace(ACTORS_RE, '<b>$1</b>');
+}
 
 const DATA = [
   {axe:"1",geo:"an",tag:"TopBuild / QXO",title:"QXO complète l'acquisition de TopBuild pour 17 G$ US",
@@ -236,11 +250,11 @@ function card(s){
         + '<span class="card-date num">'+s.date+'</span>'
       + '</div>'
       + '<div class="card-title">'+s.title+'</div>'
-      + '<div class="card-summary">'+s.summary+'</div>'
+      + '<div class="card-summary">'+highlightActors(s.summary)+'</div>'
       + '<div class="card-src"><a href="'+s.url+'" target="_blank" rel="noopener">'+s.src+EXT_ICON+'</a></div>'
     + '</div>'
     + '<div class="card-insight">'
-      + '<div class="ins-body"><div class="ins-label">Insight Fransyl</div><div class="ins-text">'+s.insight+'</div></div>'
+      + '<div class="ins-body"><div class="ins-label">Insight Fransyl</div><div class="ins-text">'+highlightActors(s.insight)+'</div></div>'
     + '</div>'
   + '</div>';
 }
@@ -296,9 +310,9 @@ renderReports();
 
 function eventCard(e){
   return '<div class="event-card">'
-    + '<div class="event-meta"><span class="event-org">'+e.org+'</span><span class="event-date">'+e.date+'</span></div>'
-    + '<div class="event-freq">'+e.freq+'</div>'
+    + '<span class="event-date">'+e.date+'</span>'
     + '<div class="event-title">'+e.title+'</div>'
+    + '<div class="event-meta"><span class="event-org">'+e.org+'</span><span class="event-freq">'+e.freq+'</span></div>'
     + '<div class="event-summary">'+e.summary+'</div>'
     + '<div class="event-src"><a href="'+e.url+'" target="_blank" rel="noopener">'+e.src+EXT_ICON+'</a></div>'
   + '</div>';

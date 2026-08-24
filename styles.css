@@ -149,18 +149,25 @@ footer{ margin-top:48px; font-size:var(--fs-micro); color:var(--ink-mute); }
 .bc-h.risk{ color:var(--risk); }
 
 .watch-grid{ display:grid; grid-template-columns:1fr 1fr; gap:0 24px; }
-.watch-item{ padding:8px 0; border-top:1px solid var(--line); font-size:var(--fs-body); line-height:1.5; }
+.watch-item{ padding:10px 0; border-top:1px solid var(--line); font-size:var(--fs-body); line-height:1.65; }
 .watch-item:nth-child(-n+2){ border-top:none; padding-top:0; }
-.watch-item b{ display:block; color:var(--ink); font-weight:600; margin-bottom:2px; }
-.watch-item span{ color:var(--ink-mute); }
+/* Badge de catégorie — rectangle discret (pas une pilule), majuscules, pour
+   segmenter la sous-catégorie d'un coup d'œil sans réintroduire l'effet "bouton". */
+.watch-item b{ display:inline-block; background:var(--paper); color:var(--ink-mute); font-weight:700; font-size:10.5px; letter-spacing:0.05em; text-transform:uppercase; padding:2px 8px; border-radius:var(--radius-sm); margin-bottom:6px; }
+.watch-item span{ display:block; color:var(--ink-mute); }
 
 .briefing-oprisk{ display:grid; grid-template-columns:1fr 1fr; }
 .briefing-col{ padding:18px 22px; border-left:1px solid var(--line); }
 .briefing-col:first-child{ border-left:none; }
+/* Aplat très pâle sur toute la colonne (pas par ligne) — identifie la colonne de
+   loin pour un scan rapide ; distinct de l'ancien pattern "boîte d'alerte par
+   item" retiré précédemment, qui répétait un fond coloré à chaque ligne. */
+.briefing-col.opp{ background:var(--opp-bg); }
+.briefing-col.risk{ background:var(--risk-bg); }
 
-/* Filet gauche coloré plutôt qu'un fond teinté plein ("boîte d'alerte") — garde le
-   code couleur sémantique (opportunité/risque) sans l'effet dashboard générique. */
-.op-text, .risk-text{ font-size:var(--fs-small); line-height:1.55; color:var(--ink-mute); padding:1px 0 1px 12px; border-left:2px solid; margin-bottom:10px; }
+/* Filet gauche coloré en plus de l'aplat de colonne — distingue chaque item à
+   l'intérieur de la colonne déjà identifiée par sa teinte. */
+.op-text, .risk-text{ font-size:var(--fs-small); line-height:1.65; color:var(--ink-mute); padding:1px 0 1px 12px; border-left:2px solid; margin-bottom:10px; }
 .op-text:last-child, .risk-text:last-child{ margin-bottom:0; }
 .op-text{ border-left-color:var(--opp); }
 .risk-text{ border-left-color:var(--risk); }
@@ -216,18 +223,32 @@ footer{ margin-top:48px; font-size:var(--fs-micro); color:var(--ink-mute); }
 /* Pas de bordure/ombre de carte ici — un simple filet horizontal entre entrées,
    façon liste de lecture/citations plutôt que pile de mini-cartes. */
 .report-card, .event-card{ padding:13px 0; border-top:1px solid var(--line); }
-.report-meta, .event-meta{ display:flex; align-items:baseline; justify-content:space-between; gap:8px; margin-bottom:7px; flex-wrap:wrap; }
+
+/* Rapports : nom / émetteur / résumé déjà sur des lignes séparées — ajoute un
+   repère visuel minimaliste (tiret) devant la conclusion plutôt qu'un chrome. */
+.report-meta{ display:flex; align-items:baseline; justify-content:space-between; gap:8px; margin-bottom:7px; flex-wrap:wrap; }
 .report-org{ font-size:var(--fs-micro); font-weight:700; color:var(--blue); }
-.event-org{ font-size:var(--fs-micro); font-weight:700; color:var(--axis3); }
-.report-country, .event-date{ font-size:10.5px; color:var(--ink-faint); white-space:nowrap; }
-.report-freq, .event-freq{ font-size:10px; color:var(--ink-faint); font-style:italic; margin-bottom:6px; }
-.report-title, .event-title{ font-size:var(--fs-small); font-weight:700; color:var(--ink); line-height:1.35; margin-bottom:6px; }
-.report-summary, .event-summary{ font-size:11.5px; color:var(--ink-mute); line-height:1.5; margin-bottom:8px; }
-.report-insight{ border-left:2px solid var(--accent); padding-left:9px; font-size:var(--fs-micro); color:var(--ink); line-height:1.5; margin-bottom:8px; }
+.report-country{ font-size:10.5px; color:var(--ink-faint); white-space:nowrap; }
+.report-freq{ font-size:10px; color:var(--ink-faint); font-style:italic; margin-bottom:6px; }
+.report-title{ font-size:var(--fs-small); font-weight:700; color:var(--ink); line-height:1.35; margin-bottom:6px; }
+.report-summary{ font-size:11.5px; color:var(--ink-mute); line-height:1.55; margin-bottom:8px; padding-left:12px; position:relative; }
+.report-summary::before{ content:"—"; position:absolute; left:0; color:var(--ink-faint); }
+.report-insight{ border-left:2px solid var(--accent); padding-left:9px; font-size:var(--fs-micro); color:var(--ink); line-height:1.55; margin-bottom:8px; }
 .report-insight b{ color:var(--accent); font-weight:700; }
-.report-src, .event-src{ font-size:10.5px; }
-.report-src a, .event-src a{ color:var(--ink-faint); text-decoration:none; border-bottom:1px solid var(--line-strong); display:inline-flex; align-items:center; }
+.report-src{ font-size:10.5px; }
+.report-src a{ color:var(--ink-faint); text-decoration:none; border-bottom:1px solid var(--line-strong); display:inline-flex; align-items:center; }
 .report-src a:hover{ color:var(--accent); border-color:var(--accent); }
+
+/* Événements : format "fiche" — date isolée en premier, puis titre, puis
+   organisation/fréquence, puis résumé. Structure réordonnée dans eventCard(). */
+.event-date{ display:block; font-size:11px; font-weight:700; color:var(--ink-mute); letter-spacing:0.02em; margin-bottom:5px; }
+.event-title{ font-size:var(--fs-small); font-weight:700; color:var(--ink); line-height:1.35; margin-bottom:4px; }
+.event-meta{ display:flex; align-items:baseline; gap:8px; margin-bottom:6px; flex-wrap:wrap; }
+.event-org{ font-size:10.5px; font-weight:700; color:var(--axis3); }
+.event-freq{ font-size:10px; color:var(--ink-faint); font-style:italic; }
+.event-summary{ font-size:11.5px; color:var(--ink-mute); line-height:1.55; margin-bottom:8px; }
+.event-src{ font-size:10.5px; }
+.event-src a{ color:var(--ink-faint); text-decoration:none; border-bottom:1px solid var(--line-strong); display:inline-flex; align-items:center; }
 .event-src a:hover{ color:var(--axis3); border-color:var(--axis3); }
 .events-empty{ font-size:var(--fs-small); color:var(--ink-faint); font-style:italic; padding:4px 0; }
 
