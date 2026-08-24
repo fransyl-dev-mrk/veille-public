@@ -482,6 +482,9 @@ function reportCard(r){
 
 const EDITION_START = "2026-07-01";
 const EDITION_END   = "2026-07-31";
+/* Mois de PARUTION de cette édition (distinct de la période couverte ci-dessus, qui est le
+   mois précédent) — sert de point de départ à la fenêtre événements ci-dessous. */
+const PUBLISH_MONTH_START = "2026-08-01";
 
 function renderReports(){
   const el = document.getElementById('reports-feed');
@@ -507,20 +510,23 @@ function eventCard(e){
   + '</div>';
 }
 
-/* Fenêtre prospective : le mois qui suit la période couverte par l'édition (pas le mois
-   couvert lui-même, contrairement à REPORTS) — ex. édition d'août -> événements de septembre. */
-function nextMonthRange(editionEndISO){
-  const end = new Date(editionEndISO+"T00:00:00");
-  const start = new Date(end.getFullYear(), end.getMonth()+1, 1);
-  const stop = new Date(end.getFullYear(), end.getMonth()+2, 0);
+/* Fenêtre prospective : le mois de PARUTION de l'édition + le mois suivant (pas la période
+   couverte par les signaux, qui est le mois précédent) — ex. édition parue en août ->
+   événements d'août et de septembre. */
+function eventWindowRange(publishMonthStartISO){
+  const start = new Date(publishMonthStartISO+"T00:00:00");
+  const nextMonth = new Date(start.getFullYear(), start.getMonth()+1, 1);
+  const stop = new Date(start.getFullYear(), start.getMonth()+2, 0);
   const iso = d => d.toISOString().slice(0,10);
-  return {start:iso(start), end:iso(stop), label:start.toLocaleDateString('fr-CA',{month:'long',year:'numeric'})};
+  const label1 = start.toLocaleDateString('fr-CA',{month:'long'});
+  const label2 = nextMonth.toLocaleDateString('fr-CA',{month:'long',year:'numeric'});
+  return {start:publishMonthStartISO, end:iso(stop), label:label1+' et '+label2};
 }
 
 function renderEvents(){
   const el = document.getElementById('events-feed');
   const sub = document.getElementById('events-sub');
-  const range = nextMonthRange(EDITION_END);
+  const range = eventWindowRange(PUBLISH_MONTH_START);
   sub.textContent = 'Congrès et salons de ' + range.label;
   const upcoming = EVENTS.filter(e => e.startDate >= range.start && e.startDate <= range.end);
   if(!upcoming.length){
