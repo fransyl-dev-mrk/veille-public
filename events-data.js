@@ -23,6 +23,30 @@ const EVENTS = [
    insight:"Occasion de réseautage pancanadien à échelle plus intime que le congrès national — pertinent pour la représentation Fransyl auprès des entrepreneurs de toiture hors Québec.",
    src:"CRCA", date:"15 septembre 2026", startDate:"2026-09-15", url:"https://roofingcanada.com/canadian-roofing-events/crca-annual-golf-tournament/"},
 
+  {geo:"an", country:"Canada", org:"ACRGTQ", freq:"Annuel, mi-juillet — activité de réseautage (cyclo-golf)",
+   title:"Cyclo-Golf ACRGTQ",
+   summary:"Activité de réseautage combinant vélo et golf, au Club de golf Le Mirage à Terrebonne. Référencée en interne chez Fransyl comme « cyclo-golf ACQ » — l'organisateur identifié par recherche publique est l'ACRGTQ (à confirmer).",
+   insight:"Fransyl y participe chaque année. Terrebonne est le siège social Fransyl — occasion de représentation à très faible coût de déplacement.",
+   src:"ACRGTQ", date:"14 juillet 2026", startDate:"2026-07-14", url:"https://www.acrgtq.qc.ca/evenements/activites-estivales/cyclo-golf-2026/"},
+
+  {geo:"an", country:"Canada", org:"TLA Architectes", freq:"Annuel, fin août — activité caritative (course/marche)",
+   title:"Défi TLAPB (12ᵉ édition)",
+   summary:"Course et marche caritative (5-10 km) au profit de TLA Porte-Bonheur, propulsée par TLA Architectes. Événement communautaire, pas spécifique à la construction.",
+   insight:"Fransyl y participe chaque année — activité de visibilité communautaire plutôt que source de signaux d'affaires ; occasion de représentation et de réseautage régional.",
+   src:"Défi TLAPB", date:"21 août 2026", startDate:"2026-08-21", url:"https://www.defitlapb.com/"},
+
+  {geo:"an", country:"Canada", org:"APCHQ Québec", freq:"Annuel, début février",
+   title:"Expo habitat Québec",
+   summary:"Salon grand public habitation/rénovation organisé par l'APCHQ – Région de Québec, à ExpoCité.",
+   insight:"Salon grand public (pas B2B pur) — visibilité auprès des consommateurs et rénovateurs de la région de Québec, distinct des tradeshows B2B de l'industrie.",
+   src:"Expo habitat Québec", date:"5–8 février 2026", startDate:"2026-02-05", url:"https://expohabitatquebec.com/"},
+
+  {geo:"an", country:"Canada", org:"The Buildings Show", freq:"Annuel, début décembre",
+   title:"The Buildings Show / Construct Canada",
+   summary:"Plus grand salon de la construction au Canada (18 000+ professionnels), au Metro Toronto Convention Centre.",
+   insight:"Tradeshow Ontario — bassin hors Québec pour la distribution/représentation Fransyl, complémentaire aux salons Contech au Québec.",
+   src:"The Buildings Show", date:"2–4 décembre 2026", startDate:"2026-12-02", url:"https://informaconnect.com/the-buildings-show/construct-canada/"},
+
   {geo:"an", country:"Canada", org:"AMCQ", freq:"Annuel, début février",
    title:"Congrès et AGA de l'AMCQ (60ᵉ édition)",
    summary:"Rassemblement annuel de l'Association des maîtres couvreurs du Québec — conférences, AGA et réseautage pour les installateurs de toiture du Québec.",
