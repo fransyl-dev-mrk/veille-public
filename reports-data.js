@@ -39,15 +39,15 @@ const REPORTS = [
 
   {geo:"an", country:"É.-U.", org:"NAHB / Wells Fargo", author:"",
    freq:"Mensuel", title:"Housing Market Index",
-   summary:"Confiance des constructeurs en baisse de 2 points à 34 en juillet 2026; toutes les composantes (ventes actuelles, attentes, trafic acheteurs) en recul, la plupart des régions sous le seuil de 50.",
-   insight:"Faiblesse persistante du neuf résidentiel américain — marché US restreint pour Fransyl (Lexgoshop), mais confirme l'intérêt de prioriser les segments non résidentiels et la réfection plutôt que le résidentiel neuf.",
-   src:"NAHB", date:"juillet 2026", pubDate:"2026-07-16", url:"https://www.nahb.org/news-and-economics/press-releases/2026/07/builder-sentiment-stays-weak-as-affordability-concerns-persist"},
+   summary:"Confiance des constructeurs en légère hausse à 35 en août 2026 (vs 34 en juillet); 35 % des constructeurs ont dû réduire leurs prix (baisse moyenne de 6 %) — 16e mois consécutif sous le seuil de 40 et avec au moins 30 % des constructeurs en réduction de prix.",
+   insight:"Faiblesse persistante du neuf résidentiel américain, avec un marché du Midwest relativement plus résilient — marché US restreint pour Fransyl (Lexgoshop), mais confirme l'intérêt de prioriser les segments non résidentiels et la réfection plutôt que le résidentiel neuf.",
+   src:"NAHB", date:"août 2026", pubDate:"2026-08-17", url:"https://www.nahb.org/news-and-economics/press-releases/2026/08/affordability-pressures-keep-builder-confidence-low"},
 
   {geo:"an", country:"É.-U.", org:"AIA / Deltek", author:"",
    freq:"Mensuel", title:"Architecture Billings Index",
-   summary:"Indice à 47,3 en juin 2026 — 41e mois consécutif sous le seuil de croissance (50); commercial/industriel à 46,7, institutionnel à 47,4.",
-   insight:"Indicateur avancé (9-12 mois) des mises en chantier non résidentielles américaines — une remontée durable au-dessus de 50 serait un signal précoce à surveiller pour anticiper la demande future de toiture/enveloppe commerciale US.",
-   src:"AIA", date:"juin 2026", pubDate:"2026-07-22", url:"https://www.aia.org/resource-center/abi-june-2026-billings-remain-weak-architecture-firms"},
+   summary:"Indice à 46,6 en juillet 2026, en recul par rapport à 47,3 en juin — la plus longue période de ralentissement de l'histoire de l'indice se prolonge à près de 3 ans et demi; commercial/industriel à 46,7, institutionnel à 47,4, multirésidentiel à 48,4.",
+   insight:"Indicateur avancé (9-12 mois) des mises en chantier non résidentielles américaines — le ralentissement qui se prolonge confirme l'intérêt de prioriser la réfection plutôt que le neuf pour les segments US où Fransyl est exposé (Lexgoshop).",
+   src:"AIA", date:"juillet 2026", pubDate:"2026-08-19", url:"https://www.aia.org/about-aia/press/architecture-firm-billings-remained-soft-july"},
 
   {geo:"intl", country:"International", org:"Turner & Townsend", author:"",
    freq:"Annuel", title:"Global Construction Market Intelligence",
