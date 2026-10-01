@@ -39,9 +39,21 @@ const REPORTS = [
 
   {geo:"an", country:"É.-U.", org:"NAHB / Wells Fargo", author:"",
    freq:"Mensuel", title:"Housing Market Index",
+   summary:"Confiance des constructeurs en baisse de 3 points à 32 en septembre 2026, son plus bas niveau en un an; conditions de vente actuelles à 35, attentes à six mois à 37, achalandage stable à 23. La part des constructeurs qui réduisent leurs prix passe à 38 % (35 % en août), avec une baisse moyenne de 6 %. Hausse des taux hypothécaires, pénurie de main-d'œuvre et coûts des matériaux sont en cause.",
+   insight:"Faiblesse accrue du neuf résidentiel américain, aggravée par les coûts de matériaux et de main-d'œuvre — marché US restreint pour Fransyl (Lexgoshop), mais cohérent avec la priorité donnée aux segments non résidentiels et à la réfection.",
+   src:"NAHB", date:"septembre 2026", pubDate:"2026-09-16", url:"https://www.nahb.org/news-and-economics/press-releases/2026/09/builder-sentiment-falls-on-higher-interest-rates-and-costs"},
+
+  {geo:"an", country:"É.-U.", org:"NAHB / Wells Fargo", author:"",
+   freq:"Mensuel", title:"Housing Market Index",
    summary:"Confiance des constructeurs en légère hausse à 35 en août 2026 (vs 34 en juillet); 35 % des constructeurs ont dû réduire leurs prix (baisse moyenne de 6 %) — 16e mois consécutif sous le seuil de 40 et avec au moins 30 % des constructeurs en réduction de prix.",
    insight:"Faiblesse persistante du neuf résidentiel américain, avec un marché du Midwest relativement plus résilient — marché US restreint pour Fransyl (Lexgoshop), mais confirme l'intérêt de prioriser les segments non résidentiels et la réfection plutôt que le résidentiel neuf.",
    src:"NAHB", date:"août 2026", pubDate:"2026-08-17", url:"https://www.nahb.org/news-and-economics/press-releases/2026/08/affordability-pressures-keep-builder-confidence-low"},
+
+  {geo:"an", country:"É.-U.", org:"AIA / Deltek", author:"",
+   freq:"Mensuel", title:"Architecture Billings Index",
+   summary:"Indice à 47,2 en août 2026, en légère hausse par rapport à 46,6 en juillet mais toujours sous le seuil de 50 : la majorité des cabinets voient encore des conditions faibles. Commercial/industriel à 50,4, multirésidentiel à 47,8, institutionnel à 47,0; Midwest à 50,7 et Nord-Est à 40,7. Indice des demandes de projets à 50,8, des contrats de conception à 48,3.",
+   insight:"Indicateur avancé (9-12 mois) des mises en chantier non résidentielles américaines — stabilisation légère mais sans reprise franche, ce qui confirme l'intérêt de prioriser la réfection plutôt que le neuf pour les segments US où Fransyl est présent.",
+   src:"AIA", date:"août 2026", pubDate:"2026-09-24", url:"https://www.aia.org/resource-center/abi-august-2026-architecture-firm-billings-continue-decline"},
 
   {geo:"an", country:"É.-U.", org:"AIA / Deltek", author:"",
    freq:"Mensuel", title:"Architecture Billings Index",
