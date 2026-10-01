@@ -58,13 +58,13 @@
     </div>
     <div class="rail-label">Axes</div>
     <div class="axis-row active" data-axe="all" onclick="setAxe('all',this)">
-      <span class="swatch"></span><span class="lbl">Tous les signaux</span><span class="cnt num" id="n-all">9</span>
+      <span class="swatch"></span><span class="lbl">Tous les signaux</span><span class="cnt num" id="n-all">8</span>
     </div>
     <div class="axis-row" data-axe="1" onclick="setAxe('1',this)">
       <span class="swatch"></span><span class="lbl">Compétiteurs</span><span class="cnt num" id="n-1">1</span>
     </div>
     <div class="axis-row" data-axe="2" onclick="setAxe('2',this)">
-      <span class="swatch"></span><span class="lbl">Environnement d'affaires</span><span class="cnt num" id="n-2">8</span>
+      <span class="swatch"></span><span class="lbl">Environnement d'affaires</span><span class="cnt num" id="n-2">7</span>
     </div>
     <div class="axis-row" data-axe="3" onclick="setAxe('3',this)">
       <span class="swatch"></span><span class="lbl">Environnement technologique</span><span class="cnt num" id="n-3">0</span>
@@ -72,10 +72,10 @@
     <div class="rail-geo">
       <div class="rail-label">Géographie</div>
       <div class="geo-row active" data-geo="all" onclick="setGeo('all',this)">
-        <span class="swatch"></span><span class="lbl">Toutes</span><span class="cnt num" id="g-all">9</span>
+        <span class="swatch"></span><span class="lbl">Toutes</span><span class="cnt num" id="g-all">8</span>
       </div>
       <div class="geo-row" data-geo="an" onclick="setGeo('an',this)">
-        <span class="swatch"></span><span class="lbl">Amérique du Nord</span><span class="cnt num" id="g-an">9</span>
+        <span class="swatch"></span><span class="lbl">Amérique du Nord</span><span class="cnt num" id="g-an">8</span>
       </div>
       <div class="geo-row" data-geo="intl" onclick="setGeo('intl',this)">
         <span class="swatch"></span><span class="lbl">International</span><span class="cnt num" id="g-intl">0</span>
@@ -88,7 +88,7 @@
     <div class="titleblock">
       <div class="tb-top">
         <div class="tb-title" id="tb-title">Tous les signaux</div>
-        <div class="tb-meta"><b class="num">9</b> signaux</div>
+        <div class="tb-meta"><b class="num">8</b> signaux</div>
       </div>
       <div class="tb-period">Période couverte — 1<sup>er</sup> septembre au 30 septembre 2026</div>
     </div>
@@ -106,7 +106,7 @@
           <div class="bc-h radar">À surveiller — prochaines semaines</div>
           <div class="watch-grid">
             <div class="watch-item"><b>Code de construction du Québec</b><span>Fin de la période transitoire du CNB 2020 modifié le 17 octobre 2026 — seule l'édition 2020 sera alors applicable</span></div>
-            <div class="watch-item"><b>Élections québécoises</b><span>Scrutin du 5 octobre · place du préfabriqué et du logement dans le programme du gouvernement élu</span></div>
+            <div class="watch-item"><b>Élections québécoises</b><span>Scrutin du 5 octobre · suivre les engagements en logement et en construction du gouvernement qui sera formé</span></div>
             <div class="watch-item"><b>Coûts d'intrants et tarifs</b><span>Effet des contre-tarifs entrés en vigueur le 8 septembre sur l'acier, l'aluminium et le gypse importés</span></div>
             <div class="watch-item"><b>Pipeline non résidentiel</b><span>Prochaines données de permis et d'investissement de Statistique Canada — confirmer ou non le recul de juillet</span></div>
           </div>
@@ -115,7 +115,7 @@
           <div class="briefing-col opp">
             <div class="bc-h opp">Opportunités</div>
             <div class="op-text"><b>Institutionnel en croissance.</b> L'investissement institutionnel progresse de 7,4 % en juillet — segment porteur pour la toiture commerciale et l'isolation de toiture, notamment en réfection.</div>
-            <div class="op-text"><b>Préfabriqué à l'agenda politique.</b> Le PLQ fait du préfabriqué un pilier de sa stratégie logement — terrain favorable aux panneaux isolés en usine et aux systèmes d'enveloppe de Fransyl.</div>
+            <div class="op-text"><b>Financement prévisible.</b> La Banque du Canada maintient son taux à 2,25 % — une visibilité utile aux propriétaires d'immeubles pour planifier leurs réfections de toiture.</div>
           </div>
           <div class="briefing-col risk">
             <div class="bc-h risk">Risques</div>
@@ -199,11 +199,7 @@ const DATA = [
   {axe:"2",geo:"an",tag:"Politique fédérale",title:"Ottawa dépose la loi « Bâtir le Canada fort » pour accélérer les projets d'infrastructure",
    summary:"Le gouvernement du Canada a présenté le 21 septembre 2026 le projet de loi Bâtir le Canada fort (Building Canada Strong Act), qui vise à apporter plus de rapidité, de certitude et de prévisibilité à l'examen des projets d'infrastructure, tout en soutenant les travailleurs qui les réaliseront.",
    insight:"Des approbations plus rapides pourraient faire passer plus tôt en chantier des ouvrages publics et industriels, donc élargir la demande en toiture et en enveloppe de grands bâtiments à moyen terme. L'effet reste conditionnel à l'adoption du projet de loi : à suivre, sans action immédiate.",
-   src:"Gouvernement du Canada", date:"21 septembre 2026", url:"https://www.canada.ca/en/one-canadian-economy/news/2026/09/government-of-canada-introduces-legislation-to-transform-how-canada-builds.html"},
-  {axe:"2",geo:"an",tag:"Élections Québec",title:"À une semaine du scrutin, le PLQ mise sur le préfabriqué contre la crise du logement",
-   summary:"À l'approche du scrutin du 5 octobre 2026, où cinq partis sollicitent le vote, le chef libéral Charles Milliard fait du préfabriqué un levier de sa réponse à la crise du logement, avec un objectif de 100 000 nouveaux logements par année.",
-   insight:"Une politique favorable à la construction hors site avantagerait les panneaux muraux et de toit isolés en usine, un terrain où l'EPS et les systèmes d'enveloppe de Fransyl ont un rôle à jouer. À suivre après le scrutin : le programme du gouvernement élu et la place accordée au préfabriqué.",
-   src:"Noovo Info", date:"septembre 2026", url:"https://www.noovo.info/nouvelles/politique/elections-quebec/article/crise-du-logement-le-chef-liberal-charles-milliard-veut-miser-sur-le-prefabrique/"}
+   src:"Gouvernement du Canada", date:"21 septembre 2026", url:"https://www.canada.ca/en/one-canadian-economy/news/2026/09/government-of-canada-introduces-legislation-to-transform-how-canada-builds.html"}
 ];
 
 let curAxe="all", curGeo="all";
