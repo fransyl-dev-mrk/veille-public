@@ -78,4 +78,10 @@ const REPORTS = [
    summary:"Genève conserve la première place des marchés de construction les plus chers au monde en 2026, devant Londres et Zurich. Le rapport élargit son analyse au-delà du coût pour inclure la capacité de livraison et la confiance des investisseurs, sur 100 villes.",
    insight:"Baromètre utile pour situer le Canada/Québec dans le contexte international des coûts de construction lors de discussions avec des clients ou partenaires internationaux de Fransyl.",
    src:"Arcadis", date:"juillet 2026", pubDate:"2026-07-13", url:"https://www.arcadis.com/en/insights/international-construction-costs-2026/"}
+
+  {geo:"intl", country:"International", org:"Research and Markets", author:"",
+   freq:"Ponctuel", title:"Insulated Concrete Form Market – Global Forecast 2026-2032",
+   summary:"Selon Research and Markets (estimation de l'éditeur), le marché mondial des coffrages isolants (ICF) est évalué à environ 1,2 G$ US en 2026 et atteindrait 1,7 G$ US en 2032, soit une croissance annuelle composée d'environ 5,9 %.",
+   insight:"Ordre de grandeur d'une croissance modérée du segment ICF — à prendre avec prudence, les estimations varient d'un éditeur à l'autre. Utile pour situer la gamme ICF de Fransyl face à Nudura ou Amvic et pour étayer les discussions de positionnement.",
+   src:"Research and Markets", date:"août 2026", pubDate:"2026-08-01", url:"https://www.researchandmarkets.com/reports/5674995/insulated-concrete-form-market-global-forecast"},
 ];
