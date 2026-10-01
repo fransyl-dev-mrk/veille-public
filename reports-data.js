@@ -83,5 +83,5 @@ const REPORTS = [
    freq:"Ponctuel", title:"Insulated Concrete Form Market – Global Forecast 2026-2032",
    summary:"Selon Research and Markets (estimation de l'éditeur), le marché mondial des coffrages isolants (ICF) est évalué à environ 1,2 G$ US en 2026 et atteindrait 1,7 G$ US en 2032, soit une croissance annuelle composée d'environ 5,9 %.",
    insight:"Ordre de grandeur d'une croissance modérée du segment ICF — à prendre avec prudence, les estimations varient d'un éditeur à l'autre. Utile pour situer la gamme ICF de Fransyl face à Nudura ou Amvic et pour étayer les discussions de positionnement.",
-   src:"Research and Markets", date:"août 2026", pubDate:"2026-08-01", url:"https://www.researchandmarkets.com/reports/5674995/insulated-concrete-form-market-global-forecast"},
+   src:"Research and Markets", date:"septembre 2026", pubDate:"2026-09-01", url:"https://www.researchandmarkets.com/reports/5674995/insulated-concrete-form-market-global-forecast"},
 ];
