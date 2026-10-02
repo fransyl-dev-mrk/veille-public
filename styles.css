@@ -366,8 +366,15 @@ body.page-suggestion .card p{ font-size:var(--fs-body); color:var(--ink-mute); m
 }
 @media (max-width:760px){
   .layout{ display:block; }
-  .rail{ position:static; height:auto; width:100%; }
+  /* padding-top réservé pour dégager les boutons flottants (thème/langue,
+     position:fixed top:16px) qui chevauchent sinon le haut du rail une fois
+     celui-ci repassé en flux normal (position:static) sur mobile. */
+  .rail{ position:static; height:auto; width:100%; padding-top:68px; }
   .content-row{ flex-direction:column; padding:20px 18px 32px; gap:20px; }
   .side{ width:100%; }
   .titleblock{ padding:22px 18px 18px; }
+  /* Même dégagement pour les pages sans rail (accueil, méthodologie, suggestion) —
+     le padding-top par défaut de .wrap (56-60px) ne suffit pas toujours à passer
+     sous les deux boutons flottants (bas à 58px). */
+  .wrap{ padding-top:76px; }
 }
