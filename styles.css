@@ -295,10 +295,14 @@ footer{ margin-top:48px; font-size:var(--fs-micro); color:var(--ink-mute); }
 
 /* ---------- MAIN (titleblock) ---------- */
 .main{ flex:1; min-width:0; display:flex; flex-direction:column; }
-.titleblock{ background:var(--surface2); border-bottom:2px solid var(--accent); padding:30px 40px 22px; position:sticky; top:0; z-index:10; }
-.tb-top{ display:flex; align-items:baseline; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+/* padding-right réservé pour que le titre ne passe jamais sous les boutons
+   flottants thème/langue (position:fixed, top:16px, right:16-108px). */
+.titleblock{ background:var(--surface2); border-bottom:2px solid var(--accent); padding:30px 130px 22px 40px; position:sticky; top:0; z-index:10; }
+.tb-top{ display:flex; align-items:baseline; gap:16px; flex-wrap:wrap; }
 .tb-title{ font-size:var(--fs-2xl); letter-spacing:-0.2px; text-wrap:balance; }
-.tb-meta{ font-size:var(--fs-small); color:var(--ink-faint); }
+/* Compteur de signaux déplacé sous la période couverte plutôt qu'à côté du
+   titre — évite qu'il ne passe sous les boutons flottants thème/langue. */
+.tb-meta{ font-size:var(--fs-small); color:var(--ink-faint); margin-top:4px; }
 .tb-meta b.num{ color:var(--ink-mute); font-weight:700; }
 .tb-period{ font-size:13px; color:var(--ink-mute); margin-top:8px; }
 
