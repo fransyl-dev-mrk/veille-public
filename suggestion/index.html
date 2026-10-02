@@ -27,35 +27,57 @@
   <svg class="icon icon-sun"><use href="#icon-sun"/></svg>
   <svg class="icon icon-moon"><use href="#icon-moon"/></svg>
 </button>
+<button class="lang-toggle" id="lang-toggle" onclick="toggleLang()" aria-label="Switch to English" title="FR / EN">EN</button>
 
 <div class="wrap">
-  <a href="/" class="back-link">← Toutes les éditions</a>
-  <h1>Proposer un ajout</h1>
-  <div class="sub">Un concurrent, une source ou un thème qui devrait être suivi ? Décrivez-le ci-dessous — l'équipe marketing sera avisée.</div>
-
-  <div class="card">
-    <p>Un concurrent, une source ou un thème qui devrait être suivi ? Cliquez ci-dessous pour ouvrir un courriel pré-rempli — il ne restera qu'à compléter la description et l'envoyer.</p>
-    <a class="btn btn-primary" id="s-mailto" href="#">Proposer un ajout par courriel</a>
+  <a href="/" class="back-link"><span class="lang-fr">← Toutes les éditions</span><span class="lang-en">← All editions</span></a>
+  <h1><span class="lang-fr">Proposer un ajout</span><span class="lang-en">Suggest an addition</span></h1>
+  <div class="sub">
+    <span class="lang-fr">Un concurrent, une source ou un thème qui devrait être suivi ? Décrivez-le ci-dessous — l'équipe marketing sera avisée.</span>
+    <span class="lang-en">A competitor, source, or theme that should be tracked? Describe it below — the marketing team will be notified.</span>
   </div>
 
-  <footer>Diffusion restreinte — usage interne uniquement.</footer>
+  <div class="card">
+    <p>
+      <span class="lang-fr">Un concurrent, une source ou un thème qui devrait être suivi ? Cliquez ci-dessous pour ouvrir un courriel pré-rempli — il ne restera qu'à compléter la description et l'envoyer.</span>
+      <span class="lang-en">A competitor, source, or theme that should be tracked? Click below to open a pre-filled email — just add the description and send it.</span>
+    </p>
+    <a class="btn btn-primary" id="s-mailto" href="#"><span class="lang-fr">Proposer un ajout par courriel</span><span class="lang-en">Suggest an addition by email</span></a>
+  </div>
+
+  <footer><span class="lang-fr">Diffusion restreinte — usage interne uniquement.</span><span class="lang-en">Restricted distribution — internal use only.</span></footer>
 </div>
 
 <script src="/theme.js"></script>
+<script src="/lang.js"></script>
 <script>
 const NOTIFY_EMAIL = "marketing@fransyl.com";
-const subject = "Suggestion ajout veille stratégique";
-const body =
-"Bonjour,\n\n" +
-"Je souhaite proposer l'ajout suivant à la veille stratégique :\n\n" +
-"Catégorie (compétiteurs / environnement d'affaires / environnement technologique) : \n" +
-"Description : \n\n" +
-"Merci !";
+const SUBJECT = {
+  fr: "Suggestion ajout veille stratégique",
+  en: "Suggested addition to the intelligence bulletin"
+};
+const BODY = {
+  fr: "Bonjour,\n\n" +
+      "Je souhaite proposer l'ajout suivant à la veille stratégique :\n\n" +
+      "Catégorie (compétiteurs / environnement d'affaires / environnement technologique) : \n" +
+      "Description : \n\n" +
+      "Merci !",
+  en: "Hello,\n\n" +
+      "I would like to suggest the following addition to the strategic intelligence briefing:\n\n" +
+      "Category (competitors / business environment / technology environment): \n" +
+      "Description: \n\n" +
+      "Thank you!"
+};
 
-document.getElementById('s-mailto').href =
-  'mailto:' + NOTIFY_EMAIL +
-  '?subject=' + encodeURIComponent(subject) +
-  '&body=' + encodeURIComponent(body);
+function updateMailto(){
+  var lang = document.documentElement.getAttribute('data-lang') === 'en' ? 'en' : 'fr';
+  document.getElementById('s-mailto').href =
+    'mailto:' + NOTIFY_EMAIL +
+    '?subject=' + encodeURIComponent(SUBJECT[lang]) +
+    '&body=' + encodeURIComponent(BODY[lang]);
+}
+window.onLangChange = updateMailto;
+updateMailto();
 </script>
 </body>
 </html>

@@ -100,6 +100,14 @@ h1{ font-size:var(--fs-3xl); margin-bottom:8px; }
 .theme-toggle.is-dark .icon-sun{ display:block; }
 .theme-toggle.is-dark .icon-moon{ display:none; }
 
+/* ---------- TOGGLE LANGUE ---------- */
+.lang-toggle{ position:fixed; top:16px; right:66px; z-index:60; width:42px; height:42px; border-radius:50%; border:1.5px solid var(--line-strong); background:var(--surface2); color:var(--ink); font-family:var(--font); font-weight:800; font-size:12px; letter-spacing:0.02em; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:var(--elev-2); }
+.lang-toggle:hover{ border-color:var(--accent); color:var(--accent); transform:scale(1.05); }
+
+/* ---------- BASCULE DE LANGUE PAR BLOCS (pages statiques : méthodologie, suggestion) ---------- */
+:root:not([data-lang="en"]) .lang-en{ display:none; }
+[data-lang="en"] .lang-fr{ display:none; }
+
 /* ---------- LIENS SECONDAIRES (nav-chip : unifie util-nav / rail-links) ---------- */
 .util-nav{ display:flex; flex-wrap:wrap; gap:10px; margin:18px 0 36px; }
 .rail-links{ padding:16px 22px 18px; display:flex; flex-direction:column; gap:8px; }

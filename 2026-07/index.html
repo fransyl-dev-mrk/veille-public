@@ -69,9 +69,11 @@
   .rail-links a{ font-size:12.5px; font-weight:700; color:var(--ink); text-decoration:none; padding:9px 12px; border:1.5px solid var(--line-strong); border-radius:8px; background:var(--surface2); text-align:center; box-shadow:var(--shadow); transition:border-color .15s, color .15s; }
   .rail-links a:hover{ border-color:var(--accent); color:var(--accent); }
 
-  /* ---------- TOGGLE THÈME ---------- */
+  /* ---------- TOGGLE THÈME / LANGUE ---------- */
   .theme-toggle{ position:fixed; top:16px; right:16px; z-index:60; width:42px; height:42px; border-radius:50%; border:1.5px solid var(--line-strong); background:var(--surface2); color:var(--ink); font-size:19px; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 6px rgba(20,18,14,0.12), 0 6px 20px rgba(20,18,14,0.10); }
   .theme-toggle:hover{ border-color:var(--accent); transform:scale(1.05); }
+  .lang-toggle{ position:fixed; top:16px; right:66px; z-index:60; width:42px; height:42px; border-radius:50%; border:1.5px solid var(--line-strong); background:var(--surface2); color:var(--ink); font-weight:800; font-size:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 6px rgba(20,18,14,0.12), 0 6px 20px rgba(20,18,14,0.10); }
+  .lang-toggle:hover{ border-color:var(--accent); color:var(--accent); transform:scale(1.05); }
 
   .rail-label{ font-size:11px; font-weight:700; color:var(--ink-faint); letter-spacing:0.08em; text-transform:uppercase; padding:22px 22px 10px; }
 
@@ -227,11 +229,13 @@
   }
 </style>
 <script src="/theme.js"></script>
+<script src="/lang.js"></script>
 <script src="/reports-data.js"></script>
 </head>
 <body>
 
 <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" aria-label="Basculer le mode clair/sombre" title="Mode clair / sombre">🌙</button>
+<button class="lang-toggle" id="lang-toggle" onclick="toggleLang()" aria-label="Switch to English" title="FR / EN">EN</button>
 
 <div class="layout">
 
@@ -240,35 +244,35 @@
     <div class="rail-brand">
       <div class="rail-wordmark">Fransyl</div>
       <div class="rail-sub">Veille stratégique — Juillet 2026</div>
-      <a href="/" class="back-link">← Toutes les éditions</a>
+      <a href="/" class="back-link" id="back-link">← Toutes les éditions</a>
     </div>
     <div class="rail-links">
-      <a href="/methodologie/">📋 Méthodologie &amp; sources</a>
-      <a href="/suggestion/">💡 Proposer un ajout</a>
+      <a href="/methodologie/" id="nav-methodo">📋 Méthodologie &amp; sources</a>
+      <a href="/suggestion/" id="nav-suggestion">💡 Proposer un ajout</a>
     </div>
-    <div class="rail-label">Axes</div>
+    <div class="rail-label" id="lbl-axes">Axes</div>
     <div class="axis-row active" data-axe="all" onclick="setAxe('all',this)">
-      <span class="swatch"></span><span class="lbl">Tous les signaux</span><span class="cnt num" id="n-all">10</span>
+      <span class="swatch"></span><span class="lbl" id="lbl-all">Tous les signaux</span><span class="cnt num" id="n-all">10</span>
     </div>
     <div class="axis-row" data-axe="1" onclick="setAxe('1',this)">
-      <span class="swatch"></span><span class="lbl">Compétiteurs</span><span class="cnt num" id="n-1">4</span>
+      <span class="swatch"></span><span class="lbl" id="lbl-ax1">Compétiteurs</span><span class="cnt num" id="n-1">4</span>
     </div>
     <div class="axis-row" data-axe="2" onclick="setAxe('2',this)">
-      <span class="swatch"></span><span class="lbl">Environnement d'affaires</span><span class="cnt num" id="n-2">4</span>
+      <span class="swatch"></span><span class="lbl" id="lbl-ax2">Environnement d'affaires</span><span class="cnt num" id="n-2">4</span>
     </div>
     <div class="axis-row" data-axe="3" onclick="setAxe('3',this)">
-      <span class="swatch"></span><span class="lbl">Environnement technologique</span><span class="cnt num" id="n-3">2</span>
+      <span class="swatch"></span><span class="lbl" id="lbl-ax3">Environnement technologique</span><span class="cnt num" id="n-3">2</span>
     </div>
     <div class="rail-geo">
-      <div class="rail-label">Géographie</div>
+      <div class="rail-label" id="lbl-geo">Géographie</div>
       <div class="geo-row active" data-geo="all" onclick="setGeo('all',this)">
-        <span class="swatch"></span><span class="lbl">Toutes</span><span class="cnt num" id="g-all">10</span>
+        <span class="swatch"></span><span class="lbl" id="lbl-geoall">Toutes</span><span class="cnt num" id="g-all">10</span>
       </div>
       <div class="geo-row" data-geo="an" onclick="setGeo('an',this)">
-        <span class="swatch"></span><span class="lbl">Amérique du Nord</span><span class="cnt num" id="g-an">10</span>
+        <span class="swatch"></span><span class="lbl" id="lbl-geoan">Amérique du Nord</span><span class="cnt num" id="g-an">10</span>
       </div>
       <div class="geo-row" data-geo="intl" onclick="setGeo('intl',this)">
-        <span class="swatch"></span><span class="lbl">International</span><span class="cnt num" id="g-intl">0</span>
+        <span class="swatch"></span><span class="lbl" id="lbl-geointl">International</span><span class="cnt num" id="g-intl">0</span>
       </div>
     </div>
   </nav>
@@ -278,9 +282,9 @@
     <div class="titleblock">
       <div class="tb-top">
         <div class="tb-title" id="tb-title">Tous les signaux</div>
-        <div class="tb-meta"><b class="num">10</b> signaux</div>
+        <div class="tb-meta"><b class="num">10</b> <span id="lbl-signaux">signaux</span></div>
       </div>
-      <div class="tb-period">Période couverte — 1<sup>er</sup> juin au 30 juin 2026</div>
+      <div class="tb-period" id="tb-period">Période couverte — 1<sup>er</sup> juin au 30 juin 2026</div>
     </div>
 
     <div class="content-row">
@@ -289,35 +293,28 @@
       <!-- BRIEFING : résumé stratégique, lu avant le détail -->
       <div class="briefing">
         <div class="briefing-head">
-          <span class="briefing-eyebrow">Synthèse</span>
-          <span class="briefing-title">Ce qu'il faut retenir avant de lire les signaux</span>
+          <span class="briefing-eyebrow" id="lbl-synthese">Synthèse</span>
+          <span class="briefing-title" id="lbl-briefing">Ce qu'il faut retenir avant de lire les signaux</span>
         </div>
         <div class="briefing-radar">
-          <div class="bc-h radar">À surveiller — prochaines semaines</div>
-          <div class="watch-grid">
-            <div class="watch-item"><b>Clôture QXO-TopBuild</b><span>Actionnaires approuvés à 78 % le 29 juin · financement de 3 G$ US clôturé le 17 juin</span></div>
-            <div class="watch-item"><b>Dossier Carlisle / Owens Corning</b><span>Suite des discussions après les offres non sollicitées révélées le 29 juin</span></div>
-            <div class="watch-item"><b>Approvisionnement polyiso / MDI</b><span>Vérifier si le resserrement de juin se traduit par des délais ou hausses de prix sur le terrain</span></div>
-            <div class="watch-item"><b>Code de construction du Québec</b><span>Suivre l'adoption officielle de la prolongation transitoire proposée le 23 juin</span></div>
-          </div>
+          <div class="bc-h radar" id="lbl-watch">À surveiller — prochaines semaines</div>
+          <div class="watch-grid" id="watch-grid"></div>
         </div>
         <div class="briefing-oprisk">
           <div class="briefing-col">
-            <div class="bc-h opp">Opportunités</div>
-            <div class="op-text"><b>Débouché préfabrication.</b> La Loi sur les Logements Construits au Canada (13 G$, sanction royale le 18 juin) priorise les méthodes modernes de construction.</div>
-            <div class="op-text"><b>Fenêtre de conformité.</b> La prolongation proposée de la période transitoire du Code de construction du Québec laisse plus de temps pour positionner les arguments techniques de Fransyl.</div>
+            <div class="bc-h opp" id="lbl-opp">Opportunités</div>
+            <div id="opp-feed"></div>
           </div>
           <div class="briefing-col">
-            <div class="bc-h risk">Risques</div>
-            <div class="risk-text"><b>Consolidation accélérée.</b> QXO-TopBuild se dirige vers une clôture rapide pendant que Carlisle multiplie les offres sur Owens Corning.</div>
-            <div class="risk-text"><b>Resserrement du polyiso.</b> Les arrêts Covestro et Huntsman en juin ont limité l'offre de MDI.</div>
+            <div class="bc-h risk" id="lbl-risk">Risques</div>
+            <div id="risk-feed"></div>
           </div>
         </div>
       </div>
 
       <!-- FEED -->
       <div class="feed-head">
-        <div class="feed-h">Détail des signaux</div>
+        <div class="feed-h" id="lbl-detail">Détail des signaux</div>
       </div>
       <div id="feed"></div>
 
@@ -325,8 +322,8 @@
 
     <!-- SIDE : rapports & études sectorielles -->
     <aside class="side">
-      <div class="side-title">Rapports &amp; études à surveiller</div>
-      <div class="side-sub">Sources externes suivies en continu</div>
+      <div class="side-title" id="lbl-rapports">Rapports &amp; études à surveiller</div>
+      <div class="side-sub" id="lbl-rapports-sub">Sources externes suivies en continu</div>
       <div id="reports-feed"></div>
     </aside>
     </div>
@@ -335,51 +332,121 @@
 </div>
 
 <script>
-const AXEL = {"1":"Compétiteurs","2":"Environnement d'affaires","3":"Environnement technologique","all":"Tous les signaux"};
+let curLang = (localStorage.getItem('fransyl_veille_lang') === 'en') ? 'en' : 'fr';
+const t = v => (v && typeof v === 'object') ? (v[curLang] || v.fr) : v;
+
+const AXEL = {
+  "1":{fr:"Compétiteurs",en:"Competitors"},
+  "2":{fr:"Environnement d'affaires",en:"Business environment"},
+  "3":{fr:"Environnement technologique",en:"Technology environment"},
+  "all":{fr:"Tous les signaux",en:"All signals"}
+};
+const GEO_LABEL = { an: {fr:'Amérique du Nord', en:'North America'}, intl: {fr:'International', en:'International'} };
+const STATIC = {
+  fr:{ back:"← Toutes les éditions", methodo:"📋 Méthodologie & sources", suggestion:"💡 Proposer un ajout",
+       axes:"Axes", geo:"Géographie", geoall:"Toutes", signaux:"signaux",
+       synthese:"Synthèse", briefing:"Ce qu'il faut retenir avant de lire les signaux",
+       watch:"À surveiller — prochaines semaines", opp:"Opportunités", risk:"Risques",
+       detail:"Détail des signaux", rapports:"Rapports & études à surveiller",
+       rapportsSub:"Sources externes suivies en continu", period:"Période couverte — 1er juin au 30 juin 2026",
+       empty:"Aucun signal pour cette sélection.", insight:"Insight Fransyl" },
+  en:{ back:"← All editions", methodo:"📋 Methodology & sources", suggestion:"💡 Suggest an addition",
+       axes:"Axes", geo:"Geography", geoall:"All", signaux:"signals",
+       synthese:"Summary", briefing:"Key takeaways before reading the signals",
+       watch:"To watch — coming weeks", opp:"Opportunities", risk:"Risks",
+       detail:"Signal detail", rapports:"Reports & studies to watch",
+       rapportsSub:"External sources tracked continuously", period:"Period covered — June 1 to June 30, 2026",
+       empty:"No signal for this selection.", insight:"Fransyl insight" }
+};
+
+const WATCH = [
+  {label:{fr:"Clôture QXO-TopBuild",en:"QXO-TopBuild closing"}, text:{fr:"Actionnaires approuvés à 78 % le 29 juin · financement de 3 G$ US clôturé le 17 juin", en:"Shareholders approved at 78% on June 29 · US$3B financing closed June 17"}},
+  {label:{fr:"Dossier Carlisle / Owens Corning",en:"Carlisle / Owens Corning file"}, text:{fr:"Suite des discussions après les offres non sollicitées révélées le 29 juin", en:"Follow-up on discussions after unsolicited offers were revealed June 29"}},
+  {label:{fr:"Approvisionnement polyiso / MDI",en:"Polyiso / MDI supply"}, text:{fr:"Vérifier si le resserrement de juin se traduit par des délais ou hausses de prix sur le terrain", en:"Check whether June's tightening translates into field delays or price increases"}},
+  {label:{fr:"Code de construction du Québec",en:"Quebec Construction Code"}, text:{fr:"Suivre l'adoption officielle de la prolongation transitoire proposée le 23 juin", en:"Track the official adoption of the transitional extension proposed June 23"}}
+];
+const OPP = [
+  {label:{fr:"Débouché préfabrication.",en:"Prefabrication opportunity."}, text:{fr:"La Loi sur les Logements Construits au Canada (13 G$, sanction royale le 18 juin) priorise les méthodes modernes de construction.", en:"The Build Canada Homes Act ($13B, royal assent June 18) prioritizes modern construction methods."}},
+  {label:{fr:"Fenêtre de conformité.",en:"Compliance window."}, text:{fr:"La prolongation proposée de la période transitoire du Code de construction du Québec laisse plus de temps pour positionner les arguments techniques de Fransyl.", en:"The proposed extension of the Quebec Construction Code's transitional period leaves more time to position Fransyl's technical arguments."}}
+];
+const RISK = [
+  {label:{fr:"Consolidation accélérée.",en:"Accelerating consolidation."}, text:{fr:"QXO-TopBuild se dirige vers une clôture rapide pendant que Carlisle multiplie les offres sur Owens Corning.", en:"QXO-TopBuild is heading toward a fast close while Carlisle keeps raising offers for Owens Corning."}},
+  {label:{fr:"Resserrement du polyiso.",en:"Polyiso tightening."}, text:{fr:"Les arrêts Covestro et Huntsman en juin ont limité l'offre de MDI.", en:"Covestro and Huntsman shutdowns in June limited MDI supply."}}
+];
 
 const DATA = [
-  {axe:"1",geo:"an",tag:"QXO / TopBuild",title:"QXO et TopBuild franchissent deux jalons financiers clés vers la clôture de l'acquisition",
-   summary:"Tarification le 3 juin 2026 de 3 G$ US de billets de premier rang destinés à financer l'acquisition de TopBuild, clôture du financement prévue le 17 juin. Le 29 juin, les actionnaires des deux sociétés ont approuvé à environ 78 % des voix l'ensemble des résolutions requises pour la transaction.",
-   insight:"Ces jalons et l'approbation massive des actionnaires confirment que la fusion QXO/TopBuild (incluant Progressive Roofing) se dirige vers une clôture rapide — la consolidation de la distribution en isolation et toiture progresse plus vite que prévu.",
-   src:"QXO Investor Relations", date:"29 juin 2026", url:"https://investors.qxo.com/news/news-details/2026/QXO-and-TopBuild-Announce-Election-Deadline-for-TopBuild-Stockholders-to-Elect-Merger-Consideration/default.aspx"},
-  {axe:"1",geo:"an",tag:"IKO",title:"IKO amorce la construction d'une usine d'isolant XPS de 45 M$ à Brantford, Ontario",
-   summary:"Lancement officiel le 12 juin 2026 d'une nouvelle usine de fabrication de XPS de 67 000 pi², un investissement de plus de 45 M$ visant à renforcer la capacité manufacturière nord-américaine d'IKO.",
-   insight:"Un concurrent de toiture bien établi qui entre directement dans la fabrication de XPS en sol canadien élargit son empreinte concurrentielle — à surveiller pour l'impact sur la disponibilité et les prix en Ontario et au Québec.",
-   src:"GlobeNewswire (IKO)", date:"12 juin 2026", url:"https://www.globenewswire.com/news-release/2026/06/12/3311128/0/en/iko-breaks-ground-on-xps-insulation-manufacturing-facility-in-brantford.html"},
-  {axe:"1",geo:"an",tag:"Carlisle / Owens Corning",title:"Carlisle multiplie les offres non sollicitées sur Owens Corning, révèle le Wall Street Journal",
-   summary:"Le WSJ a rapporté le 29 juin 2026 plus d'une offre non sollicitée de Carlisle pour acquérir Owens Corning, transaction pouvant dépasser 10 G$ US. Le titre d'Owens Corning a bondi de 15,3 % à l'annonce, celui de Carlisle a reculé de 2,6 %.",
-   insight:"Une fusion combinerait deux fournisseurs clés de Fransyl (toiture commerciale, XPS, laine de roche) sous une même bannière — ce dossier de consolidation reste chaud et mérite un suivi rapproché.",
-   src:"Eastern Herald", date:"2 juillet 2026 (scoop WSJ du 29 juin)", url:"https://easternherald.com/2026/07/02/carlisle-companies-owens-corning-unsolicited-bid-acquisition-2026/"},
-  {axe:"1",geo:"an",tag:"GAF",title:"L'Académie de toiture GAF franchit le cap des 3 000 placements en emploi",
-   summary:"GAF a annoncé en juin 2026 que son programme GAF Roofing Academy a permis le placement de plus de 3 000 diplômés auprès d'entrepreneurs certifiés, dans un contexte de pénurie persistante de main-d'œuvre spécialisée.",
-   insight:"Un concurrent majeur investit directement dans son propre bassin de main-d'œuvre pour sécuriser sa capacité d'installation — un modèle à évaluer pour soutenir les installateurs partenaires de Fransyl au Québec.",
-   src:"LBM Journal", date:"juin 2026", url:"https://www.lbmjournal.com/industry-news/press-release/15827553/gaf-gaf-roofing-academy-hits-3000-job-placements-amid-skilled-labor-shortage"},
+  {axe:"1",geo:"an",tag:"QXO / TopBuild",
+   title:{fr:"QXO et TopBuild franchissent deux jalons financiers clés vers la clôture de l'acquisition", en:"QXO and TopBuild clear two key financial milestones toward closing the acquisition"},
+   summary:{fr:"Tarification le 3 juin 2026 de 3 G$ US de billets de premier rang destinés à financer l'acquisition de TopBuild, clôture du financement prévue le 17 juin. Le 29 juin, les actionnaires des deux sociétés ont approuvé à environ 78 % des voix l'ensemble des résolutions requises pour la transaction.",
+            en:"On June 3, 2026, US$3B in senior notes were priced to finance the TopBuild acquisition, with financing expected to close June 17. On June 29, shareholders of both companies approved roughly 78% of the votes for all resolutions required for the transaction."},
+   insight:{fr:"Ces jalons et l'approbation massive des actionnaires confirment que la fusion QXO/TopBuild (incluant Progressive Roofing) se dirige vers une clôture rapide — la consolidation de la distribution en isolation et toiture progresse plus vite que prévu.",
+            en:"These milestones and the overwhelming shareholder approval confirm that the QXO/TopBuild merger (including Progressive Roofing) is heading toward a fast close — distribution consolidation in insulation and roofing is progressing faster than expected."},
+   src:"QXO Investor Relations", date:{fr:"29 juin 2026", en:"June 29, 2026"}, url:"https://investors.qxo.com/news/news-details/2026/QXO-and-TopBuild-Announce-Election-Deadline-for-TopBuild-Stockholders-to-Elect-Merger-Consideration/default.aspx"},
+  {axe:"1",geo:"an",tag:"IKO",
+   title:{fr:"IKO amorce la construction d'une usine d'isolant XPS de 45 M$ à Brantford, Ontario", en:"IKO breaks ground on a $45M XPS insulation plant in Brantford, Ontario"},
+   summary:{fr:"Lancement officiel le 12 juin 2026 d'une nouvelle usine de fabrication de XPS de 67 000 pi², un investissement de plus de 45 M$ visant à renforcer la capacité manufacturière nord-américaine d'IKO.",
+            en:"An official groundbreaking on June 12, 2026 for a new 67,000-sq.-ft. XPS manufacturing plant, a more than $45M investment aimed at strengthening IKO's North American manufacturing capacity."},
+   insight:{fr:"Un concurrent de toiture bien établi qui entre directement dans la fabrication de XPS en sol canadien élargit son empreinte concurrentielle — à surveiller pour l'impact sur la disponibilité et les prix en Ontario et au Québec.",
+            en:"A well-established roofing competitor moving directly into XPS manufacturing on Canadian soil is expanding its competitive footprint — worth watching for the impact on availability and prices in Ontario and Quebec."},
+   src:"GlobeNewswire (IKO)", date:{fr:"12 juin 2026", en:"June 12, 2026"}, url:"https://www.globenewswire.com/news-release/2026/06/12/3311128/0/en/iko-breaks-ground-on-xps-insulation-manufacturing-facility-in-brantford.html"},
+  {axe:"1",geo:"an",tag:"Carlisle / Owens Corning",
+   title:{fr:"Carlisle multiplie les offres non sollicitées sur Owens Corning, révèle le Wall Street Journal", en:"Carlisle makes multiple unsolicited offers for Owens Corning, Wall Street Journal reveals"},
+   summary:{fr:"Le WSJ a rapporté le 29 juin 2026 plus d'une offre non sollicitée de Carlisle pour acquérir Owens Corning, transaction pouvant dépasser 10 G$ US. Le titre d'Owens Corning a bondi de 15,3 % à l'annonce, celui de Carlisle a reculé de 2,6 %.",
+            en:"The WSJ reported on June 29, 2026 that Carlisle had made more than one unsolicited offer to acquire Owens Corning, a deal potentially exceeding US$10B. Owens Corning shares jumped 15.3% on the news, while Carlisle's fell 2.6%."},
+   insight:{fr:"Une fusion combinerait deux fournisseurs clés de Fransyl (toiture commerciale, XPS, laine de roche) sous une même bannière — ce dossier de consolidation reste chaud et mérite un suivi rapproché.",
+            en:"A merger would combine two key Fransyl suppliers (commercial roofing, XPS, stone wool) under one banner — this consolidation story remains hot and warrants close monitoring."},
+   src:"Eastern Herald", date:{fr:"2 juillet 2026 (scoop WSJ du 29 juin)", en:"July 2, 2026 (WSJ scoop from June 29)"}, url:"https://easternherald.com/2026/07/02/carlisle-companies-owens-corning-unsolicited-bid-acquisition-2026/"},
+  {axe:"1",geo:"an",tag:"GAF",
+   title:{fr:"L'Académie de toiture GAF franchit le cap des 3 000 placements en emploi", en:"GAF Roofing Academy surpasses 3,000 job placements"},
+   summary:{fr:"GAF a annoncé en juin 2026 que son programme GAF Roofing Academy a permis le placement de plus de 3 000 diplômés auprès d'entrepreneurs certifiés, dans un contexte de pénurie persistante de main-d'œuvre spécialisée.",
+            en:"GAF announced in June 2026 that its GAF Roofing Academy program has placed more than 3,000 graduates with certified contractors, amid a persistent shortage of skilled labour."},
+   insight:{fr:"Un concurrent majeur investit directement dans son propre bassin de main-d'œuvre pour sécuriser sa capacité d'installation — un modèle à évaluer pour soutenir les installateurs partenaires de Fransyl au Québec.",
+            en:"A major competitor is investing directly in its own labour pool to secure installation capacity — a model worth evaluating to support Fransyl's partner installers in Quebec."},
+   src:"LBM Journal", date:{fr:"juin 2026", en:"June 2026"}, url:"https://www.lbmjournal.com/industry-news/press-release/15827553/gaf-gaf-roofing-academy-hits-3000-job-placements-amid-skilled-labor-shortage"},
 
-  {axe:"2",geo:"an",tag:"Tarifs",title:"Ottawa prolonge d'un an l'allègement tarifaire acier/aluminium, Washington ajuste ses tarifs",
-   summary:"Le Canada a annoncé le 3 juin 2026 la prolongation jusqu'au 30 juin 2027 de l'allègement tarifaire horizontal sur certains produits d'acier et d'aluminium américains, après une proclamation américaine du 1er juin modifiant les tarifs de l'article 232.",
-   insight:"Ces ajustements croisés stabilisent en partie les coûts d'approvisionnement en composantes métalliques pour la toiture commerciale — à surveiller mois par mois vu l'évolution asymétrique des mesures entre les deux pays.",
-   src:"Gouvernement du Canada — Finances", date:"3 juin 2026", url:"https://www.canada.ca/en/department-finance/news/2026/06/canada-to-extend-steel-and-aluminum-tariff-measures-to-support-workers-and-businesses.html"},
-  {axe:"2",geo:"an",tag:"Réglementation — Québec",title:"Québec propose de prolonger d'un an la période transitoire du nouveau Code de construction",
-   summary:"La Gazette officielle du 23 juin 2026 publie un projet de règlement prolongeant d'un an la période transitoire pendant laquelle les anciennes dispositions du Chapitre I peuvent encore être appliquées, repoussant l'échéance d'octobre 2026 à 2027.",
-   insight:"Ce délai donne plus de temps à l'industrie pour se conformer, mais retarde aussi l'adoption des standards de performance d'enveloppe plus élevés qui favoriseraient la demande pour l'isolation haute performance de Fransyl.",
-   src:"Gazette officielle du Québec", date:"23 juin 2026", url:"https://www.publicationsduquebec.gouv.qc.ca/fileadmin/gazette/pdf_encrypte/lois_reglements/2026F/88345.pdf"},
-  {axe:"2",geo:"an",tag:"Consolidation — Distribution Québec",title:"Richelieu poursuit ses acquisitions au Québec avec Distributions Air-Cube",
-   summary:"Acquisition complétée le 26 juin 2026 de Distributions Air-Cube (Solutions Acoustiques), distributeur du Grand Montréal représentant environ 27 M$ de ventes annuelles additionnelles — troisième acquisition de Richelieu au Canada entre mai et juillet.",
-   insight:"Bien qu'Air-Cube ne soit pas un concurrent direct, cette acquisition confirme le rythme soutenu de consolidation chez les distributeurs québécois — renforce l'intérêt de solidifier les relations de distribution de Fransyl.",
-   src:"Newswire (Richelieu)", date:"26 juin 2026", url:"https://www.newswire.ca/news-releases/increase-in-sales-and-continued-acquisition-driven-growth-strategy-three-new-acquisitions-in-canada-830061715.html"},
-  {axe:"2",geo:"an",tag:"Approvisionnement — Polyiso / MDI",title:"Perturbations d'approvisionnement en MDI resserrent le marché du polyiso en juin",
-   summary:"Arrêt pour force majeure de l'usine Covestro de Baytown et arrêt de maintenance de l'usine Huntsman de Geismar (1er–10 juin) ont retiré des volumes d'un marché déjà concentré (95 % de la capacité chez quelques producteurs); pénuries de CO et de chlore sur la côte du Golfe ont prolongé les perturbations jusqu'à fin juin.",
-   insight:"Ce resserrement touche directement la disponibilité et le prix du polyiso, intrant central pour plusieurs gammes Fransyl — à croiser avec les délais de livraison rapportés sur le terrain dans les 60 à 90 prochains jours.",
-   src:"ChemAnalyst", date:"juin 2026", url:"https://www.chemanalyst.com/NewsAndDeals/NewsDetails/us-mdi-prices-set-to-surge-in-june-2026-as-covestro-force-42674"},
+  {axe:"2",geo:"an",tag:"Tarifs",
+   title:{fr:"Ottawa prolonge d'un an l'allègement tarifaire acier/aluminium, Washington ajuste ses tarifs", en:"Ottawa extends steel/aluminum tariff relief by one year, Washington adjusts its tariffs"},
+   summary:{fr:"Le Canada a annoncé le 3 juin 2026 la prolongation jusqu'au 30 juin 2027 de l'allègement tarifaire horizontal sur certains produits d'acier et d'aluminium américains, après une proclamation américaine du 1er juin modifiant les tarifs de l'article 232.",
+            en:"Canada announced on June 3, 2026 that it was extending horizontal tariff relief on certain U.S. steel and aluminum products until June 30, 2027, following a U.S. proclamation on June 1 amending Section 232 tariffs."},
+   insight:{fr:"Ces ajustements croisés stabilisent en partie les coûts d'approvisionnement en composantes métalliques pour la toiture commerciale — à surveiller mois par mois vu l'évolution asymétrique des mesures entre les deux pays.",
+            en:"These cross-border adjustments partly stabilize supply costs for metal components used in commercial roofing — worth monitoring month by month given the asymmetric evolution of measures between the two countries."},
+   src:"Gouvernement du Canada — Finances", date:{fr:"3 juin 2026", en:"June 3, 2026"}, url:"https://www.canada.ca/en/department-finance/news/2026/06/canada-to-extend-steel-and-aluminum-tariff-measures-to-support-workers-and-businesses.html"},
+  {axe:"2",geo:"an",tag:"Réglementation — Québec",
+   title:{fr:"Québec propose de prolonger d'un an la période transitoire du nouveau Code de construction", en:"Quebec proposes a one-year extension of the new Construction Code's transitional period"},
+   summary:{fr:"La Gazette officielle du 23 juin 2026 publie un projet de règlement prolongeant d'un an la période transitoire pendant laquelle les anciennes dispositions du Chapitre I peuvent encore être appliquées, repoussant l'échéance d'octobre 2026 à 2027.",
+            en:"The Gazette officielle of June 23, 2026 published a draft regulation extending by one year the transitional period during which the former Chapter I provisions may still apply, pushing the deadline from October 2026 to 2027."},
+   insight:{fr:"Ce délai donne plus de temps à l'industrie pour se conformer, mais retarde aussi l'adoption des standards de performance d'enveloppe plus élevés qui favoriseraient la demande pour l'isolation haute performance de Fransyl.",
+            en:"This extension gives the industry more time to comply, but also delays adoption of higher envelope-performance standards that would favour demand for Fransyl's high-performance insulation."},
+   src:"Gazette officielle du Québec", date:{fr:"23 juin 2026", en:"June 23, 2026"}, url:"https://www.publicationsduquebec.gouv.qc.ca/fileadmin/gazette/pdf_encrypte/lois_reglements/2026F/88345.pdf"},
+  {axe:"2",geo:"an",tag:"Consolidation — Distribution Québec",
+   title:{fr:"Richelieu poursuit ses acquisitions au Québec avec Distributions Air-Cube", en:"Richelieu continues its Quebec acquisitions with Distributions Air-Cube"},
+   summary:{fr:"Acquisition complétée le 26 juin 2026 de Distributions Air-Cube (Solutions Acoustiques), distributeur du Grand Montréal représentant environ 27 M$ de ventes annuelles additionnelles — troisième acquisition de Richelieu au Canada entre mai et juillet.",
+            en:"An acquisition of Distributions Air-Cube (Solutions Acoustiques) completed June 26, 2026 — a Greater Montreal distributor representing roughly $27M in additional annual sales — Richelieu's third Canadian acquisition between May and July."},
+   insight:{fr:"Bien qu'Air-Cube ne soit pas un concurrent direct, cette acquisition confirme le rythme soutenu de consolidation chez les distributeurs québécois — renforce l'intérêt de solidifier les relations de distribution de Fransyl.",
+            en:"While Air-Cube is not a direct competitor, this acquisition confirms the sustained pace of consolidation among Quebec distributors — reinforcing the case for Fransyl to solidify its distribution relationships."},
+   src:"Newswire (Richelieu)", date:{fr:"26 juin 2026", en:"June 26, 2026"}, url:"https://www.newswire.ca/news-releases/increase-in-sales-and-continued-acquisition-driven-growth-strategy-three-new-acquisitions-in-canada-830061715.html"},
+  {axe:"2",geo:"an",tag:"Approvisionnement — Polyiso / MDI",
+   title:{fr:"Perturbations d'approvisionnement en MDI resserrent le marché du polyiso en juin", en:"MDI supply disruptions tighten the polyiso market in June"},
+   summary:{fr:"Arrêt pour force majeure de l'usine Covestro de Baytown et arrêt de maintenance de l'usine Huntsman de Geismar (1er–10 juin) ont retiré des volumes d'un marché déjà concentré (95 % de la capacité chez quelques producteurs); pénuries de CO et de chlore sur la côte du Golfe ont prolongé les perturbations jusqu'à fin juin.",
+            en:"A force-majeure shutdown at Covestro's Baytown plant and a maintenance outage at Huntsman's Geismar plant (June 1-10) removed volumes from an already concentrated market (95% of capacity held by a few producers); CO and chlorine shortages on the Gulf Coast extended the disruptions through late June."},
+   insight:{fr:"Ce resserrement touche directement la disponibilité et le prix du polyiso, intrant central pour plusieurs gammes Fransyl — à croiser avec les délais de livraison rapportés sur le terrain dans les 60 à 90 prochains jours.",
+            en:"This tightening directly affects polyiso availability and price, a core input for several Fransyl product lines — worth cross-checking against field-reported lead times over the next 60 to 90 days."},
+   src:"ChemAnalyst", date:{fr:"juin 2026", en:"June 2026"}, url:"https://www.chemanalyst.com/NewsAndDeals/NewsDetails/us-mdi-prices-set-to-surge-in-june-2026-as-covestro-force-42674"},
 
-  {axe:"3",geo:"an",tag:"Politique fédérale — Logement",title:"La Loi sur les Logements Construits au Canada reçoit la sanction royale",
-   summary:"Sanction royale le 18 juin 2026, officialisant le mandat de Bâtiments Construits au Canada comme société d'État dotée d'une capitalisation initiale de 13 G$, dont le cadre de politique d'investissement priorise les méthodes modernes de construction (préfabrication, modulaire).",
-   insight:"Une agence fédérale de 13 G$ qui priorise la préfabrication dans ses achats crée un débouché structurel pour les systèmes d'enveloppe et d'isolation compatibles hors-site — un segment où Fransyl pourrait se positionner tôt.",
-   src:"Gouvernement du Canada", date:"19 juin 2026", url:"https://www.canada.ca/en/housing-infrastructure-communities/news/2026/06/government-of-canada-marks-royal-assent-of-the-build-canada-homes-act.html"},
-  {axe:"3",geo:"an",tag:"Robotisation — Automatisation industrielle",title:"Automate 2026 confirme l'entrée accélérée de la robotique physique dans la construction",
-   summary:"Le salon Automate 2026 (22–25 juin, Chicago, plus de 50 000 visiteurs — un record) a inauguré son premier Pavillon des robots humanoïdes commandité par NVIDIA, avec un accent sur le passage de l'IA physique du pilote au déploiement commercial.",
-   insight:"Salon d'automatisation généraliste plutôt que spécifique à la toiture, mais l'accélération commerciale de la robotique physique confirme une tendance de fond à surveiller pour l'installation et l'inspection sur les chantiers.",
-   src:"Tech Times", date:"21 juin 2026", url:"https://www.techtimes.com/articles/318805/20260621/automate-2026-opens-monday-nvidia-pavilion-marks-humanoid-robot-shift-production.htm"}
+  {axe:"3",geo:"an",tag:"Politique fédérale — Logement",
+   title:{fr:"La Loi sur les Logements Construits au Canada reçoit la sanction royale", en:"The Build Canada Homes Act receives royal assent"},
+   summary:{fr:"Sanction royale le 18 juin 2026, officialisant le mandat de Bâtiments Construits au Canada comme société d'État dotée d'une capitalisation initiale de 13 G$, dont le cadre de politique d'investissement priorise les méthodes modernes de construction (préfabrication, modulaire).",
+            en:"Royal assent on June 18, 2026 formalized Build Canada Homes' mandate as a Crown corporation with initial capitalization of $13B, whose investment policy framework prioritizes modern construction methods (prefabrication, modular)."},
+   insight:{fr:"Une agence fédérale de 13 G$ qui priorise la préfabrication dans ses achats crée un débouché structurel pour les systèmes d'enveloppe et d'isolation compatibles hors-site — un segment où Fransyl pourrait se positionner tôt.",
+            en:"A $13B federal agency prioritizing prefabrication in its procurement creates a structural opening for off-site-compatible envelope and insulation systems — a segment where Fransyl could position itself early."},
+   src:"Gouvernement du Canada", date:{fr:"19 juin 2026", en:"June 19, 2026"}, url:"https://www.canada.ca/en/housing-infrastructure-communities/news/2026/06/government-of-canada-marks-royal-assent-of-the-build-canada-homes-act.html"},
+  {axe:"3",geo:"an",tag:"Robotisation — Automatisation industrielle",
+   title:{fr:"Automate 2026 confirme l'entrée accélérée de la robotique physique dans la construction", en:"Automate 2026 confirms the accelerating entry of physical robotics into construction"},
+   summary:{fr:"Le salon Automate 2026 (22–25 juin, Chicago, plus de 50 000 visiteurs — un record) a inauguré son premier Pavillon des robots humanoïdes commandité par NVIDIA, avec un accent sur le passage de l'IA physique du pilote au déploiement commercial.",
+            en:"The Automate 2026 trade show (June 22-25, Chicago, more than 50,000 visitors — a record) launched its first Humanoid Robot Pavilion sponsored by NVIDIA, with a focus on moving physical AI from pilot to commercial deployment."},
+   insight:{fr:"Salon d'automatisation généraliste plutôt que spécifique à la toiture, mais l'accélération commerciale de la robotique physique confirme une tendance de fond à surveiller pour l'installation et l'inspection sur les chantiers.",
+            en:"A general automation trade show rather than roofing-specific, but the commercial acceleration of physical robotics confirms an underlying trend worth watching for installation and inspection on job sites."},
+   src:"Tech Times", date:{fr:"21 juin 2026", en:"June 21, 2026"}, url:"https://www.techtimes.com/articles/318805/20260621/automate-2026-opens-monday-nvidia-pavilion-marks-humanoid-robot-shift-production.htm"}
 ];
 
 let curAxe="all", curGeo="all";
@@ -388,7 +455,7 @@ function setAxe(a,el){
   curAxe=a;
   document.querySelectorAll('.axis-row').forEach(n=>n.classList.remove('active'));
   el.classList.add('active');
-  document.getElementById('tb-title').textContent = AXEL[a];
+  document.getElementById('tb-title').textContent = t(AXEL[a]);
   render();
 }
 function setGeo(g,el){
@@ -400,19 +467,19 @@ function setGeo(g,el){
 function getF(){ return DATA.filter(s => (curAxe==='all'||s.axe===curAxe) && (curGeo==='all'||s.geo===curGeo)); }
 
 function card(s){
-  const geoLabel = s.geo==='an' ? 'Amérique du Nord' : 'International';
+  const geoLabel = t(GEO_LABEL[s.geo]);
   return '<div class="card" data-axe="'+s.axe+'">'
     + '<div class="card-head">'
       + '<div class="card-meta">'
         + '<div class="card-meta-left"><span class="tag">'+s.tag+'</span><span class="geo-badge">'+geoLabel+'</span></div>'
-        + '<span class="card-date num">'+s.date+'</span>'
+        + '<span class="card-date num">'+t(s.date)+'</span>'
       + '</div>'
-      + '<div class="card-title">'+s.title+'</div>'
-      + '<div class="card-summary">'+s.summary+'</div>'
+      + '<div class="card-title">'+t(s.title)+'</div>'
+      + '<div class="card-summary">'+t(s.summary)+'</div>'
       + '<div class="card-src"><a href="'+s.url+'" target="_blank" rel="noopener">'+s.src+' ↗</a></div>'
     + '</div>'
     + '<div class="card-insight">'
-      + '<div class="ins-body"><div class="ins-label">Insight Fransyl</div><div class="ins-text">'+s.insight+'</div></div>'
+      + '<div class="ins-body"><div class="ins-label">'+STATIC[curLang].insight+'</div><div class="ins-text">'+t(s.insight)+'</div></div>'
     + '</div>'
   + '</div>';
 }
@@ -420,13 +487,13 @@ function card(s){
 function render(){
   const sigs = getF();
   const feed = document.getElementById('feed');
-  if(!sigs.length){ feed.innerHTML = '<div class="empty">Aucun signal pour cette sélection.</div>'; return; }
+  if(!sigs.length){ feed.innerHTML = '<div class="empty">'+STATIC[curLang].empty+'</div>'; return; }
   let html = '';
   if(curGeo==='all'){
     ['an','intl'].forEach(geo=>{
       const g = sigs.filter(s=>s.geo===geo);
       if(!g.length) return;
-      html += '<div class="geo-divider">'+(geo==='an'?'Amérique du Nord':'International')+'</div>';
+      html += '<div class="geo-divider">'+t(GEO_LABEL[geo])+'</div>';
       g.forEach(s=>{ html += card(s); });
     });
   } else {
@@ -434,16 +501,15 @@ function render(){
   }
   feed.innerHTML = html;
 }
-render();
 
 function reportCard(r){
   return '<div class="report-card">'
     + '<div class="report-meta"><span class="report-org">'+r.org+'</span><span class="report-country">'+r.country+'</span></div>'
-    + '<div class="report-freq">'+r.freq+'</div>'
-    + '<div class="report-title">'+r.title+'</div>'
-    + '<div class="report-summary">'+r.summary+'</div>'
-    + '<div class="report-insight"><b>Insight Fransyl —</b> '+r.insight+'</div>'
-    + '<div class="report-src"><a href="'+r.url+'" target="_blank" rel="noopener">'+r.src+' ↗</a> — '+r.date+'</div>'
+    + '<div class="report-freq">'+t(r.freq)+'</div>'
+    + '<div class="report-title">'+t(r.title)+'</div>'
+    + '<div class="report-summary">'+t(r.summary)+'</div>'
+    + '<div class="report-insight"><b>'+STATIC[curLang].insight+' —</b> '+t(r.insight)+'</div>'
+    + '<div class="report-src"><a href="'+r.url+'" target="_blank" rel="noopener">'+r.src+' ↗</a> — '+t(r.date)+'</div>'
   + '</div>';
 }
 
@@ -456,12 +522,62 @@ function renderReports(){
   ['an','intl'].forEach(geo=>{
     const g = REPORTS.filter(r=>r.geo===geo && r.pubDate>=EDITION_START && r.pubDate<=EDITION_END);
     if(!g.length) return;
-    html += '<div class="side-geo-label">'+(geo==='an'?'Amérique du Nord':'International')+'</div>';
+    html += '<div class="side-geo-label">'+t(GEO_LABEL[geo])+'</div>';
     g.forEach(r=>{ html += reportCard(r); });
   });
   el.innerHTML = html;
 }
-renderReports();
+
+function renderBriefing(){
+  document.getElementById('watch-grid').innerHTML = WATCH.map(w =>
+    '<div class="watch-item"><b>'+t(w.label)+'</b><span>'+t(w.text)+'</span></div>').join('');
+  document.getElementById('opp-feed').innerHTML = OPP.map(o =>
+    '<div class="op-text"><b>'+t(o.label)+'</b> '+t(o.text)+'</div>').join('');
+  document.getElementById('risk-feed').innerHTML = RISK.map(r =>
+    '<div class="risk-text"><b>'+t(r.label)+'</b> '+t(r.text)+'</div>').join('');
+}
+
+function applyStatic(){
+  const d = STATIC[curLang];
+  document.getElementById('back-link').textContent = d.back;
+  document.getElementById('nav-methodo').textContent = d.methodo;
+  document.getElementById('nav-suggestion').textContent = d.suggestion;
+  document.getElementById('lbl-axes').textContent = d.axes;
+  document.getElementById('lbl-all').textContent = t(AXEL.all);
+  document.getElementById('lbl-ax1').textContent = t(AXEL["1"]);
+  document.getElementById('lbl-ax2').textContent = t(AXEL["2"]);
+  document.getElementById('lbl-ax3').textContent = t(AXEL["3"]);
+  document.getElementById('lbl-geo').textContent = d.geo;
+  document.getElementById('lbl-geoall').textContent = d.geoall;
+  document.getElementById('lbl-geoan').textContent = t(GEO_LABEL.an);
+  document.getElementById('lbl-geointl').textContent = t(GEO_LABEL.intl);
+  document.getElementById('lbl-signaux').textContent = d.signaux;
+  document.getElementById('lbl-synthese').textContent = d.synthese;
+  document.getElementById('lbl-briefing').textContent = d.briefing;
+  document.getElementById('lbl-watch').textContent = d.watch;
+  document.getElementById('lbl-opp').textContent = d.opp;
+  document.getElementById('lbl-risk').textContent = d.risk;
+  document.getElementById('lbl-detail').textContent = d.detail;
+  document.getElementById('lbl-rapports').textContent = d.rapports;
+  document.getElementById('lbl-rapports-sub').textContent = d.rapportsSub;
+  document.getElementById('tb-period').innerHTML = curLang==='en'
+    ? 'Period covered — June 1 to June 30, 2026'
+    : 'Période couverte — 1<sup>er</sup> juin au 30 juin 2026';
+  const titleEl = document.getElementById('tb-title');
+  titleEl.textContent = t(AXEL[curAxe]);
+}
+
+function renderAll(){
+  applyStatic();
+  renderBriefing();
+  render();
+  renderReports();
+}
+window.onLangChange = function(next){
+  curLang = next;
+  renderAll();
+};
+renderAll();
 </script>
 </body>
 </html>

@@ -27,66 +27,84 @@
   <svg class="icon icon-sun"><use href="#icon-sun"/></svg>
   <svg class="icon icon-moon"><use href="#icon-moon"/></svg>
 </button>
+<button class="lang-toggle" id="lang-toggle" onclick="toggleLang()" aria-label="Switch to English" title="FR / EN">EN</button>
 
 <div class="wrap">
-  <a href="/" class="back-link">← Toutes les éditions</a>
-  <h1>Méthodologie &amp; sources</h1>
-  <div class="sub">Ce que la veille stratégique Fransyl couvre, comment les signaux sont sélectionnés, et où trouver l'information brute — pensé pour répondre rapidement aux questions du comité.</div>
+  <a href="/" class="back-link"><span class="lang-fr">← Toutes les éditions</span><span class="lang-en">← All editions</span></a>
 
-  <h2>Ce que la veille couvre — 3 axes</h2>
+  <h1><span class="lang-fr">Méthodologie &amp; sources</span><span class="lang-en">Methodology &amp; sources</span></h1>
+  <div class="sub">
+    <span class="lang-fr">Ce que la veille stratégique Fransyl couvre, comment les signaux sont sélectionnés, et où trouver l'information brute — pensé pour répondre rapidement aux questions du comité.</span>
+    <span class="lang-en">What the Fransyl strategic intelligence covers, how signals are selected, and where to find the underlying information — designed to answer committee questions quickly.</span>
+  </div>
+
+  <h2><span class="lang-fr">Ce que la veille couvre — 3 axes</span><span class="lang-en">What the briefing covers — 3 axes</span></h2>
 
   <div class="axis-block" data-axe="1">
-    <div class="axis-title"><span class="n">Axe 1</span>Compétiteurs</div>
+    <div class="axis-title"><span class="n">Axe 1</span><span class="lang-fr">Compétiteurs</span><span class="lang-en">Competitors</span></div>
     <div class="axis-desc">
-      <b>Toiture commerciale</b> — Soprema, Beacon/QXO, Carlisle, IKO, GAF, TopBuild, Tremco, Polyglass, ABC Supply, Johns Manville, Elevate, Roofmart, Protan, Garland, entre autres.<br>
-      <b>Isolation</b> — EPS (Plasti-Fab, Isolofoam, LegerLite, Polymos, Styrorail), XPS (Owens Corning, Dow), polyiso (CertainTeed), laine de roche (Rockwool, ThermaFibre), cellulose (Igloo).<br>
-      <b>Coffrage isolant (ICF)</b> — Nudura, FoxBlock, Amvic, Integra Spec, Polycrete, Keps.<br>
-      Suivi systématique des signaux faibles : offres d'emploi inhabituelles, brevets, changements de direction, nouveaux sites, certifications, partenariats, prix, repositionnement marketing.
+      <span class="lang-fr">
+        <b>Toiture commerciale</b> — Soprema, Beacon/QXO, Carlisle, IKO, GAF, TopBuild, Tremco, Polyglass, ABC Supply, Johns Manville, Elevate, Roofmart, Protan, Garland, entre autres.<br>
+        <b>Isolation</b> — EPS (Plasti-Fab, Isolofoam, LegerLite, Polymos, Styrorail), XPS (Owens Corning, Dow), polyiso (CertainTeed), laine de roche (Rockwool, ThermaFibre), cellulose (Igloo).<br>
+        <b>Coffrage isolant (ICF)</b> — Nudura, FoxBlock, Amvic, Integra Spec, Polycrete, Keps.<br>
+        Suivi systématique des signaux faibles : offres d'emploi inhabituelles, brevets, changements de direction, nouveaux sites, certifications, partenariats, prix, repositionnement marketing.
+      </span>
+      <span class="lang-en">
+        <b>Commercial roofing</b> — Soprema, Beacon/QXO, Carlisle, IKO, GAF, TopBuild, Tremco, Polyglass, ABC Supply, Johns Manville, Elevate, Roofmart, Protan, Garland, among others.<br>
+        <b>Insulation</b> — EPS (Plasti-Fab, Isolofoam, LegerLite, Polymos, Styrorail), XPS (Owens Corning, Dow), polyiso (CertainTeed), stone wool (Rockwool, ThermaFibre), cellulose (Igloo).<br>
+        <b>Insulated concrete forms (ICF)</b> — Nudura, FoxBlock, Amvic, Integra Spec, Polycrete, Keps.<br>
+        Systematic tracking of weak signals: unusual job postings, patents, leadership changes, new sites, certifications, partnerships, pricing, marketing repositioning.
+      </span>
     </div>
   </div>
 
   <div class="axis-block" data-axe="2">
-    <div class="axis-title"><span class="n">Axe 2</span>Environnement d'affaires</div>
+    <div class="axis-title"><span class="n">Axe 2</span><span class="lang-fr">Environnement d'affaires</span><span class="lang-en">Business environment</span></div>
     <div class="axis-desc">
-      Développement durable et matériaux biosourcés, mises en chantier (SCHL/CMHC), main-d'œuvre en construction, réglementation et codes (CNB 2025, CNÉB 2025, Code de construction du Québec), conjoncture économique et prix des matériaux, consolidation de l'industrie (fusions-acquisitions), tarifs et commerce international, chaîne d'approvisionnement (MDI, polyiso, EPS), gestion des résidus CRD.
+      <span class="lang-fr">Développement durable et matériaux biosourcés, mises en chantier (SCHL/CMHC), main-d'œuvre en construction, réglementation et codes (CNB 2025, CNÉB 2025, Code de construction du Québec), conjoncture économique et prix des matériaux, consolidation de l'industrie (fusions-acquisitions), tarifs et commerce international, chaîne d'approvisionnement (MDI, polyiso, EPS), gestion des résidus CRD.</span>
+      <span class="lang-en">Sustainability and bio-based materials, housing starts (CMHC), construction labour, regulation and codes (NBC 2025, NECB 2025, Quebec Construction Code), economic conditions and material prices, industry consolidation (M&amp;A), tariffs and international trade, supply chain (MDI, polyiso, EPS), construction/renovation/demolition waste management.</span>
     </div>
   </div>
 
   <div class="axis-block" data-axe="3">
-    <div class="axis-title"><span class="n">Axe 3</span>Environnement technologique</div>
+    <div class="axis-title"><span class="n">Axe 3</span><span class="lang-fr">Environnement technologique</span><span class="lang-en">Technology environment</span></div>
     <div class="axis-desc">
-      Robotisation des chantiers, matériaux à contenu recyclé (R&amp;D), maintenance prédictive et IoT, bâtiments intelligents et jumeaux numériques, construction hors-site et modulaire, EPS graphité, membranes innovantes, toiture solaire intégrée (BIPV), impression 3D, intelligence artificielle appliquée à la construction.
+      <span class="lang-fr">Robotisation des chantiers, matériaux à contenu recyclé (R&amp;D), maintenance prédictive et IoT, bâtiments intelligents et jumeaux numériques, construction hors-site et modulaire, EPS graphité, membranes innovantes, toiture solaire intégrée (BIPV), impression 3D, intelligence artificielle appliquée à la construction.</span>
+      <span class="lang-en">Job-site robotics, recycled-content materials (R&amp;D), predictive maintenance and IoT, smart buildings and digital twins, off-site and modular construction, graphite EPS, innovative membranes, building-integrated photovoltaics (BIPV), 3D printing, artificial intelligence applied to construction.</span>
     </div>
   </div>
 
-  <h2>Rapports &amp; études suivis</h2>
-  <div class="sub">Diffusés en continu dans la colonne « Rapports &amp; études à surveiller » de chaque édition — une référence mise à jour au fil des parutions, distincte du décompte mensuel de signaux.</div>
+  <h2><span class="lang-fr">Rapports &amp; études suivis</span><span class="lang-en">Reports &amp; studies tracked</span></h2>
+  <div class="sub">
+    <span class="lang-fr">Diffusés en continu dans la colonne « Rapports &amp; études à surveiller » de chaque édition — une référence mise à jour au fil des parutions, distincte du décompte mensuel de signaux.</span>
+    <span class="lang-en">Published continuously in the "Reports &amp; studies to watch" column of each edition — a reference updated as new reports are released, distinct from the monthly signal count.</span>
+  </div>
   <div class="src-grid">
     <div class="src-col">
-      <h3>Amérique du Nord</h3>
+      <h3><span class="lang-fr">Amérique du Nord</span><span class="lang-en">North America</span></h3>
       <ul>
-        <li>Pomerleau — Radar économique (trimestriel) et Rapport de développement durable (annuel)</li>
-        <li>SCHL / CMHC — Perspectives du marché de l'habitation (annuel)</li>
-        <li>APCHQ — Prévisions résidentielles (semestriel)</li>
-        <li>Dodge Construction Network — Momentum Index (mensuel)</li>
-        <li>NAHB / Wells Fargo — Housing Market Index (mensuel)</li>
-        <li>AIA / Deltek — Architecture Billings Index (mensuel)</li>
+        <li><span class="lang-fr">Pomerleau — Radar économique (trimestriel) et Rapport de développement durable (annuel)</span><span class="lang-en">Pomerleau — Economic Radar (quarterly) and Sustainability Report (annual)</span></li>
+        <li><span class="lang-fr">SCHL / CMHC — Perspectives du marché de l'habitation (annuel)</span><span class="lang-en">CMHC — Housing Market Outlook (annual)</span></li>
+        <li><span class="lang-fr">APCHQ — Prévisions résidentielles (semestriel)</span><span class="lang-en">APCHQ — Residential Forecasts (semi-annual)</span></li>
+        <li><span class="lang-fr">Dodge Construction Network — Momentum Index (mensuel)</span><span class="lang-en">Dodge Construction Network — Momentum Index (monthly)</span></li>
+        <li><span class="lang-fr">NAHB / Wells Fargo — Housing Market Index (mensuel)</span><span class="lang-en">NAHB / Wells Fargo — Housing Market Index (monthly)</span></li>
+        <li><span class="lang-fr">AIA / Deltek — Architecture Billings Index (mensuel)</span><span class="lang-en">AIA / Deltek — Architecture Billings Index (monthly)</span></li>
       </ul>
     </div>
     <div class="src-col">
-      <h3>International</h3>
+      <h3><span class="lang-fr">International</span><span class="lang-en">International</span></h3>
       <ul>
-        <li>Turner &amp; Townsend — Global Construction Market Intelligence (annuel)</li>
-        <li>RICS — Global Construction Monitor (trimestriel)</li>
-        <li>Arcadis — International Construction Costs Report (annuel)</li>
+        <li><span class="lang-fr">Turner &amp; Townsend — Global Construction Market Intelligence (annuel)</span><span class="lang-en">Turner &amp; Townsend — Global Construction Market Intelligence (annual)</span></li>
+        <li><span class="lang-fr">RICS — Global Construction Monitor (trimestriel)</span><span class="lang-en">RICS — Global Construction Monitor (quarterly)</span></li>
+        <li><span class="lang-fr">Arcadis — International Construction Costs Report (annuel)</span><span class="lang-en">Arcadis — International Construction Costs Report (annual)</span></li>
       </ul>
     </div>
   </div>
 
-  <h2>Sources consultées</h2>
+  <h2><span class="lang-fr">Sources consultées</span><span class="lang-en">Sources consulted</span></h2>
   <div class="src-grid">
     <div class="src-col">
-      <h3>Médias sectoriels</h3>
+      <h3><span class="lang-fr">Médias sectoriels</span><span class="lang-en">Industry media</span></h3>
       <ul>
         <li>Roofing Contractor Magazine</li>
         <li>Building Enclosure</li>
@@ -98,7 +116,7 @@
       </ul>
     </div>
     <div class="src-col">
-      <h3>Organismes et données</h3>
+      <h3><span class="lang-fr">Organismes et données</span><span class="lang-en">Agencies and data</span></h3>
       <ul>
         <li>SCHL / CMHC</li>
         <li>Statistique Canada</li>
@@ -110,19 +128,20 @@
     </div>
   </div>
 
-  <h2>Processus de sélection</h2>
+  <h2><span class="lang-fr">Processus de sélection</span><span class="lang-en">Selection process</span></h2>
   <ul class="process-list">
-    <li><b>Cadence</b> — édition mensuelle, contenu couvrant le mois précédent.</li>
-    <li><b>Recherche</b> — minimum 15 recherches structurées par édition, réparties sur les 3 axes.</li>
-    <li><b>Filtrage</b> — seuls les signaux datés et vérifiés des ~4 dernières semaines sont retenus; un signal ambigu ou non daté est exclu plutôt que forcé.</li>
-    <li><b>Aucun quota forcé</b> — si une case géographique ou un axe n'a pas de signal suffisamment solide, elle reste vide plutôt que remplie artificiellement.</li>
-    <li><b>Exclusions systématiques</b> — toiture résidentielle (bardeaux), technologie interne Fransyl (ERP, site web), catalogues Grizzly ASE.</li>
-    <li><b>Outils</b> — production assistée par des outils d'analyse et de veille automatisée, sous supervision de l'équipe marketing.</li>
+    <li><span class="lang-fr"><b>Cadence</b> — édition mensuelle, contenu couvrant le mois précédent.</span><span class="lang-en"><b>Cadence</b> — monthly edition, content covering the previous month.</span></li>
+    <li><span class="lang-fr"><b>Recherche</b> — minimum 15 recherches structurées par édition, réparties sur les 3 axes.</span><span class="lang-en"><b>Research</b> — a minimum of 15 structured searches per edition, spread across the 3 axes.</span></li>
+    <li><span class="lang-fr"><b>Filtrage</b> — seuls les signaux datés et vérifiés des ~4 dernières semaines sont retenus; un signal ambigu ou non daté est exclu plutôt que forcé.</span><span class="lang-en"><b>Filtering</b> — only dated, verified signals from the last ~4 weeks are retained; an ambiguous or undated signal is excluded rather than forced in.</span></li>
+    <li><span class="lang-fr"><b>Aucun quota forcé</b> — si une case géographique ou un axe n'a pas de signal suffisamment solide, elle reste vide plutôt que remplie artificiellement.</span><span class="lang-en"><b>No forced quota</b> — if a geography or axis has no sufficiently solid signal, it stays empty rather than being artificially filled.</span></li>
+    <li><span class="lang-fr"><b>Exclusions systématiques</b> — toiture résidentielle (bardeaux), technologie interne Fransyl (ERP, site web), catalogues Grizzly ASE.</span><span class="lang-en"><b>Systematic exclusions</b> — residential (shingle) roofing, internal Fransyl technology (ERP, website), Grizzly ASE catalogs.</span></li>
+    <li><span class="lang-fr"><b>Outils</b> — production assistée par des outils d'analyse et de veille automatisée, sous supervision de l'équipe marketing.</span><span class="lang-en"><b>Tools</b> — production assisted by analysis and automated-monitoring tools, under the marketing team's supervision.</span></li>
   </ul>
 
-  <footer>Diffusion restreinte — usage interne uniquement.</footer>
+  <footer><span class="lang-fr">Diffusion restreinte — usage interne uniquement.</span><span class="lang-en">Restricted distribution — internal use only.</span></footer>
 </div>
 
 <script src="/theme.js"></script>
+<script src="/lang.js"></script>
 </body>
 </html>

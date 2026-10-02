@@ -9,6 +9,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles.css">
 <script src="/theme.js"></script>
+<script src="/lang.js"></script>
+<script src="/i18n.js"></script>
 </head>
 <body class="page-home">
 
@@ -36,39 +38,32 @@
   <svg class="icon icon-sun"><use href="#icon-sun"/></svg>
   <svg class="icon icon-moon"><use href="#icon-moon"/></svg>
 </button>
+<button class="lang-toggle" id="lang-toggle" onclick="toggleLang()" aria-label="Switch to English" title="FR / EN">EN</button>
 
 <div class="gate">
   <div class="gate-card">
-    <div class="gate-brand">Fransyl — Veille stratégique</div>
-    <div class="gate-sub">Contenu à diffusion restreinte. Entrez le mot de passe fourni pour y accéder.</div>
-    <label class="gate-label" for="gate-pw">Mot de passe</label>
-    <input class="gate-input" type="password" id="gate-pw" autocomplete="off" placeholder="••••••••••••">
-    <button class="gate-btn" onclick="tryUnlock()">Accéder à la veille</button>
-    <div class="gate-error" id="gate-error">Mot de passe incorrect.</div>
+    <div class="gate-brand" data-i18n="gateBrand">Fransyl — Veille stratégique</div>
+    <div class="gate-sub" data-i18n="gateSub">Contenu à diffusion restreinte. Entrez le mot de passe fourni pour y accéder.</div>
+    <label class="gate-label" for="gate-pw" data-i18n="gateLabel">Mot de passe</label>
+    <input class="gate-input" type="password" id="gate-pw" autocomplete="off" placeholder="••••••••••••" data-i18n-attr="placeholder:gatePlaceholder">
+    <button class="gate-btn" onclick="tryUnlock()" data-i18n="gateBtn">Accéder à la veille</button>
+    <div class="gate-error" id="gate-error" data-i18n="gateError">Mot de passe incorrect.</div>
   </div>
 </div>
 
 <div class="site">
 <div class="wrap">
-  <h1>Groupe Fransyl</h1>
-  <div class="sub">Veille stratégique — éditions mensuelles</div>
+  <h1 data-i18n="homeH1">Groupe Fransyl</h1>
+  <div class="sub" data-i18n="homeSub">Veille stratégique — éditions mensuelles</div>
 
   <div class="util-nav">
-    <a class="nav-chip" href="/methodologie/"><svg class="icon"><use href="#icon-doc"/></svg>Méthodologie &amp; sources</a>
-    <a class="nav-chip" href="/suggestion/"><svg class="icon"><use href="#icon-bulb"/></svg>Proposer un ajout</a>
+    <a class="nav-chip" href="/methodologie/"><svg class="icon"><use href="#icon-doc"/></svg><span data-i18n="methodologie">Méthodologie &amp; sources</span></a>
+    <a class="nav-chip" href="/suggestion/"><svg class="icon"><use href="#icon-bulb"/></svg><span data-i18n="suggestion">Proposer un ajout</span></a>
   </div>
 
-  <a class="edition" href="/2026-08/">
-    <div class="title">Édition d'août 2026</div>
-    <div class="meta">Contenu couvrant juillet 2026 — 13 signaux</div>
-  </a>
+  <div id="editions"></div>
 
-  <a class="edition" href="/2026-07/">
-    <div class="title">Édition de juillet 2026</div>
-    <div class="meta">Contenu couvrant juin 2026 — 10 signaux</div>
-  </a>
-
-  <footer>Diffusion restreinte — usage interne uniquement.</footer>
+  <footer data-i18n="footer">Diffusion restreinte — usage interne uniquement.</footer>
 </div>
 </div>
 
@@ -108,6 +103,29 @@ document.getElementById('gate-pw').addEventListener('keydown', e => {
 if(localStorage.getItem(GATE_KEY) === '1'){
   unlock();
 }
+
+/* ---------- ÉDITIONS (bilingue) ---------- */
+let curLang = (localStorage.getItem('fransyl_veille_lang') === 'en') ? 'en' : 'fr';
+const t = v => (v && typeof v === 'object') ? (v[curLang] || v.fr) : v;
+
+const EDITIONS = [
+  {slug:"2026-08", title:{fr:"Édition d'août 2026", en:"August 2026 edition"}, meta:{fr:"Contenu couvrant juillet 2026 — 13 signaux", en:"Content covering July 2026 — 13 signals"}},
+  {slug:"2026-07", title:{fr:"Édition de juillet 2026", en:"July 2026 edition"}, meta:{fr:"Contenu couvrant juin 2026 — 10 signaux", en:"Content covering June 2026 — 10 signals"}}
+];
+
+function renderEditions(){
+  document.getElementById('editions').innerHTML = EDITIONS.map(e =>
+    '<a class="edition" href="/'+e.slug+'/">'
+    + '<div class="title">'+t(e.title)+'</div>'
+    + '<div class="meta">'+t(e.meta)+'</div>'
+    + '</a>').join('');
+}
+window.onLangChange = function(next){
+  curLang = next;
+  if(typeof applyI18n === 'function') applyI18n();
+  renderEditions();
+};
+renderEditions();
 </script>
 </body>
 </html>
