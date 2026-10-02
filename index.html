@@ -109,6 +109,8 @@ let curLang = (localStorage.getItem('fransyl_veille_lang') === 'en') ? 'en' : 'f
 const t = v => (v && typeof v === 'object') ? (v[curLang] || v.fr) : v;
 
 const EDITIONS = [
+  {slug:"2026-10", title:{fr:"Édition d'octobre 2026", en:"October 2026 edition"}, meta:{fr:"Contenu couvrant septembre 2026 — 8 signaux", en:"Content covering September 2026 — 8 signals"}},
+  {slug:"2026-09", title:{fr:"Édition de septembre 2026", en:"September 2026 edition"}, meta:{fr:"Contenu couvrant août 2026 — 18 signaux", en:"Content covering August 2026 — 18 signals"}},
   {slug:"2026-08", title:{fr:"Édition d'août 2026", en:"August 2026 edition"}, meta:{fr:"Contenu couvrant juillet 2026 — 13 signaux", en:"Content covering July 2026 — 13 signals"}},
   {slug:"2026-07", title:{fr:"Édition de juillet 2026", en:"July 2026 edition"}, meta:{fr:"Contenu couvrant juin 2026 — 10 signaux", en:"Content covering June 2026 — 10 signals"}}
 ];

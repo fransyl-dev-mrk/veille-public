@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fransyl — Veille stratégique · Octobre 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+<script src="/theme.js"></script>
+<script src="/lang.js"></script>
+<script src="/i18n.js"></script>
+<script src="/reports-data.js"></script>
+<script src="/events-data.js"></script>
+</head>
+<body class="page-edition">
+
+<svg style="display:none" aria-hidden="true">
+  <symbol id="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/>
+    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+    <line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/>
+    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+  </symbol>
+  <symbol id="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/>
+  </symbol>
+  <symbol id="icon-doc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+    <polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/><line x1="8" y1="9" x2="10" y2="9"/>
+  </symbol>
+  <symbol id="icon-bulb" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 18h6"/><path d="M10 22h4"/>
+    <path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1V18h6v-1.2c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2z"/>
+  </symbol>
+  <symbol id="icon-external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+    <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+  </symbol>
+</svg>
+
+<button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" aria-label="Basculer le mode clair/sombre" title="Mode clair / sombre">
+  <svg class="icon icon-sun"><use href="#icon-sun"/></svg>
+  <svg class="icon icon-moon"><use href="#icon-moon"/></svg>
+</button>
+<button class="lang-toggle" id="lang-toggle" onclick="toggleLang()" aria-label="Switch to English" title="FR / EN">EN</button>
+
+<div class="layout">
+
+  <!-- RAIL -->
+  <nav class="rail">
+    <div class="rail-brand">
+      <div class="rail-wordmark">Fransyl</div>
+      <div class="rail-sub">Veille stratégique — Octobre 2026</div>
+      <a href="/" class="back-link" data-i18n="back">← Toutes les éditions</a>
+    </div>
+    <div class="rail-links">
+      <a class="nav-chip" href="/methodologie/"><svg class="icon"><use href="#icon-doc"/></svg><span data-i18n="methodologie">Méthodologie &amp; sources</span></a>
+      <a class="nav-chip" href="/suggestion/"><svg class="icon"><use href="#icon-bulb"/></svg><span data-i18n="suggestion">Proposer un ajout</span></a>
+    </div>
+    <div class="rail-label" data-i18n="axes">Axes</div>
+    <div class="axis-row active" data-axe="all" onclick="setAxe('all',this)">
+      <span class="swatch"></span><span class="lbl" data-i18n="tousLesSignaux">Tous les signaux</span><span class="cnt num" id="n-all">8</span>
+    </div>
+    <div class="axis-row" data-axe="1" onclick="setAxe('1',this)">
+      <span class="swatch"></span><span class="lbl" data-i18n="competiteurs">Compétiteurs</span><span class="cnt num" id="n-1">1</span>
+    </div>
+    <div class="axis-row" data-axe="2" onclick="setAxe('2',this)">
+      <span class="swatch"></span><span class="lbl" data-i18n="environnementAffaires">Environnement d'affaires</span><span class="cnt num" id="n-2">7</span>
+    </div>
+    <div class="axis-row" data-axe="3" onclick="setAxe('3',this)">
+      <span class="swatch"></span><span class="lbl" data-i18n="environnementTechno">Environnement technologique</span><span class="cnt num" id="n-3">0</span>
+    </div>
+    <div class="rail-geo">
+      <div class="rail-label" data-i18n="geographie">Géographie</div>
+      <div class="geo-row active" data-geo="all" onclick="setGeo('all',this)">
+        <span class="swatch"></span><span class="lbl" data-i18n="toutes">Toutes</span><span class="cnt num" id="g-all">8</span>
+      </div>
+      <div class="geo-row" data-geo="an" onclick="setGeo('an',this)">
+        <span class="swatch"></span><span class="lbl" data-i18n="ameriqueDuNord">Amérique du Nord</span><span class="cnt num" id="g-an">8</span>
+      </div>
+      <div class="geo-row" data-geo="intl" onclick="setGeo('intl',this)">
+        <span class="swatch"></span><span class="lbl" data-i18n="international">International</span><span class="cnt num" id="g-intl">0</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="titleblock">
+      <div class="tb-top">
+        <div class="tb-title" id="tb-title" data-i18n="tousLesSignaux">Tous les signaux</div>
+        <div class="tb-meta"><b class="num">8</b> <span data-i18n="signaux">signaux</span></div>
+      </div>
+      <div class="tb-period" id="tb-period">
+        <span class="lang-fr-inline">Période couverte — 1<sup>er</sup> septembre au 30 septembre 2026</span>
+        <span class="lang-en-inline" style="display:none">Period covered — September 1 to September 30, 2026</span>
+      </div>
+    </div>
+
+    <div class="content-row">
+    <div class="content">
+
+      <!-- BRIEFING : résumé stratégique, lu avant le détail -->
+      <div class="briefing">
+        <div class="briefing-head">
+          <span class="briefing-eyebrow" data-i18n="synthese">Synthèse</span>
+          <span class="briefing-title" data-i18n="briefingTitle">Ce qu'il faut retenir avant de lire les signaux</span>
+        </div>
+        <div class="briefing-radar">
+          <div class="bc-h radar" data-i18n="watchTitle">À surveiller — prochaines semaines</div>
+          <div class="watch-grid" id="watch-grid"></div>
+        </div>
+        <div class="briefing-oprisk">
+          <div class="briefing-col opp">
+            <div class="bc-h opp" data-i18n="opportunites">Opportunités</div>
+            <div id="opp-feed"></div>
+          </div>
+          <div class="briefing-col risk">
+            <div class="bc-h risk" data-i18n="risques">Risques</div>
+            <div id="risk-feed"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FEED -->
+      <div class="feed-head">
+        <div class="feed-h" data-i18n="detailSignaux">Détail des signaux</div>
+      </div>
+      <div id="feed"></div>
+
+    </div>
+
+    <!-- SIDE : rapports & études sectorielles -->
+    <aside class="side">
+      <div class="side-title" data-i18n="rapportsEtudes">Rapports &amp; études à surveiller</div>
+      <div id="reports-feed"></div>
+    </aside>
+
+    <!-- SIDE : événements de l'industrie à venir (prospectif — mois de parution + mois suivant) -->
+    <aside class="side">
+      <div class="side-title" data-i18n="evenementsIndustrie">Événements de l'industrie à venir</div>
+      <div id="events-feed"></div>
+    </aside>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const AXEL = {
+  "1":{fr:"Compétiteurs",en:"Competitors"},
+  "2":{fr:"Environnement d'affaires",en:"Business environment"},
+  "3":{fr:"Environnement technologique",en:"Technology environment"},
+  "all":{fr:"Tous les signaux",en:"All signals"}
+};
+const EXT_ICON = '<svg class="icon-sm"><use href="#icon-external"/></svg>';
+
+let curLang = (localStorage.getItem('fransyl_veille_lang') === 'en') ? 'en' : 'fr';
+const t = v => (v && typeof v === 'object') ? (v[curLang] || v.fr) : v;
+const GEO_LABEL = { an: {fr:'Amérique du Nord', en:'North America'}, intl: {fr:'International', en:'International'} };
+
+/* Liste courte des concurrents/acteurs les plus fréquents (voir competiteurs.md,
+   dépôt veille) — mis en gras automatiquement dans le résumé/insight de chaque
+   signal pour qu'un dirigeant repère le concurrent concerné en un coup d'œil.
+   Liste volontairement courte (noms les plus récurrents) plutôt que la totalité
+   de competiteurs.md, pour limiter les faux positifs sur des noms génériques. */
+const ACTORS = ["TopBuild","QXO","Carlisle","Owens Corning","Soprema","Roofmart",
+  "Rockwool","Beacon","IKO","GAF","Tremco","Polyglass","ABC Supply","Johns Manville",
+  "Elevate","Amrize","Protan","Garland","CertainTeed","Saint-Gobain","Dow","AD Canada",
+  "Pomerleau","SCHL","CMHC","DEWALT","CNRC","BEWI"];
+const ACTORS_RE = new RegExp('\\b(' + ACTORS.map(n => n.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|') + ')\\b', 'g');
+function highlightActors(text){
+  return text.replace(ACTORS_RE, '<b>$1</b>');
+}
+
+const WATCH = [
+  {label:{fr:"Code de construction du Québec",en:"Quebec Construction Code"}, text:{fr:"Fin de la période transitoire du CNB 2020 modifié le 17 octobre 2026 — seule l'édition 2020 sera alors applicable", en:"End of the amended NBC 2020 transitional period on October 17, 2026 — only the 2020 edition will then apply"}},
+  {label:{fr:"Élections québécoises",en:"Quebec election"}, text:{fr:"Scrutin du 5 octobre · suivre les engagements en logement et en construction du gouvernement qui sera formé", en:"October 5 vote · track the housing and construction commitments of the government that forms"}},
+  {label:{fr:"Coûts d'intrants et tarifs",en:"Input costs and tariffs"}, text:{fr:"Effet des contre-tarifs entrés en vigueur le 8 septembre sur l'acier, l'aluminium et le gypse importés", en:"Effect of the counter-tariffs effective September 8 on imported steel, aluminum, and gypsum"}},
+  {label:{fr:"Pipeline non résidentiel",en:"Non-residential pipeline"}, text:{fr:"Prochaines données de permis et d'investissement de Statistique Canada — confirmer ou non le recul de juillet", en:"Upcoming Statistics Canada permit and investment data — to confirm or not July's decline"}}
+];
+const OPP = [
+  {label:{fr:"Institutionnel en croissance.",en:"Growing institutional segment."}, text:{fr:"L'investissement institutionnel progresse de 7,4 % en juillet — segment porteur pour la toiture commerciale et l'isolation de toiture, notamment en réfection.", en:"Institutional investment grew 7.4% in July — a strong segment for commercial roofing and roof insulation, notably in re-roofing."}},
+  {label:{fr:"Financement prévisible.",en:"Predictable financing."}, text:{fr:"La Banque du Canada maintient son taux à 2,25 % — une visibilité utile aux propriétaires d'immeubles pour planifier leurs réfections de toiture.", en:"The Bank of Canada holds its rate at 2.25% — useful visibility for building owners planning roof re-covers."}}
+];
+const RISK = [
+  {label:{fr:"Pipeline du neuf qui s'amincit.",en:"Thinning new-build pipeline."}, text:{fr:"Permis de bâtir en baisse de 17,3 % en juillet (non résidentiel −1,9 G$) et mises en chantier en recul graduel — les volumes de 2027 reposeront davantage sur la réfection.", en:"Building permits down 17.3% in July (non-residential −$1.9B) and housing starts gradually declining — 2027 volumes will rely more heavily on re-roofing."}},
+  {label:{fr:"Intrants plus chers.",en:"More expensive inputs."}, text:{fr:"Acier et aluminium américains à 50 % et gypse visé depuis le 8 septembre — pression possible sur les accessoires et composantes de toiture importés.", en:"U.S. steel and aluminum at 50% and gypsum targeted since September 8 — possible pressure on imported roofing accessories and components."}}
+];
+
+function renderBriefing(){
+  document.getElementById('watch-grid').innerHTML = WATCH.map(w =>
+    '<div class="watch-item"><b>'+t(w.label)+'</b><span>'+t(w.text)+'</span></div>').join('');
+  document.getElementById('opp-feed').innerHTML = OPP.map(o =>
+    '<div class="op-text"><b>'+t(o.label)+'</b> '+t(o.text)+'</div>').join('');
+  document.getElementById('risk-feed').innerHTML = RISK.map(r =>
+    '<div class="risk-text"><b>'+t(r.label)+'</b> '+t(r.text)+'</div>').join('');
+}
+function renderPeriod(){
+  document.querySelector('#tb-period .lang-fr-inline').style.display = curLang==='fr' ? '' : 'none';
+  document.querySelector('#tb-period .lang-en-inline').style.display = curLang==='en' ? '' : 'none';
+}
+
+const DATA = [
+  {axe:"1",geo:"an",tag:"Soprema",
+   title:{fr:"Soprema construit une usine de 10 000 m² au Mexique, première phase d'un programme pouvant atteindre 300 M$ US", en:"Soprema builds a 10,000 m² plant in Mexico, first phase of a program worth up to US$300M"},
+   summary:{fr:"Soprema a lancé fin août 2026 la construction d'une usine de 10 000 m² à San Miguel de Allende (Guanajuato, Mexique), dont la première pierre a été posée. Le site produira des solutions d'étanchéité, de protection et des systèmes de construction destinés au continent américain. Il s'agit de la première phase d'un programme d'investissement pouvant atteindre 300 M$ US et créer 250 emplois directs, selon la direction du groupe.",
+            en:"Soprema broke ground in late August 2026 on a 10,000 m² plant in San Miguel de Allende (Guanajuato, Mexico). The site will produce waterproofing, protection, and construction system solutions for the Americas. This is the first phase of an investment program worth up to US$300M and expected to create 250 direct jobs, according to group management."},
+   insight:{fr:"Soprema, concurrent principal de Fransyl, renforce sa capacité de production pour l'ensemble des Amériques — un signe d'ambition de volume et de coûts de fabrication plus bas à moyen terme. Rien n'indique à ce stade que ces volumes visent le marché canadien, mais il faut suivre si la nouvelle capacité modifie ses prix ou sa disponibilité en Amérique du Nord.",
+            en:"Soprema, Fransyl's main competitor, is strengthening its production capacity for the Americas as a whole — a sign of volume ambition and lower manufacturing costs over the medium term. Nothing at this stage indicates these volumes target the Canadian market, but it's worth tracking whether the new capacity changes its North American pricing or availability."},
+   src:"Batiweb", date:{fr:"septembre 2026", en:"September 2026"}, url:"https://www.batiweb.com/actualites/industrie/soprema-nouvelle-usine-mexique-guanajuato-49350"},
+  {axe:"2",geo:"an",tag:"Tarifs Canada–É.-U.",
+   title:{fr:"Les contre-tarifs canadiens de 27,6 G$ sont en vigueur depuis le 8 septembre", en:"Canada's $27.6B counter-tariffs are in effect since September 8"},
+   summary:{fr:"Entrés en vigueur le 8 septembre 2026 à 0 h 01, les contre-tarifs d'Ottawa frappent à 50 %, 25 % ou 15 % quelque 27,6 G$ d'importations américaines, soit plus de 800 lignes tarifaires. Les tarifs sur l'acier et l'aluminium américains passent de 25 % à 50 %, et la plaque de plâtre (gypse) figure parmi les produits visés à 50 %.",
+            en:"Effective September 8, 2026 at 12:01 a.m., Ottawa's counter-tariffs hit some $27.6B of U.S. imports — more than 800 tariff lines — at 50%, 25%, or 15%. Tariffs on U.S. steel and aluminum rise from 25% to 50%, and gypsum board is among the products hit at 50%."},
+   insight:{fr:"Les produits d'isolation EPS fabriqués au Québec sont peu exposés directement, mais les composantes importées des États-Unis (fixations et pièces métalliques, panneaux de gypse utilisés comme support de toiture) peuvent renchérir. À valider avec les achats : l'origine des références touchées et la fenêtre pour ajuster les prix ou sécuriser des sources canadiennes.",
+            en:"EPS insulation products manufactured in Quebec have little direct exposure, but components imported from the U.S. (metal fasteners and parts, gypsum board used as roof substrate) may become more expensive. Worth confirming with procurement: the origin of affected SKUs and the window to adjust prices or secure Canadian sources."},
+   src:"Norton Rose Fulbright", date:{fr:"8 septembre 2026", en:"September 8, 2026"}, url:"https://www.nortonrosefulbright.com/en/knowledge/publications/98be0106/canada-announces-counter-tariffs-on-us-goods-effective--september-8"},
+  {axe:"2",geo:"an",tag:"Mises en chantier",
+   title:{fr:"Les mises en chantier canadiennes reculent légèrement en août, le Québec fait mieux que la moyenne", en:"Canadian housing starts dip slightly in August, Quebec outperforms the average"},
+   summary:{fr:"La SCHL rapporte un rythme annualisé désaisonnalisé de 229 046 mises en chantier en août 2026, contre 229 360 en juillet. La moyenne mobile sur six mois s'établit à 244 149, en baisse de 1,3 % sur un mois. De modestes gains au Québec et en Alberta n'ont compensé qu'en partie les reculs ailleurs, surtout en Ontario.",
+            en:"CMHC reports a seasonally adjusted annual rate of 229,046 housing starts in August 2026, versus 229,360 in July. The six-month moving average stands at 244,149, down 1.3% month over month. Modest gains in Quebec and Alberta only partly offset declines elsewhere, especially in Ontario."},
+   insight:{fr:"Le neuf résidentiel (multilogements, unifamilial) est celui qui touche les gammes EPS et ICF de Fransyl; la toiture commerciale dépend davantage de l'ICI et de la réfection. Le Québec qui résiste mieux que l'Ontario soutient les ventes locales; la tendance de fond reste à un ralentissement graduel du neuf.",
+            en:"New residential (multi-unit, single-family) is what touches Fransyl's EPS and ICF lines; commercial roofing depends more on ICI and re-roofing. Quebec outperforming Ontario supports local sales; the underlying trend remains a gradual new-build slowdown."},
+   src:"SCHL / CMHC (Newswire)", date:{fr:"16 septembre 2026", en:"September 16, 2026"}, url:"https://www.newswire.ca/news-releases/housing-starts-and-construction-data-for-august-2026-883695558.html"},
+  {axe:"2",geo:"an",tag:"Permis de bâtir",
+   title:{fr:"Les permis de bâtir plongent de 17,3 % en juillet, menés par le non-résidentiel", en:"Building permits plunge 17.3% in July, led by non-residential"},
+   summary:{fr:"La valeur totale des permis de bâtir délivrés au Canada a reculé de 2,6 G$ (−17,3 %) en juillet 2026 pour atteindre 12,2 G$. Le secteur non résidentiel explique l'essentiel de la baisse (−1,9 G$), le résidentiel y contribuant à hauteur de 701,2 M$.",
+            en:"The total value of building permits issued in Canada fell $2.6B (−17.3%) in July 2026 to $12.2B. The non-residential sector accounts for most of the decline (−$1.9B), with residential contributing $701.2M."},
+   insight:{fr:"Les permis non résidentiels sont un indicateur avancé de la demande de toiture et d'enveloppe neuve de six à dix-huit mois. Une baisse de cette ampleur sur un seul mois reste à confirmer, mais elle invite à ne pas compter sur le neuf ICI pour soutenir les volumes de 2027 et à renforcer l'offre en réfection.",
+            en:"Non-residential permits are a 6-to-18-month leading indicator of new roofing and envelope demand. A decline of this magnitude in a single month still needs confirming, but it argues against counting on new ICI construction to support 2027 volumes, and for strengthening the re-roofing offer."},
+   src:"Statistique Canada — Le Quotidien", date:{fr:"16 septembre 2026", en:"September 16, 2026"}, url:"https://www150.statcan.gc.ca/n1/daily-quotidien/260916/dq260916a-eng.htm"},
+  {axe:"2",geo:"an",tag:"Investissement en construction",
+   title:{fr:"L'investissement non résidentiel progresse de 3,2 % en juillet, tiré par l'institutionnel", en:"Non-residential investment rises 3.2% in July, driven by institutional"},
+   summary:{fr:"L'investissement en construction de bâtiments a augmenté de 270,9 M$ (+1,2 %) pour atteindre 23,6 G$ en juillet 2026. Le non résidentiel a gagné 3,2 % (7,4 G$), porté par l'institutionnel (+7,4 %), l'industriel (+2,8 %) et le commercial (+0,8 %); le résidentiel est quasi stable (+0,3 %).",
+            en:"Investment in building construction rose $270.9M (+1.2%) to $23.6B in July 2026. Non-residential gained 3.2% ($7.4B), driven by institutional (+7.4%), industrial (+2.8%), and commercial (+0.8%); residential was nearly flat (+0.3%)."},
+   insight:{fr:"La vigueur de l'institutionnel (écoles, santé, édifices publics) est un segment porteur pour la toiture commerciale et l'isolation de toiture, souvent en réfection. Ce chiffre, qui mesure le travail réalisé, contraste avec le recul des permis du même mois : la demande actuelle tient, mais le pipeline futur s'amincit.",
+            en:"The strength of institutional (schools, healthcare, public buildings) is a strong segment for commercial roofing and roof insulation, often in re-roofing. This figure, which measures work put in place, contrasts with the same month's permit decline: current demand is holding, but the future pipeline is thinning."},
+   src:"Statistique Canada (Red Book Lumber Data)", date:{fr:"septembre 2026", en:"September 2026"}, url:"https://www.redbooklumberdata.com/2026/09/22/statistics-canada-investment-in-building-construction-july-2026/"},
+  {axe:"2",geo:"an",tag:"Taux d'intérêt",
+   title:{fr:"La Banque du Canada maintient son taux directeur à 2,25 %", en:"Bank of Canada holds its policy rate at 2.25%"},
+   summary:{fr:"Le 2 septembre 2026, la Banque du Canada a maintenu son taux cible du financement à un jour à 2,25 %, le taux d'escompte à 2,5 % et le taux de rémunération des dépôts à 2,20 %, comme l'anticipaient les analystes.",
+            en:"On September 2, 2026, the Bank of Canada held its target for the overnight rate at 2.25%, the bank rate at 2.5%, and the deposit rate at 2.20%, as analysts had anticipated."},
+   insight:{fr:"Un coût de financement stable donne de la visibilité aux propriétaires d'immeubles et aux promoteurs pour planifier les réfections de toiture et les projets d'enveloppe. Aucun soulagement à court terme pour les projets de neuf sensibles au crédit.",
+            en:"A stable financing cost gives building owners and developers visibility to plan roof re-covers and envelope projects. No short-term relief for credit-sensitive new-build projects."},
+   src:"Banque du Canada", date:{fr:"2 septembre 2026", en:"September 2, 2026"}, url:"https://www.bankofcanada.ca/multimedia/press-conference-policy-rate-announcement-september-2026/"},
+  {axe:"2",geo:"an",tag:"CCQ",
+   title:{fr:"La CCQ confirme une cyberattaque ayant compromis des renseignements personnels", en:"CCQ confirms a cyberattack that compromised personal information"},
+   summary:{fr:"La Commission de la construction du Québec (CCQ) a suspendu ses services en ligne le 24 août 2026 à la suite d'un incident de cybersécurité, ensuite confirmé comme une cyberattaque. Le 4 septembre, un porte-parole a confirmé la compromission de renseignements personnels de clients et d'employés; le site a été rétabli le 2 septembre et la reprise complète des services était prévue le 8 septembre.",
+            en:"The Commission de la construction du Québec (CCQ) suspended its online services on August 24, 2026 following a cybersecurity incident, later confirmed as a cyberattack. On September 4, a spokesperson confirmed personal information of clients and employees had been compromised; the site was restored September 2, with full service resumption expected September 8."},
+   insight:{fr:"Les couvreurs, entrepreneurs et travailleurs de l'industrie qui transigent avec la CCQ sont exposés à des tentatives d'hameçonnage exploitant cette fuite. Rappeler la vigilance aux équipes de vente et de service et à la clientèle, et anticiper de possibles délais administratifs chez les entrepreneurs clients.",
+            en:"Roofers, contractors, and industry workers who deal with the CCQ are exposed to phishing attempts exploiting this breach. Remind sales and service teams and customers to stay vigilant, and anticipate possible administrative delays among contractor clients."},
+   src:"CCQ", date:{fr:"2 septembre 2026", en:"September 2, 2026"}, url:"https://www.ccq.org/Nouvelles/2026/Retablissement-des-services"},
+  {axe:"2",geo:"an",tag:"Politique fédérale",
+   title:{fr:"Ottawa dépose la loi « Bâtir le Canada fort » pour accélérer les projets d'infrastructure", en:"Ottawa introduces the \"Building Canada Strong\" Act to speed up infrastructure projects"},
+   summary:{fr:"Le gouvernement du Canada a présenté le 21 septembre 2026 le projet de loi Bâtir le Canada fort (Building Canada Strong Act), qui vise à apporter plus de rapidité, de certitude et de prévisibilité à l'examen des projets d'infrastructure, tout en soutenant les travailleurs qui les réaliseront.",
+            en:"The Government of Canada introduced the Building Canada Strong Act on September 21, 2026, aiming to bring more speed, certainty, and predictability to infrastructure project review, while supporting the workers who will build them."},
+   insight:{fr:"Des approbations plus rapides pourraient faire passer plus tôt en chantier des ouvrages publics et industriels, donc élargir la demande en toiture et en enveloppe de grands bâtiments à moyen terme. L'effet reste conditionnel à l'adoption du projet de loi : à suivre, sans action immédiate.",
+            en:"Faster approvals could bring public and industrial projects to construction sooner, widening medium-term demand for roofing and envelope on large buildings. The effect remains conditional on the bill's passage: to watch, no immediate action."},
+   src:"Gouvernement du Canada", date:{fr:"21 septembre 2026", en:"September 21, 2026"}, url:"https://www.canada.ca/en/one-canadian-economy/news/2026/09/government-of-canada-introduces-legislation-to-transform-how-canada-builds.html"}
+];
+
+let curAxe="all", curGeo="all";
+
+function setAxe(a,el){
+  curAxe=a;
+  document.querySelectorAll('.axis-row').forEach(n=>n.classList.remove('active'));
+  el.classList.add('active');
+  const titleEl = document.getElementById('tb-title');
+  titleEl.removeAttribute('data-i18n');
+  titleEl.textContent = t(AXEL[a]);
+  render();
+}
+function setGeo(g,el){
+  curGeo=g;
+  document.querySelectorAll('.geo-row').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  render();
+}
+function getF(){ return DATA.filter(s => (curAxe==='all'||s.axe===curAxe) && (curGeo==='all'||s.geo===curGeo)); }
+
+function card(s){
+  const geoLabel = t(GEO_LABEL[s.geo]);
+  return '<div class="card" data-axe="'+s.axe+'">'
+    + '<div class="card-head">'
+      + '<div class="card-meta">'
+        + '<div class="card-meta-left"><span class="tag">'+s.tag+'</span><span class="geo-badge">'+geoLabel+'</span></div>'
+        + '<span class="card-date num">'+t(s.date)+'</span>'
+      + '</div>'
+      + '<div class="card-title">'+t(s.title)+'</div>'
+      + '<div class="card-summary">'+highlightActors(t(s.summary))+'</div>'
+      + '<div class="card-src"><a href="'+s.url+'" target="_blank" rel="noopener">'+s.src+EXT_ICON+'</a></div>'
+    + '</div>'
+    + '<div class="card-insight">'
+      + '<div class="ins-body"><div class="ins-label">'+I18N[curLang].insightLabel+'</div><div class="ins-text">'+highlightActors(t(s.insight))+'</div></div>'
+    + '</div>'
+  + '</div>';
+}
+
+function render(){
+  const sigs = getF();
+  const feed = document.getElementById('feed');
+  if(!sigs.length){ feed.innerHTML = '<div class="empty">'+I18N[curLang].aucunSignal+'</div>'; return; }
+  let html = '';
+  if(curGeo==='all'){
+    ['an','intl'].forEach(geo=>{
+      const g = sigs.filter(s=>s.geo===geo);
+      if(!g.length) return;
+      html += '<div class="geo-divider">'+t(GEO_LABEL[geo])+'</div>';
+      g.forEach(s=>{ html += card(s); });
+    });
+  } else {
+    sigs.forEach(s=>{ html += card(s); });
+  }
+  feed.innerHTML = html;
+}
+
+function reportCard(r){
+  return '<div class="report-card">'
+    + '<div class="report-meta"><span class="report-org">'+r.org+'</span><span class="report-country">'+r.country+'</span></div>'
+    + '<div class="report-freq">'+t(r.freq)+'</div>'
+    + '<div class="report-title">'+t(r.title)+'</div>'
+    + '<div class="report-summary">'+t(r.summary)+'</div>'
+    + '<div class="report-insight"><b>'+I18N[curLang].insightLabel+' —</b> '+t(r.insight)+'</div>'
+    + '<div class="report-src"><a href="'+r.url+'" target="_blank" rel="noopener">'+r.src+EXT_ICON+'</a> — '+t(r.date)+'</div>'
+  + '</div>';
+}
+
+const EDITION_START = "2026-09-01";
+const EDITION_END   = "2026-09-30";
+/* Mois de PARUTION de cette édition (distinct de la période couverte ci-dessus, qui est le
+   mois précédent) — sert de point de départ à la fenêtre événements ci-dessous. */
+const PUBLISH_MONTH_START = "2026-10-01";
+
+function renderReports(){
+  const el = document.getElementById('reports-feed');
+  let html = '';
+  ['an','intl'].forEach(geo=>{
+    const g = REPORTS.filter(r=>r.geo===geo && r.pubDate>=EDITION_START && r.pubDate<=EDITION_END);
+    if(!g.length) return;
+    html += '<div class="side-geo-label">'+t(GEO_LABEL[geo])+'</div>';
+    g.forEach(r=>{ html += reportCard(r); });
+  });
+  el.innerHTML = html;
+}
+
+function eventCard(e){
+  return '<div class="event-card">'
+    + '<span class="event-date">'+t(e.date)+'</span>'
+    + '<div class="event-title">'+t(e.title)+'</div>'
+    + '<div class="event-meta"><span class="event-org">'+e.org+'</span><span class="event-freq">'+t(e.freq)+'</span></div>'
+    + '<div class="event-summary">'+t(e.summary)+'</div>'
+    + '<div class="event-src"><a href="'+e.url+'" target="_blank" rel="noopener">'+e.src+EXT_ICON+'</a></div>'
+  + '</div>';
+}
+
+/* Fenêtre prospective : le mois de PARUTION de l'édition + le mois suivant (pas la période
+   couverte par les signaux, qui est le mois précédent) — ex. édition parue en octobre ->
+   événements d'octobre et de novembre. */
+function eventWindowRange(publishMonthStartISO){
+  const start = new Date(publishMonthStartISO+"T00:00:00");
+  const nextMonth = new Date(start.getFullYear(), start.getMonth()+1, 1);
+  const stop = new Date(start.getFullYear(), start.getMonth()+2, 0);
+  const iso = d => d.toISOString().slice(0,10);
+  const locale = curLang === 'en' ? 'en-CA' : 'fr-CA';
+  const and = curLang === 'en' ? 'and' : 'et';
+  const label1 = start.toLocaleDateString(locale,{month:'long'});
+  const label2 = nextMonth.toLocaleDateString(locale,{month:'long',year:'numeric'});
+  return {start:publishMonthStartISO, end:iso(stop), label:label1+' '+and+' '+label2};
+}
+
+function renderEvents(){
+  const el = document.getElementById('events-feed');
+  const range = eventWindowRange(PUBLISH_MONTH_START);
+  const upcoming = EVENTS.filter(e => e.startDate >= range.start && e.startDate <= range.end)
+    .sort((a,b) => a.startDate.localeCompare(b.startDate));
+  if(!upcoming.length){
+    const emptyTxt = curLang === 'en' ? 'No events found for '+range.label+'.' : 'Aucun événement recensé pour '+range.label+'.';
+    el.innerHTML = '<div class="events-empty">'+emptyTxt+'</div>';
+    return;
+  }
+  let html = '';
+  ['an','intl'].forEach(geo=>{
+    const g = upcoming.filter(e=>e.geo===geo);
+    if(!g.length) return;
+    html += '<div class="side-geo-label">'+t(GEO_LABEL[geo])+'</div>';
+    g.forEach(e=>{ html += eventCard(e); });
+  });
+  el.innerHTML = html;
+}
+
+function renderAll(){
+  renderBriefing();
+  renderPeriod();
+  render();
+  renderReports();
+  renderEvents();
+}
+window.onLangChange = function(next){
+  curLang = next;
+  if(typeof applyI18n === 'function') applyI18n();
+  const titleEl = document.getElementById('tb-title');
+  if(!titleEl.hasAttribute('data-i18n')) titleEl.textContent = t(AXEL[curAxe]);
+  renderAll();
+};
+renderAll();
+</script>
+</body>
+</html>

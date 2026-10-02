@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fransyl — Veille stratégique · Septembre 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+<script src="/theme.js"></script>
+<script src="/lang.js"></script>
+<script src="/i18n.js"></script>
+<script src="/reports-data.js"></script>
+<script src="/events-data.js"></script>
+</head>
+<body class="page-edition">
+
+<svg style="display:none" aria-hidden="true">
+  <symbol id="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/>
+    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+    <line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/>
+    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+  </symbol>
+  <symbol id="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/>
+  </symbol>
+  <symbol id="icon-doc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+    <polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/><line x1="8" y1="9" x2="10" y2="9"/>
+  </symbol>
+  <symbol id="icon-bulb" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 18h6"/><path d="M10 22h4"/>
+    <path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1V18h6v-1.2c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2z"/>
+  </symbol>
+  <symbol id="icon-external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+    <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+  </symbol>
+</svg>
+
+<button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" aria-label="Basculer le mode clair/sombre" title="Mode clair / sombre">
+  <svg class="icon icon-sun"><use href="#icon-sun"/></svg>
+  <svg class="icon icon-moon"><use href="#icon-moon"/></svg>
+</button>
+<button class="lang-toggle" id="lang-toggle" onclick="toggleLang()" aria-label="Switch to English" title="FR / EN">EN</button>
+
+<div class="layout">
+
+  <!-- RAIL -->
+  <nav class="rail">
+    <div class="rail-brand">
+      <div class="rail-wordmark">Fransyl</div>
+      <div class="rail-sub">Veille stratégique — Septembre 2026</div>
+      <a href="/" class="back-link" data-i18n="back">← Toutes les éditions</a>
+    </div>
+    <div class="rail-links">
+      <a class="nav-chip" href="/methodologie/"><svg class="icon"><use href="#icon-doc"/></svg><span data-i18n="methodologie">Méthodologie &amp; sources</span></a>
+      <a class="nav-chip" href="/suggestion/"><svg class="icon"><use href="#icon-bulb"/></svg><span data-i18n="suggestion">Proposer un ajout</span></a>
+    </div>
+    <div class="rail-label" data-i18n="axes">Axes</div>
+    <div class="axis-row active" data-axe="all" onclick="setAxe('all',this)">
+      <span class="swatch"></span><span class="lbl" data-i18n="tousLesSignaux">Tous les signaux</span><span class="cnt num" id="n-all">18</span>
+    </div>
+    <div class="axis-row" data-axe="1" onclick="setAxe('1',this)">
+      <span class="swatch"></span><span class="lbl" data-i18n="competiteurs">Compétiteurs</span><span class="cnt num" id="n-1">8</span>
+    </div>
+    <div class="axis-row" data-axe="2" onclick="setAxe('2',this)">
+      <span class="swatch"></span><span class="lbl" data-i18n="environnementAffaires">Environnement d'affaires</span><span class="cnt num" id="n-2">6</span>
+    </div>
+    <div class="axis-row" data-axe="3" onclick="setAxe('3',this)">
+      <span class="swatch"></span><span class="lbl" data-i18n="environnementTechno">Environnement technologique</span><span class="cnt num" id="n-3">4</span>
+    </div>
+    <div class="rail-geo">
+      <div class="rail-label" data-i18n="geographie">Géographie</div>
+      <div class="geo-row active" data-geo="all" onclick="setGeo('all',this)">
+        <span class="swatch"></span><span class="lbl" data-i18n="toutes">Toutes</span><span class="cnt num" id="g-all">18</span>
+      </div>
+      <div class="geo-row" data-geo="an" onclick="setGeo('an',this)">
+        <span class="swatch"></span><span class="lbl" data-i18n="ameriqueDuNord">Amérique du Nord</span><span class="cnt num" id="g-an">14</span>
+      </div>
+      <div class="geo-row" data-geo="intl" onclick="setGeo('intl',this)">
+        <span class="swatch"></span><span class="lbl" data-i18n="international">International</span><span class="cnt num" id="g-intl">4</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="titleblock">
+      <div class="tb-top">
+        <div class="tb-title" id="tb-title" data-i18n="tousLesSignaux">Tous les signaux</div>
+        <div class="tb-meta"><b class="num">18</b> <span data-i18n="signaux">signaux</span></div>
+      </div>
+      <div class="tb-period" id="tb-period">
+        <span class="lang-fr-inline">Période couverte — 1<sup>er</sup> août au 31 août 2026</span>
+        <span class="lang-en-inline" style="display:none">Period covered — August 1 to August 31, 2026</span>
+      </div>
+    </div>
+
+    <div class="content-row">
+    <div class="content">
+
+      <!-- BRIEFING : résumé stratégique, lu avant le détail -->
+      <div class="briefing">
+        <div class="briefing-head">
+          <span class="briefing-eyebrow" data-i18n="synthese">Synthèse</span>
+          <span class="briefing-title" data-i18n="briefingTitle">Ce qu'il faut retenir avant de lire les signaux</span>
+        </div>
+        <div class="briefing-radar">
+          <div class="bc-h radar" data-i18n="watchTitle">À surveiller — prochaines semaines</div>
+          <div class="watch-grid" id="watch-grid"></div>
+        </div>
+        <div class="briefing-oprisk">
+          <div class="briefing-col opp">
+            <div class="bc-h opp" data-i18n="opportunites">Opportunités</div>
+            <div id="opp-feed"></div>
+          </div>
+          <div class="briefing-col risk">
+            <div class="bc-h risk" data-i18n="risques">Risques</div>
+            <div id="risk-feed"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FEED -->
+      <div class="feed-head">
+        <div class="feed-h" data-i18n="detailSignaux">Détail des signaux</div>
+      </div>
+      <div id="feed"></div>
+
+    </div>
+
+    <!-- SIDE : rapports & études sectorielles -->
+    <aside class="side">
+      <div class="side-title" data-i18n="rapportsEtudes">Rapports &amp; études à surveiller</div>
+      <div id="reports-feed"></div>
+    </aside>
+
+    <!-- SIDE : événements de l'industrie à venir (prospectif — mois de parution + mois suivant) -->
+    <aside class="side">
+      <div class="side-title" data-i18n="evenementsIndustrie">Événements de l'industrie à venir</div>
+      <div id="events-feed"></div>
+    </aside>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const AXEL = {
+  "1":{fr:"Compétiteurs",en:"Competitors"},
+  "2":{fr:"Environnement d'affaires",en:"Business environment"},
+  "3":{fr:"Environnement technologique",en:"Technology environment"},
+  "all":{fr:"Tous les signaux",en:"All signals"}
+};
+const EXT_ICON = '<svg class="icon-sm"><use href="#icon-external"/></svg>';
+
+let curLang = (localStorage.getItem('fransyl_veille_lang') === 'en') ? 'en' : 'fr';
+const t = v => (v && typeof v === 'object') ? (v[curLang] || v.fr) : v;
+const GEO_LABEL = { an: {fr:'Amérique du Nord', en:'North America'}, intl: {fr:'International', en:'International'} };
+
+/* Liste courte des concurrents/acteurs les plus fréquents (voir competiteurs.md,
+   dépôt veille) — mis en gras automatiquement dans le résumé/insight de chaque
+   signal pour qu'un dirigeant repère le concurrent concerné en un coup d'œil.
+   Liste volontairement courte (noms les plus récurrents) plutôt que la totalité
+   de competiteurs.md, pour limiter les faux positifs sur des noms génériques. */
+const ACTORS = ["TopBuild","QXO","Carlisle","Owens Corning","Soprema","Roofmart",
+  "Rockwool","Beacon","IKO","GAF","Tremco","Polyglass","ABC Supply","Johns Manville",
+  "Elevate","Amrize","Protan","Garland","CertainTeed","Saint-Gobain","Dow","AD Canada",
+  "Pomerleau","SCHL","CMHC","DEWALT","CNRC","BEWI"];
+const ACTORS_RE = new RegExp('\\b(' + ACTORS.map(n => n.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|') + ')\\b', 'g');
+function highlightActors(text){
+  return text.replace(ACTORS_RE, '<b>$1</b>');
+}
+
+const WATCH = [
+  {label:{fr:"Tarifs Canada–É.-U.",en:"Canada–U.S. tariffs"}, text:{fr:"Contre-tarifs canadiens effectifs le 8 septembre · échéance de transition du Code de construction du Québec le 17 octobre 2026", en:"Canadian counter-tariffs effective September 8 · Quebec Construction Code transition deadline October 17, 2026"}},
+  {label:{fr:"Consolidation compétiteurs",en:"Competitor consolidation"}, text:{fr:"Issue de l'offre Carlisle / Owens Corning · intégration post-fusion QXO / TopBuild", en:"Outcome of the Carlisle / Owens Corning bid · post-merger QXO / TopBuild integration"}},
+  {label:{fr:"Soprema — activité concentrée",en:"Soprema — concentrated activity"}, text:{fr:"Troisième signal retenu en 2026 (direction, prix, produit) — positionnement à réévaluer", en:"Third signal recorded in 2026 (leadership, pricing, product) — positioning to reassess"}},
+  {label:{fr:"Robotisation &amp; IA de chantier",en:"Job-site robotics &amp; AI"}, text:{fr:"Multiplication des outils d'automatisation (excavation, contrôle qualité) — impact potentiel sur la pose d'enveloppe", en:"Proliferation of automation tools (excavation, quality control) — potential impact on envelope installation"}}
+];
+const OPP = [
+  {label:{fr:"Fenêtre tarifaire.",en:"Tariff window."}, text:{fr:"Les tarifs américains de 50 % sur le ciment/contreplaqué/verre/portes canadiens et la réplique de 27,6 G$ du Canada avantagent les fournisseurs à chaîne d'approvisionnement majoritairement québécoise/canadienne comme Fransyl.", en:"The 50% U.S. tariffs on Canadian cement/plywood/glass/doors and Canada's $27.6B retaliation favour suppliers with a mostly Quebec/Canadian supply chain, like Fransyl."}},
+  {label:{fr:"Pression sur les marges concurrentes.",en:"Pressure on competitors' margins."}, text:{fr:"Elevate (Amrize) hausse ses prix pour absorber ses coûts de fret et de matières — fenêtre commerciale pour les gammes de toiture Fransyl auprès des entrepreneurs sensibles au prix.", en:"Elevate (Amrize) is raising prices to absorb freight and material costs — a commercial window for Fransyl's roofing lines with price-sensitive contractors."}}
+];
+const RISK = [
+  {label:{fr:"Concentration de la distribution.",en:"Distribution concentration."}, text:{fr:"QXO (Beacon + TopBuild) devient le 2<sup class=\"num\">e</sup> plus grand distributeur nord-américain, avec un objectif de 50 G$ d'ici 2030 — pouvoir de négociation accru face aux manufacturiers comme Fransyl.", en:"QXO (Beacon + TopBuild) becomes the 2nd-largest North American distributor, targeting $50B by 2030 — increased negotiating power against manufacturers like Fransyl."}},
+  {label:{fr:"Escalade tarifaire soutenue.",en:"Sustained tariff escalation."}, text:{fr:"Quatrième développement tarifaire canado-américain de l'année — incertitude prolongée sur le coût des intrants et équipements importés des États-Unis.", en:"The fourth Canada-U.S. tariff development this year — prolonged uncertainty over the cost of inputs and equipment imported from the U.S."}}
+];
+
+function renderBriefing(){
+  document.getElementById('watch-grid').innerHTML = WATCH.map(w =>
+    '<div class="watch-item"><b>'+t(w.label)+'</b><span>'+t(w.text)+'</span></div>').join('');
+  document.getElementById('opp-feed').innerHTML = OPP.map(o =>
+    '<div class="op-text"><b>'+t(o.label)+'</b> '+t(o.text)+'</div>').join('');
+  document.getElementById('risk-feed').innerHTML = RISK.map(r =>
+    '<div class="risk-text"><b>'+t(r.label)+'</b> '+t(r.text)+'</div>').join('');
+}
+function renderPeriod(){
+  document.querySelector('#tb-period .lang-fr-inline').style.display = curLang==='fr' ? '' : 'none';
+  document.querySelector('#tb-period .lang-en-inline').style.display = curLang==='en' ? '' : 'none';
+}
+
+const DATA = [
+  {axe:"1",geo:"an",tag:"QXO",
+   title:{fr:"QXO publie ses premiers résultats trimestriels après la fusion TopBuild", en:"QXO posts its first quarterly results after the TopBuild merger"},
+   summary:{fr:"QXO Inc. a publié le 13 août 2026 ses résultats du deuxième trimestre 2026 : ventes nettes de 3,25 G$ US (+70,3 % sur un an), incluant l'impact de l'acquisition de TopBuild complétée le 1er juillet. L'entreprise se positionne désormais comme le deuxième plus important distributeur de produits de construction en Amérique du Nord, avec un objectif de 50 G$ US de revenus d'ici 2030.",
+            en:"QXO Inc. published its Q2 2026 results on August 13, 2026: net sales of US$3.25B (+70.3% year over year), including the impact of the TopBuild acquisition completed July 1. The company now positions itself as the second-largest construction products distributor in North America, targeting US$50B in revenue by 2030."},
+   insight:{fr:"La consolidation Beacon/TopBuild sous QXO crée un acteur de distribution toiture/isolation sans précédent en taille — Fransyl doit surveiller si ce nouveau géant renégocie ses conditions d'achat auprès des manufacturiers d'isolation, un facteur qui pourrait indirectement influencer les prix de référence du marché nord-américain.",
+            en:"The Beacon/TopBuild consolidation under QXO creates a roofing/insulation distribution player of unprecedented scale — Fransyl should watch whether this new giant renegotiates purchasing terms with insulation manufacturers, a factor that could indirectly influence North American benchmark prices."},
+   src:"QXO / SEC EDGAR", date:{fr:"13 août 2026", en:"August 13, 2026"}, url:"https://www.sec.gov/Archives/edgar/data/1236275/000162828026056734/qxoq2-26earningsrelease.htm"},
+  {axe:"1",geo:"an",tag:"Carlisle / Owens Corning",
+   title:{fr:"L'offre non sollicitée de Carlisle sur Owens Corning reste en suspens", en:"Carlisle's unsolicited bid for Owens Corning remains in limbo"},
+   summary:{fr:"Depuis fin juin 2026, Carlisle Companies a soumis plusieurs offres non sollicitées de plus de 10 G$ US pour acquérir Owens Corning, sans qu'Owens Corning ne s'engage dans des discussions formelles. Lors de son appel aux résultats du T2 2026 (transcription publiée le 7 août 2026), le PDG de Carlisle a refusé de commenter le dossier, réitérant que la discipline de capital de l'entreprise cible des acquisitions en enveloppe du bâtiment.",
+            en:"Since late June 2026, Carlisle Companies has submitted several unsolicited offers of more than US$10B to acquire Owens Corning, without Owens Corning entering formal discussions. On its Q2 2026 earnings call (transcript published August 7, 2026), Carlisle's CEO declined to comment on the matter, reiterating that the company's capital discipline targets building envelope acquisitions."},
+   insight:{fr:"Une fusion Carlisle/Owens Corning combinerait deux fournisseurs clés de Fransyl (toiture commerciale/EPS pour Carlisle, XPS/laine de roche pour Owens Corning) — un quatrième dossier de consolidation majeure suivi en 2026 chez Carlisle, à surveiller de près pour ses effets sur la disponibilité et le prix du XPS/laine de roche.",
+            en:"A Carlisle/Owens Corning merger would combine two key Fransyl suppliers (commercial roofing/EPS for Carlisle, XPS/stone wool for Owens Corning) — a fourth major consolidation story tracked at Carlisle in 2026, worth watching closely for its effects on XPS/stone wool availability and pricing."},
+   src:"The Motley Fool (transcription Carlisle)", date:{fr:"7 août 2026", en:"August 7, 2026"}, url:"https://www.fool.com/earnings/call-transcripts/2026/08/07/carlisle-csl-q2-2026-earnings-call-transcript/"},
+  {axe:"1",geo:"an",tag:"Owens Corning",
+   title:{fr:"Owens Corning : résultats du T2 2026 en forte hausse, action en hausse de 8 %", en:"Owens Corning: Q2 2026 results surge, stock up 8%"},
+   summary:{fr:"Owens Corning a publié le 5 août 2026 des résultats du deuxième trimestre supérieurs aux attentes de Wall Street : bénéfice ajusté par action de 3,93 $ (contre un consensus de 3,07 $) et revenus de 2,76 G$ (contre 2,65 G$ attendus). L'entreprise attribue ce rebond à sa stratégie de recentrage vers les produits de construction résidentiels et commerciaux, complétée par la vente de sa division fibre de verre en avril 2026.",
+            en:"Owens Corning published second-quarter results on August 5, 2026 that beat Wall Street expectations: adjusted EPS of $3.93 (vs. a $3.07 consensus) and revenue of $2.76B (vs. $2.65B expected). The company attributes the rebound to its strategic refocus toward residential and commercial building products, completed by the sale of its fibreglass division in April 2026."},
+   insight:{fr:"Le rebond financier après son recentrage confirme qu'Owens Corning dispose de moyens accrus pour investir en R&D et en distribution sur les segments XPS/laine de roche où Fransyl le côtoie directement — à mettre en parallèle avec l'intérêt d'acquisition non sollicité de Carlisle à son endroit.",
+            en:"The financial rebound after its refocus confirms Owens Corning has greater means to invest in R&D and distribution in the XPS/stone wool segments where Fransyl competes directly with it — worth weighing against Carlisle's unsolicited acquisition interest in the company."},
+   src:"Owens Corning (relations investisseurs)", date:{fr:"5 août 2026", en:"August 5, 2026"}, url:"https://investor.owenscorning.com/investors/stock-performance-and-earnings/press-releases/press-release-details/2026/Owens-Corning-Demonstrates-Value-of-Reshaped-Company-Delivers-Strong-Results-from-Continuing-Operations-in-the-Second-Quarter/default.aspx"},
+  {axe:"1",geo:"an",tag:"Soprema",
+   title:{fr:"Soprema lance une nouvelle barrière air-vapeur autoadhésive pour chantiers en climat froid", en:"Soprema launches a new self-adhered air-vapour barrier for cold-climate job sites"},
+   summary:{fr:"Soprema a annoncé le 19 août 2026 le lancement de SOPRASEAL STICK AVB AT, une barrière pare-air/pare-vapeur autoadhésive combinant un adhésif acrylique avancé et un revêtement tri-laminé en polyéthylène tissé, conçue pour maintenir la productivité d'installation en conditions froides et offrir une bonne résistance à la perforation.",
+            en:"Soprema announced on August 19, 2026 the launch of SOPRASEAL STICK AVB AT, a self-adhered air/vapour barrier combining an advanced acrylic adhesive with a tri-laminate woven polyethylene facer, designed to maintain installation productivity in cold conditions and offer good puncture resistance."},
+   insight:{fr:"Ce lancement cible directement le segment des membranes pare-air/pare-vapeur où Fransyl est actif avec sa gamme LEXSHIELD AVB — troisième signal Soprema retenu en 2026 après le changement de PDG (avril) et la hausse de prix (juillet), signe d'une activité soutenue chez le concurrent principal qui mérite un suivi rapproché de son positionnement produit et prix.",
+            en:"This launch directly targets the air/vapour barrier membrane segment where Fransyl is active with its LEXSHIELD AVB line — the third Soprema signal recorded in 2026 after the CEO change (April) and the price increase (July), a sign of sustained activity at the main competitor that warrants close tracking of its product and pricing positioning."},
+   src:"Soprema", date:{fr:"19 août 2026", en:"August 19, 2026"}, url:"https://www.soprema.us/news-articles/post/introducing-sopraseal-stick-avb-at"},
+  {axe:"1",geo:"an",tag:"IKO",
+   title:{fr:"IKO élargit sa distribution au Texas après ses investissements en capacité manufacturière", en:"IKO expands Texas distribution after manufacturing capacity investments"},
+   summary:{fr:"Le distributeur US Lumber Brokers a annoncé le 7 août 2026 offrir désormais la gamme complète des produits de toiture IKO North America aux entrepreneurs texans. Cette expansion de réseau survient après l'ouverture, plus tôt en 2026, de nouvelles usines IKO en Caroline du Sud et d'un site de 240 M$ US à Clay Hill (Floride).",
+            en:"U.S. distributor Lumber Brokers announced on August 7, 2026 that it now offers the full line of IKO North America roofing products to Texas contractors. This network expansion follows the opening earlier in 2026 of new IKO plants in South Carolina and a US$240M site in Clay Hill, Florida."},
+   insight:{fr:"IKO consolide rapidement sa capacité manufacturière et son réseau de distribution américains, ce qui renforce sa compétitivité de coûts logistiques — un facteur à surveiller pour ses effets indirects sur les prix au Canada, tout en gardant en tête qu'IKO demeure aussi un fournisseur ponctuel de Fransyl sur certaines lignes.",
+            en:"IKO is rapidly building out its U.S. manufacturing capacity and distribution network, strengthening its logistics-cost competitiveness — a factor to watch for its indirect effects on Canadian prices, while keeping in mind that IKO also remains an occasional supplier to Fransyl on certain lines."},
+   src:"Red Book Lumber Data", date:{fr:"7 août 2026", en:"August 7, 2026"}, url:"https://www.redbooklumberdata.com/2026/08/07/us-lumber-brokers-now-offers-the-full-line-of-iko-roofing-products-across-texas/"},
+  {axe:"1",geo:"an",tag:"Elevate / Amrize",
+   title:{fr:"Elevate (Amrize) hausse ses prix en juillet-août malgré la pression sur ses marges", en:"Elevate (Amrize) raises prices in July-August despite margin pressure"},
+   summary:{fr:"Amrize, maison mère d'Elevate depuis la scission de Holcim, a publié le 7 août 2026 des résultats du T2 2026 en hausse de 8,6 % à 3,49 G$ US, mais l'EBITDA ajusté de son segment enveloppe du bâtiment (incluant Elevate) a reculé de 5,2 % à 237 M$ US en raison des coûts de fret et de matières premières. La direction a confirmé la mise en place de hausses de prix additionnelles en juillet et en août 2026.",
+            en:"Amrize, Elevate's parent since the Holcim spinoff, published Q2 2026 results on August 7, 2026 showing revenue up 8.6% to US$3.49B, but adjusted EBITDA for its building envelope segment (including Elevate) fell 5.2% to US$237M due to freight and raw material costs. Management confirmed additional price increases were implemented in July and August 2026."},
+   insight:{fr:"La pression sur les marges d'Elevate et ses hausses de prix successives ouvrent une fenêtre commerciale pour Fransyl auprès des entrepreneurs en toiture commerciale sensibles au prix — à valider si ces hausses touchent des produits directement comparables aux gammes de membranes Fransyl.",
+            en:"The margin pressure on Elevate and its successive price increases open a commercial window for Fransyl with price-sensitive commercial roofing contractors — worth confirming whether these increases affect products directly comparable to Fransyl's membrane lines."},
+   src:"Investing.com (résultats Amrize)", date:{fr:"7 août 2026", en:"August 7, 2026"}, url:"https://www.investing.com/news/company-news/amrize-q2-2026-slides-show-86-revenue-gain-amid-margin-pressure-93CH-4846795"},
+  {axe:"1",geo:"an",tag:"CertainTeed",
+   title:{fr:"CertainTeed installe une technologie de recyclage d'eau à sa plus grande usine d'isolation", en:"CertainTeed installs water-recycling technology at its largest insulation plant"},
+   summary:{fr:"Saint-Gobain/CertainTeed a annoncé début août 2026 l'achèvement de l'installation d'une technologie de recyclage d'eau à son usine d'isolation de Kansas City, en activité depuis 1951 et présentée comme la plus grande usine d'isolation au monde — une mise à niveau qui devrait réduire sa consommation d'eau de 227 millions de gallons par année.",
+            en:"Saint-Gobain/CertainTeed announced in early August 2026 the completion of water-recycling technology at its Kansas City insulation plant, operating since 1951 and billed as the world's largest insulation plant — an upgrade expected to cut its water consumption by 227 million gallons per year."},
+   insight:{fr:"CertainTeed renforce son positionnement environnemental sur sa capacité de production d'isolation, un argument de plus en plus recherché par les spécificateurs — Fransyl gagnerait à documenter et communiquer plus activement ses propres initiatives environnementales pour rester compétitif sur cet axe.",
+            en:"CertainTeed is strengthening its environmental positioning on its insulation production capacity, an argument increasingly sought by specifiers — Fransyl would benefit from documenting and communicating its own environmental initiatives more actively to stay competitive on this front."},
+   src:"Retrofit Magazine", date:{fr:"3 août 2026", en:"August 3, 2026"}, url:"https://retrofitmagazine.com/saint-gobain-certainteed-insulation-plant-upgrades-equipment-to-save-water-reduce-landfill-waste/"},
+  {axe:"1",geo:"intl",tag:"Saint-Gobain (global)",
+   title:{fr:"Saint-Gobain accélère sa croissance au T2 2026 et ouvre 14 nouvelles usines", en:"Saint-Gobain accelerates growth in Q2 2026, opens 14 new plants"},
+   summary:{fr:"Saint-Gobain, maison mère de CertainTeed, a publié le 30 juillet 2026 (diffusion élargie le 1er août) des résultats semestriels en hausse : ventes globales de 23,6 G€ (+0,7 % à périmètre comparable), avec une accélération à +3,5 % au T2. Le groupe a ouvert 14 nouvelles lignes de production au premier semestre, dont 13 en Amérique du Nord, en Asie et sur les marchés émergents.",
+            en:"Saint-Gobain, CertainTeed's parent, published half-year results on July 30, 2026 (widely released August 1) showing growth: global sales of €23.6B (+0.7% like-for-like), accelerating to +3.5% in Q2. The group opened 14 new production lines in H1, 13 of them in North America, Asia, and emerging markets."},
+   insight:{fr:"L'accélération des investissements de capacité de Saint-Gobain hors d'Europe signale une stratégie d'expansion qui pourrait, à terme, renforcer la présence nord-américaine de CertainTeed en isolation/toiture face à Fransyl — un dossier de fond à suivre plutôt qu'un signal d'action immédiate.",
+            en:"Saint-Gobain's accelerating capacity investments outside Europe signal an expansion strategy that could, over time, strengthen CertainTeed's North American presence in insulation/roofing against Fransyl — a background file to monitor rather than an immediate-action signal."},
+   src:"Investing.com (résultats Saint-Gobain)", date:{fr:"1 août 2026", en:"August 1, 2026"}, url:"https://www.investing.com/news/company-news/saintgobain-h1-2026-slides-q2-growth-accelerates-to-35-93CH-4827026"},
+
+  {axe:"2",geo:"an",tag:"Tarifs — 50 % US",
+   title:{fr:"Les tarifs américains de 50 % frappent le ciment, le contreplaqué, le verre et les portes canadiens", en:"50% U.S. tariffs hit Canadian cement, plywood, glass, and doors"},
+   summary:{fr:"Les tarifs américains imposés en vertu de la Section 338 du Tariff Act sont entrés en vigueur le 22 août 2026, frappant à 50 % une large gamme de produits canadiens dont le ciment Portland (~16 % des importations américaines en provenance du Canada), le contreplaqué, les portes et le verre. L'Association canadienne de la construction souligne que seulement 60 % des intrants manufacturés utilisés en construction au Canada sont d'origine domestique, 25 % provenant des États-Unis.",
+            en:"U.S. tariffs imposed under Section 338 of the Tariff Act took effect August 22, 2026, hitting a wide range of Canadian products at 50%, including Portland cement (~16% of U.S. imports from Canada), plywood, doors, and glass. The Canadian Construction Association notes that only 60% of manufactured inputs used in Canadian construction are domestic, with 25% coming from the U.S."},
+   insight:{fr:"L'exposition élevée de la construction canadienne aux intrants américains crée une pression à la hausse sur les coûts pour les concurrents qui en dépendent — un avantage relatif potentiel pour Fransyl si sa chaîne d'approvisionnement demeure majoritairement québécoise/canadienne, à valider et à mettre de l'avant comme argument commercial.",
+            en:"Canadian construction's high exposure to U.S. inputs creates upward cost pressure for competitors who depend on them — a potential relative advantage for Fransyl if its supply chain remains mostly Quebec/Canadian, worth confirming and promoting as a commercial argument."},
+   src:"Daily Commercial News (Association canadienne de la construction)", date:{fr:"22 août 2026", en:"August 22, 2026"}, url:"https://canada.constructconnect.com/dcn/news/associations/2026/08/this-list-hits-hard-warns-cca-when-it-comes-to-materials-impacted-by-growing-tariffs"},
+  {axe:"2",geo:"an",tag:"Contre-tarifs Canada",
+   title:{fr:"Le Canada réplique avec 27,6 G$ de contre-tarifs sur les produits américains", en:"Canada retaliates with $27.6B in counter-tariffs on U.S. products"},
+   summary:{fr:"En réplique à l'escalade tarifaire américaine, le Canada a annoncé des contre-tarifs dollar pour dollar sur 27,6 G$ de produits américains, entrant en vigueur le 8 septembre 2026, ciblant notamment les produits de papier, les matériaux de construction, les électroménagers et les produits agricoles.",
+            en:"In response to the U.S. tariff escalation, Canada announced dollar-for-dollar counter-tariffs on $27.6B of U.S. products, effective September 8, 2026, targeting paper products, building materials, appliances, and agricultural products."},
+   insight:{fr:"Ce quatrième développement tarifaire canado-américain de 2026 (après la prolongation de juin, l'expiration de l'allègement de juillet et les tarifs de 50 % d'août) confirme une escalade continue plutôt qu'un épisode isolé — Fransyl doit budgéter une incertitude soutenue sur le coût des intrants et équipements américains pour les prochains trimestres.",
+            en:"This fourth Canada-U.S. tariff development of 2026 (after June's extension, July's relief expiry, and August's 50% tariffs) confirms an ongoing escalation rather than an isolated episode — Fransyl should budget for sustained uncertainty on the cost of U.S. inputs and equipment over the coming quarters."},
+   src:"CNN Business", date:{fr:"25 août 2026", en:"August 25, 2026"}, url:"https://www.cnn.com/2026/08/25/business/canada-us-tariffs-american-consumers"},
+  {axe:"2",geo:"an",tag:"Mises en chantier",
+   title:{fr:"Les mises en chantier résidentielles ralentissent en juillet, Montréal fait exception", en:"Residential housing starts slow in July, Montreal the exception"},
+   summary:{fr:"La SCHL a publié le 18 août 2026 les données de juillet 2026 sur les mises en chantier résidentielles : le taux annuel désaisonnalisé national recule de 5 % par rapport à juin (229 074 vs 240 773 unités), tiré par un recul de 6 % du secteur multifamilial urbain (le unifamilial restant stable à 38 700 unités). Les mises en chantier reculent de 19 % sur un an dans les centres de 10 000 habitants et plus (18 834 vs 23 155 unités); Montréal fait figure d'exception avec une hausse de 3 % sur un an tirée par le multilogement.",
+            en:"CMHC published July 2026 residential housing starts data on August 18, 2026: the national seasonally adjusted annual rate fell 5% from June (229,074 vs. 240,773 units), driven by a 6% decline in urban multi-family (single-family stable at 38,700 units). Starts fell 19% year over year in centres of 10,000+ (18,834 vs. 23,155 units); Montreal was the exception, up 3% year over year on multi-unit strength."},
+   insight:{fr:"Ces données de la SCHL portent exclusivement sur l'habitation résidentielle (elles ne couvrent pas les projets industriels, commerciaux ou institutionnels) : la croissance montréalaise du multilogement reste un débouché pertinent pour l'isolation EPS/XPS/polyiso et les produits de fondation/enveloppe de Fransyl utilisés en construction résidentielle multifamiliale, malgré le recul du unifamilial. Le ralentissement marqué à Toronto et Vancouver invite à suivre la résilience de ce pipeline résidentiel multifamilial au Québec — sans l'extrapoler au segment toiture commerciale/ICI, que cette publication ne couvre pas.",
+            en:"This CMHC data covers residential housing only (it does not cover industrial, commercial, or institutional projects): Montreal's multi-unit growth remains a relevant outlet for Fransyl's EPS/XPS/polyiso insulation and foundation/envelope products used in multi-family residential construction, despite the single-family decline. The marked slowdown in Toronto and Vancouver invites tracking the resilience of this Quebec multi-family residential pipeline — without extrapolating it to the commercial roofing/ICI segment, which this release does not cover."},
+   src:"SCHL / CMHC", date:{fr:"18 août 2026", en:"August 18, 2026"}, url:"https://www.cmhc-schl.gc.ca/media-newsroom/news-releases/2026/housing-starts-construction-data-july-2026"},
+  {axe:"2",geo:"an",tag:"Main-d'œuvre — CCQ",
+   title:{fr:"La CCQ ouvre des bassins de main-d'œuvre alors que la pénurie de travailleurs qualifiés persiste", en:"CCQ opens labour pools as the skilled-worker shortage persists"},
+   summary:{fr:"La Commission de la construction du Québec a annoncé le 25 août 2026 l'ouverture de bassins de main-d'œuvre pour au moins cinq jours ouvrables, signe de tensions persistantes sur la disponibilité de travailleurs qualifiés, dans un contexte où elle prévoit 213,3 millions d'heures de travail pour 2026.",
+            en:"The Commission de la construction du Québec announced on August 25, 2026 the opening of labour pools for at least five business days, a sign of persistent tension in skilled-worker availability, in a context where it forecasts 213.3 million hours of work for 2026."},
+   insight:{fr:"La pénurie de couvreurs qualifiés peut ralentir les chantiers de toiture commerciale et allonger les délais sur le terrain — Fransyl a intérêt à continuer d'investir dans la formation de ses installateurs partenaires et dans des systèmes qui réduisent la main-d'œuvre requise à la pose.",
+            en:"The shortage of skilled roofers can slow commercial roofing job sites and extend field lead times — Fransyl benefits from continuing to invest in training its partner installers and in systems that reduce the labour required for installation."},
+   src:"Commission de la construction du Québec", date:{fr:"25 août 2026", en:"August 25, 2026"}, url:"https://www.ccq.org/-/media/Project/Ccq/Ccq-Website/PDF/Qualification/annonce-bassins-main-oeuvre.pdf"},
+  {axe:"2",geo:"intl",tag:"BEWI — EPS recyclé",
+   title:{fr:"BEWI (Europe) : la division de recyclage d'EPS devient rentable pour la première fois", en:"BEWI (Europe): EPS recycling division turns profitable for the first time"},
+   summary:{fr:"Le groupe norvégien BEWI, un des plus grands producteurs européens d'isolation EPS, a présenté le 19 août 2026 ses résultats du T2 2026 : ventes en hausse de 19 % à 247,8 M€ et EBITDA ajusté en hausse de 57 %. Sa division Circular (recyclage d'EPS) devient profitable pour la première fois, avec une marge EBITDA de 11,5 %.",
+            en:"Norwegian group BEWI, one of Europe's largest EPS insulation producers, presented its Q2 2026 results on August 19, 2026: sales up 19% to €247.8M and adjusted EBITDA up 57%. Its Circular division (EPS recycling) turned profitable for the first time, with an 11.5% EBITDA margin."},
+   insight:{fr:"La rentabilisation du recyclage d'EPS en Europe démontre la viabilité commerciale d'une offre à contenu recyclé pour l'isolation — un signal à suivre pour évaluer l'opportunité d'une filière de contenu recyclé pour Fransyl au Québec, alors que les donneurs d'ouvrage exigent de plus en plus de déclarations environnementales de produit (DEP).",
+            en:"EPS recycling turning profitable in Europe demonstrates the commercial viability of a recycled-content insulation offering — a signal worth tracking to assess the opportunity for a recycled-content stream for Fransyl in Quebec, as project owners increasingly demand environmental product declarations (EPDs)."},
+   src:"BEWI ASA (rapport financier)", date:{fr:"19 août 2026", en:"August 19, 2026"}, url:"https://bewi.com/wp-content/uploads/2026/08/BEWI-Q2-2026-report.pdf"},
+  {axe:"2",geo:"intl",tag:"UE — CBAM",
+   title:{fr:"L'UE précise les règles de son mécanisme d'ajustement carbone aux frontières pour le ciment", en:"EU clarifies its carbon border adjustment mechanism rules for cement"},
+   summary:{fr:"La Commission européenne a publié le 14 août 2026 dix nouveaux documents d'orientation, dont un guide sectoriel pour le ciment, dans le cadre du CBAM entré en pleine application depuis janvier 2026. Les importateurs de ciment, d'acier, d'aluminium et d'autres intrants à forte intensité carbone dans l'UE doivent désormais déclarer et compenser leurs émissions incorporées.",
+            en:"The European Commission published ten new guidance documents on August 14, 2026, including a sector guide for cement, under the CBAM which has been in full application since January 2026. Importers of cement, steel, aluminum, and other carbon-intensive inputs into the EU must now declare and offset their embodied emissions."},
+   insight:{fr:"Le CBAM européen préfigure le type de mécanisme de comptabilisation du carbone incorporé que le Canada explore pour ses futurs codes — Fransyl a intérêt à commencer dès maintenant à documenter l'empreinte carbone de ses produits (DEP) pour anticiper une exigence similaire en Amérique du Nord.",
+            en:"The EU's CBAM foreshadows the type of embodied-carbon accounting mechanism Canada is exploring for future codes — Fransyl benefits from starting now to document its products' carbon footprint (EPDs) to anticipate a similar requirement in North America."},
+   src:"Commission européenne (via Akin Gump)", date:{fr:"14 août 2026", en:"August 14, 2026"}, url:"https://www.akingump.com/en/insights/alerts/eu-carbon-border-adjustment-mechanism-financial-obligations-commence-amid-proposed-scope-expansion-to-include-new-downstream-products"},
+
+  {axe:"3",geo:"an",tag:"Robotisation",
+   title:{fr:"Des excavatrices totalement autonomes passent en production sur des chantiers américains", en:"Fully autonomous excavators move into production on U.S. job sites"},
+   summary:{fr:"Bedrock Robotics (fondée par d'anciens ingénieurs de Waymo) a annoncé le 17 août 2026 le passage de ses excavatrices autonomes du mode supervisé à une exploitation sans opérateur sur des chantiers réels aux États-Unis, dont un site de traitement des eaux au Nevada et un chantier de terrassement de 1,2 million de verges cubes. Son système rétrofit la machinerie existante avec un module de capteurs installable en une journée, sans modification permanente.",
+            en:"Bedrock Robotics (founded by former Waymo engineers) announced on August 17, 2026 that its autonomous excavators moved from supervised mode to operator-free operation on real U.S. job sites, including a Nevada water-treatment site and a 1.2-million-cubic-yard earthmoving project. Its system retrofits existing machinery with a sensor module installable in one day, with no permanent modification."},
+   insight:{fr:"L'automatisation par rétrofit gagne les chantiers nord-américains au-delà du terrassement — un signal à suivre pour anticiper l'arrivée d'approches similaires dans la pose de membranes et d'isolants, notamment comme réponse à la pénurie de main-d'œuvre qui touche aussi les métiers de l'enveloppe.",
+            en:"Retrofit automation is spreading across North American job sites beyond earthmoving — a signal to track in anticipating similar approaches arriving in membrane and insulation installation, notably as a response to the labour shortage that also affects envelope trades."},
+   src:"GlobeNewswire", date:{fr:"17 août 2026", en:"August 17, 2026"}, url:"https://www.globenewswire.com/news-release/2026/08/17/3346247/0/en/bedrock-robotics-launches-first-fully-autonomous-excavator-deployments-on-critical-u-s-infrastructure-projects.html"},
+  {axe:"3",geo:"an",tag:"IA — contrôle qualité",
+   title:{fr:"Un nouvel outil d'IA vise à intercepter les erreurs techniques avant les reprises de chantier", en:"New AI tool aims to catch technical errors before costly rework"},
+   summary:{fr:"L'éditeur britannique Intrida a présenté le 28 août 2026 XcheckStudio, un outil infonuagique qui centralise et valide modèles 3D, plans techniques et documents de construction pour repérer les incohérences avant qu'elles ne se traduisent en reprises de travaux coûteuses.",
+            en:"British software maker Intrida presented XcheckStudio on August 28, 2026, a cloud tool that centralizes and validates 3D models, technical drawings, and construction documents to catch inconsistencies before they turn into costly rework."},
+   insight:{fr:"Les erreurs de spécification (valeurs R, détails d'étanchéité à l'air, compatibilité des systèmes) sont une source fréquente de reprises coûteuses en enveloppe du bâtiment — Fransyl devrait s'assurer que ses fiches techniques et données produits (IZOSOL, IZOFLÛTE) restent bien structurées pour ne pas être mal spécifiées en amont par ce type d'outil.",
+            en:"Specification errors (R-values, air-tightness details, system compatibility) are a frequent source of costly rework in building envelope — Fransyl should make sure its technical sheets and product data (IZOSOL, IZOFLÛTE) remain well structured so they aren't misspecified upstream by this type of tool."},
+   src:"Construction Briefing", date:{fr:"28 août 2026", en:"August 28, 2026"}, url:"https://www.constructionbriefing.com/technology/news"},
+  {axe:"3",geo:"an",tag:"Membranes — durée de vie",
+   title:{fr:"L'association EPDM lance une étude de terrain sur la durée de vie réelle des membranes", en:"EPDM association launches a field study on membranes' real-world lifespan"},
+   summary:{fr:"La EPDM Roofing Association a lancé le 26 août 2026 une étude scientifique visant à documenter la performance à long terme des membranes EPDM et à établir des méthodes d'estimation de leur durée de vie résiduelle sur des toitures commerciales âgées de 20 ans et plus, avec un premier rapport attendu au printemps 2027.",
+            en:"The EPDM Roofing Association launched a scientific study on August 26, 2026 aimed at documenting the long-term performance of EPDM membranes and establishing methods for estimating their remaining service life on commercial roofs 20 years and older, with a first report expected in spring 2027."},
+   insight:{fr:"Les résultats attendus pourraient redéfinir les normes de durée de vie garantie sur un segment concurrent des systèmes de toiture commerciale de Fransyl — un dossier de référence technique à surveiller pour étayer les comparaisons de longévité entre systèmes.",
+            en:"The expected results could redefine guaranteed service-life standards on a segment competing with Fransyl's commercial roofing systems — a technical reference file to watch to support longevity comparisons between systems."},
+   src:"Roofing Contractor", date:{fr:"26 août 2026", en:"August 26, 2026"}, url:"https://www.roofingcontractor.com/articles/102615-epdm-roofing-association-launches-field-membrane-study"},
+  {axe:"3",geo:"intl",tag:"Robotisation — Chine",
+   title:{fr:"La Chine affiche une accélération record de l'adoption robotique en construction", en:"China shows record acceleration in construction robotics adoption"},
+   summary:{fr:"La World Robot Conference 2026, tenue du 19 au 23 août à Pékin, a réuni plus de 300 exposants de 26 pays (+36 % sur un an) présentant plus de 3 000 produits, dont plus de 300 lancements mondiaux — un record de participation, avec une présence accrue de grandes entreprises d'État chinoises du secteur de la construction.",
+            en:"The World Robot Conference 2026, held August 19-23 in Beijing, gathered more than 300 exhibitors from 26 countries (+36% year over year) showcasing more than 3,000 products, including more than 300 world launches — a record turnout, with an increased presence of major Chinese state-owned construction companies."},
+   insight:{fr:"L'écart d'investissement en robotisation entre l'Asie et l'Amérique du Nord se creuse dans le secteur du bâtiment — un signal faible à surveiller plutôt qu'une action immédiate, ces technologies de pose/inspection pouvant atteindre le marché nord-américain d'ici quelques années.",
+            en:"The robotics investment gap between Asia and North America is widening in the building sector — a weak signal to watch rather than an immediate action, as these installation/inspection technologies could reach the North American market within a few years."},
+   src:"CGTN", date:{fr:"20 août 2026", en:"August 20, 2026"}, url:"https://news.cgtn.com/news/2026-08-20/Robots-move-closer-to-real-world-partners-at-World-Robot-Conference-1PL5LLAu6XK/p.html"}
+];
+
+let curAxe="all", curGeo="all";
+
+function setAxe(a,el){
+  curAxe=a;
+  document.querySelectorAll('.axis-row').forEach(n=>n.classList.remove('active'));
+  el.classList.add('active');
+  const titleEl = document.getElementById('tb-title');
+  titleEl.removeAttribute('data-i18n');
+  titleEl.textContent = t(AXEL[a]);
+  render();
+}
+function setGeo(g,el){
+  curGeo=g;
+  document.querySelectorAll('.geo-row').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  render();
+}
+function getF(){ return DATA.filter(s => (curAxe==='all'||s.axe===curAxe) && (curGeo==='all'||s.geo===curGeo)); }
+
+function card(s){
+  const geoLabel = t(GEO_LABEL[s.geo]);
+  return '<div class="card" data-axe="'+s.axe+'">'
+    + '<div class="card-head">'
+      + '<div class="card-meta">'
+        + '<div class="card-meta-left"><span class="tag">'+s.tag+'</span><span class="geo-badge">'+geoLabel+'</span></div>'
+        + '<span class="card-date num">'+t(s.date)+'</span>'
+      + '</div>'
+      + '<div class="card-title">'+t(s.title)+'</div>'
+      + '<div class="card-summary">'+highlightActors(t(s.summary))+'</div>'
+      + '<div class="card-src"><a href="'+s.url+'" target="_blank" rel="noopener">'+s.src+EXT_ICON+'</a></div>'
+    + '</div>'
+    + '<div class="card-insight">'
+      + '<div class="ins-body"><div class="ins-label">'+I18N[curLang].insightLabel+'</div><div class="ins-text">'+highlightActors(t(s.insight))+'</div></div>'
+    + '</div>'
+  + '</div>';
+}
+
+function render(){
+  const sigs = getF();
+  const feed = document.getElementById('feed');
+  if(!sigs.length){ feed.innerHTML = '<div class="empty">'+I18N[curLang].aucunSignal+'</div>'; return; }
+  let html = '';
+  if(curGeo==='all'){
+    ['an','intl'].forEach(geo=>{
+      const g = sigs.filter(s=>s.geo===geo);
+      if(!g.length) return;
+      html += '<div class="geo-divider">'+t(GEO_LABEL[geo])+'</div>';
+      g.forEach(s=>{ html += card(s); });
+    });
+  } else {
+    sigs.forEach(s=>{ html += card(s); });
+  }
+  feed.innerHTML = html;
+}
+
+function reportCard(r){
+  return '<div class="report-card">'
+    + '<div class="report-meta"><span class="report-org">'+r.org+'</span><span class="report-country">'+r.country+'</span></div>'
+    + '<div class="report-freq">'+t(r.freq)+'</div>'
+    + '<div class="report-title">'+t(r.title)+'</div>'
+    + '<div class="report-summary">'+t(r.summary)+'</div>'
+    + '<div class="report-insight"><b>'+I18N[curLang].insightLabel+' —</b> '+t(r.insight)+'</div>'
+    + '<div class="report-src"><a href="'+r.url+'" target="_blank" rel="noopener">'+r.src+EXT_ICON+'</a> — '+t(r.date)+'</div>'
+  + '</div>';
+}
+
+const EDITION_START = "2026-08-01";
+const EDITION_END   = "2026-08-31";
+/* Mois de PARUTION de cette édition (distinct de la période couverte ci-dessus, qui est le
+   mois précédent) — sert de point de départ à la fenêtre événements ci-dessous. */
+const PUBLISH_MONTH_START = "2026-09-01";
+
+function renderReports(){
+  const el = document.getElementById('reports-feed');
+  let html = '';
+  ['an','intl'].forEach(geo=>{
+    const g = REPORTS.filter(r=>r.geo===geo && r.pubDate>=EDITION_START && r.pubDate<=EDITION_END);
+    if(!g.length) return;
+    html += '<div class="side-geo-label">'+t(GEO_LABEL[geo])+'</div>';
+    g.forEach(r=>{ html += reportCard(r); });
+  });
+  el.innerHTML = html;
+}
+
+function eventCard(e){
+  return '<div class="event-card">'
+    + '<span class="event-date">'+t(e.date)+'</span>'
+    + '<div class="event-title">'+t(e.title)+'</div>'
+    + '<div class="event-meta"><span class="event-org">'+e.org+'</span><span class="event-freq">'+t(e.freq)+'</span></div>'
+    + '<div class="event-summary">'+t(e.summary)+'</div>'
+    + '<div class="event-src"><a href="'+e.url+'" target="_blank" rel="noopener">'+e.src+EXT_ICON+'</a></div>'
+  + '</div>';
+}
+
+/* Fenêtre prospective : le mois de PARUTION de l'édition + le mois suivant (pas la période
+   couverte par les signaux, qui est le mois précédent) — ex. édition parue en septembre ->
+   événements de septembre et d'octobre. */
+function eventWindowRange(publishMonthStartISO){
+  const start = new Date(publishMonthStartISO+"T00:00:00");
+  const nextMonth = new Date(start.getFullYear(), start.getMonth()+1, 1);
+  const stop = new Date(start.getFullYear(), start.getMonth()+2, 0);
+  const iso = d => d.toISOString().slice(0,10);
+  const locale = curLang === 'en' ? 'en-CA' : 'fr-CA';
+  const and = curLang === 'en' ? 'and' : 'et';
+  const label1 = start.toLocaleDateString(locale,{month:'long'});
+  const label2 = nextMonth.toLocaleDateString(locale,{month:'long',year:'numeric'});
+  return {start:publishMonthStartISO, end:iso(stop), label:label1+' '+and+' '+label2};
+}
+
+function renderEvents(){
+  const el = document.getElementById('events-feed');
+  const range = eventWindowRange(PUBLISH_MONTH_START);
+  const upcoming = EVENTS.filter(e => e.startDate >= range.start && e.startDate <= range.end)
+    .sort((a,b) => a.startDate.localeCompare(b.startDate));
+  if(!upcoming.length){
+    const emptyTxt = curLang === 'en' ? 'No events found for '+range.label+'.' : 'Aucun événement recensé pour '+range.label+'.';
+    el.innerHTML = '<div class="events-empty">'+emptyTxt+'</div>';
+    return;
+  }
+  let html = '';
+  ['an','intl'].forEach(geo=>{
+    const g = upcoming.filter(e=>e.geo===geo);
+    if(!g.length) return;
+    html += '<div class="side-geo-label">'+t(GEO_LABEL[geo])+'</div>';
+    g.forEach(e=>{ html += eventCard(e); });
+  });
+  el.innerHTML = html;
+}
+
+function renderAll(){
+  renderBriefing();
+  renderPeriod();
+  render();
+  renderReports();
+  renderEvents();
+}
+window.onLangChange = function(next){
+  curLang = next;
+  if(typeof applyI18n === 'function') applyI18n();
+  const titleEl = document.getElementById('tb-title');
+  if(!titleEl.hasAttribute('data-i18n')) titleEl.textContent = t(AXEL[curAxe]);
+  renderAll();
+};
+renderAll();
+</script>
+</body>
+</html>
